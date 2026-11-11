@@ -1,7 +1,7 @@
 {
-  "asOf": "2026-11-11T23:03:50Z",
-  "lastRun": "2026-11-11T23:03:50Z",
-  "status": "PARTIAL",
+  "asOf": "2026-11-11T23:12:48Z",
+  "lastRun": "2026-11-11T23:12:48Z",
+  "status": "UPDATED",
   "bankRate": 4.0,
   "bankRateAsOf": "2026-11-10",
   "history": [
@@ -595,8 +595,26 @@
     }
   ],
   "ois": {
-    "asOf": null,
-    "forecast": []
+    "asOf": "2026-11-10",
+    "forecast": [
+      {
+        "months": 3,
+        "rate": 4.291,
+        "oisForward": 4.2752
+      },
+      {
+        "months": 6,
+        "rate": 4.5866,
+        "oisForward": 4.5708
+      },
+      {
+        "months": 12,
+        "rate": 4.8554,
+        "oisForward": 4.8396
+      }
+    ],
+    "soniaBasis": 0.0158,
+    "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
   },
   "gilts": {
     "asOf": "2026-11-10",
@@ -639,16 +657,14 @@
   "snapshots": [],
   "sources": {
     "bankRate": "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp",
-    "ois": "Not yet collected",
+    "ois": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip",
     "gilts": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip",
     "listings": "Not configured: add GitHub secret PROPERTYDATA_API_KEY",
     "hpi": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-prices-2026-08.csv"
   },
-  "errors": [
-    "Yield curves: OIS forwards: BoE OIS short-end curve has no recent complete 3, 6 and 12 month observations"
-  ],
+  "errors": [],
   "listingsAsOf": null,
-  "lastAttempt": "2026-11-11T23:03:50Z",
+  "lastAttempt": "2026-11-11T23:12:48Z",
   "hpi": {
     "date": "2026-08",
     "averagePrice": 366218,
