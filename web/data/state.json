@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-11T22:55:22Z",
-  "lastRun": "2026-11-11T22:55:22Z",
+  "asOf": "2026-11-11T23:03:50Z",
+  "lastRun": "2026-11-11T23:03:50Z",
   "status": "PARTIAL",
   "bankRate": 4.0,
   "bankRateAsOf": "2026-11-10",
@@ -645,10 +645,10 @@
     "hpi": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-prices-2026-08.csv"
   },
   "errors": [
-    "Yield curves: OIS forwards: OIS curve missing one or more of 3, 6, 12 month tenors"
+    "Yield curves: OIS forwards: BoE OIS short-end curve has no recent complete 3, 6 and 12 month observations"
   ],
   "listingsAsOf": null,
-  "lastAttempt": "2026-11-11T22:55:22Z",
+  "lastAttempt": "2026-11-11T23:03:50Z",
   "hpi": {
     "date": "2026-08",
     "averagePrice": 366218,
