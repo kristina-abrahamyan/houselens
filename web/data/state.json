@@ -1,0 +1,123 @@
+{
+  "asOf": "2026-11-11T00:00:00Z",
+  "lastRun": null,
+  "status": "REFERENCE_RATE_ONLY",
+  "bankRate": 4.0,
+  "bankRateAsOf": "2026-11-05",
+  "history": [
+    {
+      "date": "2021-12-16",
+      "rate": 0.25
+    },
+    {
+      "date": "2022-02-03",
+      "rate": 0.5
+    },
+    {
+      "date": "2022-03-17",
+      "rate": 0.75
+    },
+    {
+      "date": "2022-05-05",
+      "rate": 1.0
+    },
+    {
+      "date": "2022-06-16",
+      "rate": 1.25
+    },
+    {
+      "date": "2022-08-04",
+      "rate": 1.75
+    },
+    {
+      "date": "2022-09-22",
+      "rate": 2.25
+    },
+    {
+      "date": "2022-11-03",
+      "rate": 3.0
+    },
+    {
+      "date": "2022-12-15",
+      "rate": 3.5
+    },
+    {
+      "date": "2023-02-02",
+      "rate": 4.0
+    },
+    {
+      "date": "2023-03-23",
+      "rate": 4.25
+    },
+    {
+      "date": "2023-05-11",
+      "rate": 4.5
+    },
+    {
+      "date": "2023-06-22",
+      "rate": 5.0
+    },
+    {
+      "date": "2023-08-03",
+      "rate": 5.25
+    },
+    {
+      "date": "2024-08-01",
+      "rate": 5.0
+    },
+    {
+      "date": "2024-11-07",
+      "rate": 4.75
+    },
+    {
+      "date": "2025-02-06",
+      "rate": 4.5
+    },
+    {
+      "date": "2025-05-08",
+      "rate": 4.25
+    },
+    {
+      "date": "2025-08-07",
+      "rate": 4.0
+    },
+    {
+      "date": "2025-12-18",
+      "rate": 3.75
+    },
+    {
+      "date": "2026-11-05",
+      "rate": 4.0
+    }
+  ],
+  "ois": {
+    "asOf": null,
+    "forecast": []
+  },
+  "gilts": {
+    "asOf": null,
+    "rpiBreakeven": null,
+    "curve": []
+  },
+  "guidance": {
+    "asOf": "2026-11-05",
+    "headline": "Bank of England expects inflation to reach about 5% by mid-2027 (November 2026 guidance)",
+    "url": "https://www.bankofengland.co.uk/monetary-policy/the-interest-rate-bank-rate",
+    "note": "This is an official qualitative projection, not a market-implied CPI path."
+  },
+  "listings": [],
+  "snapshots": [],
+  "sources": {
+    "bankRate": "Last manually verified against Bank of England on 11 Nov 2026; automatic data refresh not yet run",
+    "ois": "Not yet collected",
+    "gilts": "Not yet collected",
+    "listings": "Not configured: add GitHub secret PROPERTYDATA_API_KEY"
+  },
+  "errors": [],
+  "listingsAsOf": null,
+  "lastAttempt": null,
+  "hpi": null,
+  "hpiHistory": [],
+  "listingCoverage": null,
+  "runResults": []
+}

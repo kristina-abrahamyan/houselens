@@ -1,0 +1,11 @@
+{
+  "name": "HouseLens — Billericay Housing Affordability",
+  "short_name": "HouseLens",
+  "description": "Twice-weekly Billericay property affordability and UK rate outlook",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f8fa",
+  "theme_color": "#132337",
+  "icons": [{"src":"./icons/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
