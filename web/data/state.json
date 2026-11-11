@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-11T23:12:48Z",
-  "lastRun": "2026-11-11T23:12:48Z",
+  "asOf": "2026-11-11T23:45:22Z",
+  "lastRun": "2026-11-11T23:45:22Z",
   "status": "UPDATED",
   "bankRate": 4.0,
   "bankRateAsOf": "2026-11-10",
@@ -660,11 +660,12 @@
     "ois": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip",
     "gilts": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip",
     "listings": "Not configured: add GitHub secret PROPERTYDATA_API_KEY",
-    "hpi": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-prices-2026-08.csv"
+    "hpi": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-prices-2026-08.csv",
+    "localSales": "https://www.gov.uk/government/statistical-data-sets/price-paid-data-yearly-file"
   },
   "errors": [],
   "listingsAsOf": null,
-  "lastAttempt": "2026-11-11T23:12:48Z",
+  "lastAttempt": "2026-11-11T23:45:22Z",
   "hpi": {
     "date": "2026-08",
     "averagePrice": 366218,
@@ -685,8 +686,3503 @@
     "SONIA",
     "Yield curves",
     "BoE guidance",
-    "Basildon HPI"
+    "Basildon HPI",
+    "CM12 completed sales"
   ],
   "soniaRate": 3.9842,
-  "soniaAsOf": "2026-11-09"
+  "soniaAsOf": "2026-11-09",
+  "localSalesDataset": {
+    "byYear": {
+      "2025": [
+        {
+          "id": "2D4D7608-E4ED-BDF9-E063-4804A8C0672F",
+          "date": "2025-01-06",
+          "price": 330000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2D4D7608-E7BB-BDF9-E063-4804A8C0672F",
+          "date": "2025-01-06",
+          "price": 410000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "38EDC0C2-DBC1-0F63-E063-4704A8C00424",
+          "date": "2025-01-06",
+          "price": 475000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "2D4D7608-E86B-BDF9-E063-4804A8C0672F",
+          "date": "2025-01-07",
+          "price": 955000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2D4D7608-E46E-BDF9-E063-4804A8C0672F",
+          "date": "2025-01-09",
+          "price": 790000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "2D4D7608-E47F-BDF9-E063-4804A8C0672F",
+          "date": "2025-01-10",
+          "price": 600000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2D4D7608-E681-BDF9-E063-4804A8C0672F",
+          "date": "2025-01-10",
+          "price": 510000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2F7F2B42-EDB6-E08F-E063-4804A8C05A49",
+          "date": "2025-01-10",
+          "price": 340000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2F7F2B42-EDD7-E08F-E063-4804A8C05A49",
+          "date": "2025-01-10",
+          "price": 755000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2F7F2B42-F1F7-E08F-E063-4804A8C05A49",
+          "date": "2025-01-10",
+          "price": 470000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2F7F2B42-F260-E08F-E063-4804A8C05A49",
+          "date": "2025-01-10",
+          "price": 592000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "42C129E4-7D36-60A9-E063-4804A8C0C25D",
+          "date": "2025-01-10",
+          "price": 440000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2D4D7608-E635-BDF9-E063-4804A8C0672F",
+          "date": "2025-01-17",
+          "price": 366000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2D4D7608-E737-BDF9-E063-4804A8C0672F",
+          "date": "2025-01-17",
+          "price": 370000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "38EDC0C2-DC88-0F63-E063-4704A8C00424",
+          "date": "2025-01-17",
+          "price": 360500,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-6157-1095-E063-4704A8C048D4",
+          "date": "2025-01-17",
+          "price": 525000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2F7F2B42-F0E1-E08F-E063-4804A8C05A49",
+          "date": "2025-01-22",
+          "price": 540000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "2D4D7608-E40D-BDF9-E063-4804A8C0672F",
+          "date": "2025-01-23",
+          "price": 525000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2D4D7608-E4E1-BDF9-E063-4804A8C0672F",
+          "date": "2025-01-24",
+          "price": 337500,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2D4D7608-E8DF-BDF9-E063-4804A8C0672F",
+          "date": "2025-01-24",
+          "price": 475000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "38EDC0C2-DB27-0F63-E063-4704A8C00424",
+          "date": "2025-01-24",
+          "price": 465000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4C1B673E-CA23-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-01-24",
+          "price": 850000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3B5CE841-AF5E-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-01-27",
+          "price": 575000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "2F7F2B42-EF98-E08F-E063-4804A8C05A49",
+          "date": "2025-01-29",
+          "price": 742500,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-ADB4-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-01-29",
+          "price": 735000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3B5CE841-AFA5-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-01-30",
+          "price": 670000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "2F7F2B42-EDFE-E08F-E063-4804A8C05A49",
+          "date": "2025-01-31",
+          "price": 305000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3B5CE841-ADB0-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-01-31",
+          "price": 575000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-DB01-591C-E063-4704A8C00C31",
+          "date": "2025-01-31",
+          "price": 482000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2F7F2B42-EE6E-E08F-E063-4804A8C05A49",
+          "date": "2025-02-06",
+          "price": 470000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "2F7F2B42-EE16-E08F-E063-4804A8C05A49",
+          "date": "2025-02-07",
+          "price": 777500,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "31C68072-03FE-FEE3-E063-4804A8C04F37",
+          "date": "2025-02-07",
+          "price": 450000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "2F7F2B42-EF61-E08F-E063-4804A8C05A49",
+          "date": "2025-02-13",
+          "price": 500000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "31C68072-007F-FEE3-E063-4804A8C04F37",
+          "date": "2025-02-13",
+          "price": 690000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-AD50-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-02-13",
+          "price": 640000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-9BF1-5D59-E063-4804A8C09F8E",
+          "date": "2025-02-13",
+          "price": 475000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "2F7F2B42-F291-E08F-E063-4804A8C05A49",
+          "date": "2025-02-14",
+          "price": 421000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3B5CE841-ADA1-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-02-14",
+          "price": 495000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-E38C-5B9D-E063-4704A8C0331E",
+          "date": "2025-02-14",
+          "price": 469000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "31C68072-02A8-FEE3-E063-4804A8C04F37",
+          "date": "2025-02-18",
+          "price": 580000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "34222872-3909-4D2B-E063-4704A8C07853",
+          "date": "2025-02-21",
+          "price": 520000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-187D-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-02-21",
+          "price": 375000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "31C68072-01DD-FEE3-E063-4804A8C04F37",
+          "date": "2025-02-24",
+          "price": 535000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "31C68071-FFEE-FEE3-E063-4804A8C04F37",
+          "date": "2025-02-26",
+          "price": 615000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "31C68072-0005-FEE3-E063-4804A8C04F37",
+          "date": "2025-02-28",
+          "price": 610000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "31C68072-01EF-FEE3-E063-4804A8C04F37",
+          "date": "2025-02-28",
+          "price": 1210000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "34222872-3BC5-4D2B-E063-4704A8C07853",
+          "date": "2025-02-28",
+          "price": 690000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-AE2E-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-02-28",
+          "price": 390000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "402A3A65-C801-A7DF-E063-4804A8C0B80D",
+          "date": "2025-02-28",
+          "price": 350000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-0F80-1095-E063-4704A8C048D4",
+          "date": "2025-02-28",
+          "price": 1100000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "31C68072-01CB-FEE3-E063-4804A8C04F37",
+          "date": "2025-03-05",
+          "price": 862500,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "31C68072-00B8-FEE3-E063-4804A8C04F37",
+          "date": "2025-03-07",
+          "price": 400000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "49E87C31-D5A1-591C-E063-4704A8C00C31",
+          "date": "2025-03-10",
+          "price": 455000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "31C68072-0236-FEE3-E063-4804A8C04F37",
+          "date": "2025-03-11",
+          "price": 480000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "31C68072-05A4-FEE3-E063-4804A8C04F37",
+          "date": "2025-03-11",
+          "price": 450000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "31C68072-05A7-FEE3-E063-4804A8C04F37",
+          "date": "2025-03-11",
+          "price": 705000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "31C68072-0016-FEE3-E063-4804A8C04F37",
+          "date": "2025-03-12",
+          "price": 450000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "49E87C31-DBA3-591C-E063-4704A8C00C31",
+          "date": "2025-03-12",
+          "price": 465000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-DEC5-5B9D-E063-4704A8C0331E",
+          "date": "2025-03-14",
+          "price": 625000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "44F406B6-5F97-1095-E063-4704A8C048D4",
+          "date": "2025-03-14",
+          "price": 320000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "38EDC0C2-D975-0F63-E063-4704A8C00424",
+          "date": "2025-03-17",
+          "price": 580000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4C1B673F-1697-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-03-17",
+          "price": 500000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "31C68072-0451-FEE3-E063-4804A8C04F37",
+          "date": "2025-03-19",
+          "price": 381300,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "42C129E4-7D2F-60A9-E063-4804A8C0C25D",
+          "date": "2025-03-19",
+          "price": 812450,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "49E87C31-D7A8-591C-E063-4704A8C00C31",
+          "date": "2025-03-19",
+          "price": 457500,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "31C68072-01E5-FEE3-E063-4804A8C04F37",
+          "date": "2025-03-20",
+          "price": 480000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-DE83-5B9D-E063-4704A8C0331E",
+          "date": "2025-03-20",
+          "price": 580000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-18C8-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-03-20",
+          "price": 700000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "31C68072-0530-FEE3-E063-4804A8C04F37",
+          "date": "2025-03-21",
+          "price": 990000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "34222872-396D-4D2B-E063-4704A8C07853",
+          "date": "2025-03-21",
+          "price": 310000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "34222872-39B7-4D2B-E063-4704A8C07853",
+          "date": "2025-03-21",
+          "price": 500000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "34222872-3BCE-4D2B-E063-4704A8C07853",
+          "date": "2025-03-21",
+          "price": 680000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "34222872-3C31-4D2B-E063-4704A8C07853",
+          "date": "2025-03-21",
+          "price": 635000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "36A61A94-8414-DEF2-E063-4704A8C046AE",
+          "date": "2025-03-21",
+          "price": 875000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-E321-5B9D-E063-4704A8C0331E",
+          "date": "2025-03-21",
+          "price": 650000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "34222872-3C76-4D2B-E063-4704A8C07853",
+          "date": "2025-03-24",
+          "price": 590000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "34222872-3934-4D2B-E063-4704A8C07853",
+          "date": "2025-03-25",
+          "price": 485000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "31C68072-03E6-FEE3-E063-4804A8C04F37",
+          "date": "2025-03-26",
+          "price": 485000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "34222872-3FC1-4D2B-E063-4704A8C07853",
+          "date": "2025-03-26",
+          "price": 427500,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "38EDC0C2-DBD6-0F63-E063-4704A8C00424",
+          "date": "2025-03-26",
+          "price": 735000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-E1EB-5B9D-E063-4704A8C0331E",
+          "date": "2025-03-26",
+          "price": 462500,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "402A3A65-C880-A7DF-E063-4804A8C0B80D",
+          "date": "2025-03-26",
+          "price": 360000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "34222872-3AFC-4D2B-E063-4704A8C07853",
+          "date": "2025-03-27",
+          "price": 360000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "36A61A94-8453-DEF2-E063-4704A8C046AE",
+          "date": "2025-03-27",
+          "price": 700000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "36A61A94-86F5-DEF2-E063-4704A8C046AE",
+          "date": "2025-03-27",
+          "price": 475000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3B5CE841-B05A-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-03-27",
+          "price": 690000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "402A3A65-CB0F-A7DF-E063-4804A8C0B80D",
+          "date": "2025-03-27",
+          "price": 695000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1E62-8922-E063-4804A8C094D0",
+          "date": "2025-03-27",
+          "price": 480000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1FC4-8922-E063-4804A8C094D0",
+          "date": "2025-03-27",
+          "price": 375000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "34222872-3CAF-4D2B-E063-4704A8C07853",
+          "date": "2025-03-28",
+          "price": 760000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "34222872-3D2A-4D2B-E063-4704A8C07853",
+          "date": "2025-03-28",
+          "price": 780000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-DE3A-5B9D-E063-4704A8C0331E",
+          "date": "2025-03-28",
+          "price": 610000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-E0B9-5B9D-E063-4704A8C0331E",
+          "date": "2025-03-28",
+          "price": 475000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "42C129E4-7D8C-60A9-E063-4804A8C0C25D",
+          "date": "2025-03-28",
+          "price": 320000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "36A61A94-8376-DEF2-E063-4704A8C046AE",
+          "date": "2025-03-31",
+          "price": 410000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "36A61A94-8561-DEF2-E063-4704A8C046AE",
+          "date": "2025-03-31",
+          "price": 577000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-8FCA-5B9D-E063-4704A8C0331E",
+          "date": "2025-03-31",
+          "price": 600000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4C1B673F-1687-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-03-31",
+          "price": 490000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-1A7D-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-03-31",
+          "price": 460000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-1AB7-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-03-31",
+          "price": 380000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-59D6-29C7-E063-4804A8C015BC",
+          "date": "2025-03-31",
+          "price": 700000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "34222872-3A3E-4D2B-E063-4704A8C07853",
+          "date": "2025-04-01",
+          "price": 695000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "34222872-39FF-4D2B-E063-4704A8C07853",
+          "date": "2025-04-04",
+          "price": 500000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "38EDC0C2-D93C-0F63-E063-4704A8C00424",
+          "date": "2025-04-16",
+          "price": 325000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1E11-8922-E063-4804A8C094D0",
+          "date": "2025-04-16",
+          "price": 300000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "36A61A94-8534-DEF2-E063-4704A8C046AE",
+          "date": "2025-04-17",
+          "price": 510000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "36A61A94-85D7-DEF2-E063-4704A8C046AE",
+          "date": "2025-04-25",
+          "price": 392000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "36A61A94-8363-DEF2-E063-4704A8C046AE",
+          "date": "2025-04-29",
+          "price": 347500,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "36A61A94-84FE-DEF2-E063-4704A8C046AE",
+          "date": "2025-04-29",
+          "price": 500000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "36A61A94-8667-DEF2-E063-4704A8C046AE",
+          "date": "2025-04-30",
+          "price": 425000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "38EDC0C2-DB46-0F63-E063-4704A8C00424",
+          "date": "2025-04-30",
+          "price": 302500,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1D64-8922-E063-4804A8C094D0",
+          "date": "2025-04-30",
+          "price": 500000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "36A61A94-82E9-DEF2-E063-4704A8C046AE",
+          "date": "2025-05-01",
+          "price": 385000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "36A61A94-82F2-DEF2-E063-4704A8C046AE",
+          "date": "2025-05-09",
+          "price": 326000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1BFD-8922-E063-4804A8C094D0",
+          "date": "2025-05-12",
+          "price": 910000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "38EDC0C2-DA47-0F63-E063-4704A8C00424",
+          "date": "2025-05-13",
+          "price": 475000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-B03E-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-05-16",
+          "price": 595000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "42C129E4-838C-60A9-E063-4804A8C0C25D",
+          "date": "2025-05-19",
+          "price": 540000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "38EDC0C2-DAED-0F63-E063-4704A8C00424",
+          "date": "2025-05-21",
+          "price": 370000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "36A61A94-845F-DEF2-E063-4704A8C046AE",
+          "date": "2025-05-23",
+          "price": 505000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "38EDC0C2-DBB1-0F63-E063-4704A8C00424",
+          "date": "2025-05-23",
+          "price": 225000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "42C129E4-7BF6-60A9-E063-4804A8C0C25D",
+          "date": "2025-05-30",
+          "price": 531500,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-6146-1095-E063-4704A8C048D4",
+          "date": "2025-05-30",
+          "price": 650000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "38EDC0C2-DBF4-0F63-E063-4704A8C00424",
+          "date": "2025-06-05",
+          "price": 815000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "38EDC0C2-D8FA-0F63-E063-4704A8C00424",
+          "date": "2025-06-06",
+          "price": 680000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "38EDC0C2-DA70-0F63-E063-4704A8C00424",
+          "date": "2025-06-06",
+          "price": 465000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-ADC4-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-06-06",
+          "price": 328000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-AE7C-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-06-06",
+          "price": 365000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-1DF7-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-06-06",
+          "price": 575000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "38EDC0C2-91A9-0F63-E063-4704A8C00424",
+          "date": "2025-06-09",
+          "price": 435000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "44F406B6-5EE7-1095-E063-4704A8C048D4",
+          "date": "2025-06-09",
+          "price": 220000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "38EDC0C2-D879-0F63-E063-4704A8C00424",
+          "date": "2025-06-13",
+          "price": 560000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-562B-8052-E063-4804A8C06EE4",
+          "date": "2025-06-13",
+          "price": 490000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "559C5AD4-BD7D-AFE3-E063-4804A8C004A4",
+          "date": "2025-06-16",
+          "price": 425000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-AE00-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-06-20",
+          "price": 525000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3B5CE841-B0C9-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-06-20",
+          "price": 606000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "38EDC0C2-D9F1-0F63-E063-4704A8C00424",
+          "date": "2025-06-23",
+          "price": 370000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-F2E3-B8D0-E063-4704A8C08D98",
+          "date": "2025-06-23",
+          "price": 430000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "38EDC0C2-DD89-0F63-E063-4704A8C00424",
+          "date": "2025-06-24",
+          "price": 505000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-AFCE-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-06-27",
+          "price": 855000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-5C82-1095-E063-4704A8C048D4",
+          "date": "2025-07-03",
+          "price": 600000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3B5CE841-AFDE-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-07-04",
+          "price": 482500,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-5C62-1095-E063-4704A8C048D4",
+          "date": "2025-07-04",
+          "price": 660000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-6180-1095-E063-4704A8C048D4",
+          "date": "2025-07-04",
+          "price": 545000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-AD8E-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-07-07",
+          "price": 415000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-B2D7-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-07-08",
+          "price": 495000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4777E0AE-9BC7-5D59-E063-4804A8C09F8E",
+          "date": "2025-07-08",
+          "price": 280000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-B039-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-07-09",
+          "price": 360000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-E3C4-5B9D-E063-4704A8C0331E",
+          "date": "2025-07-09",
+          "price": 466000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3B5CE841-AD9E-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-07-11",
+          "price": 382500,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "42C129E4-7DCB-60A9-E063-4804A8C0C25D",
+          "date": "2025-07-11",
+          "price": 840000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "49E87C31-D5B0-591C-E063-4704A8C00C31",
+          "date": "2025-07-11",
+          "price": 235000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-E02D-5B9D-E063-4704A8C0331E",
+          "date": "2025-07-14",
+          "price": 500000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-B1B6-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-07-15",
+          "price": 575000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-DEB9-5B9D-E063-4704A8C0331E",
+          "date": "2025-07-15",
+          "price": 405000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-5BE1-8052-E063-4804A8C06EE4",
+          "date": "2025-07-15",
+          "price": 380000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4777E0AE-9DBB-5D59-E063-4804A8C09F8E",
+          "date": "2025-07-16",
+          "price": 795000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3B5CE841-AD90-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-07-17",
+          "price": 330000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-DE61-5B9D-E063-4704A8C0331E",
+          "date": "2025-07-17",
+          "price": 345000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-9B10-5D59-E063-4804A8C09F8E",
+          "date": "2025-07-17",
+          "price": 530000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D630-591C-E063-4704A8C00C31",
+          "date": "2025-07-17",
+          "price": 650000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-B106-B8D0-E063-4704A8C08D98",
+          "date": "2025-07-18",
+          "price": 415000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-B10C-B8D0-E063-4704A8C08D98",
+          "date": "2025-07-18",
+          "price": 515000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-F3E8-B8D0-E063-4704A8C08D98",
+          "date": "2025-07-18",
+          "price": 390000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-F715-B8D0-E063-4704A8C08D98",
+          "date": "2025-07-18",
+          "price": 605000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-ADD5-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-07-21",
+          "price": 347500,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3B5CE841-B13B-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-07-23",
+          "price": 835000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4C1B673F-1E7A-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-07-23",
+          "price": 1150000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1B4F-8922-E063-4804A8C094D0",
+          "date": "2025-07-23",
+          "price": 1500000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3DCCB7C9-E0CE-5B9D-E063-4704A8C0331E",
+          "date": "2025-07-25",
+          "price": 330000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-E28F-5B9D-E063-4704A8C0331E",
+          "date": "2025-07-25",
+          "price": 520000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "402A3A65-CB7C-A7DF-E063-4804A8C0B80D",
+          "date": "2025-07-25",
+          "price": 487500,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D611-591C-E063-4704A8C00C31",
+          "date": "2025-07-25",
+          "price": 1650000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3B5CE841-B098-EE3A-E063-4804A8C0D6F1",
+          "date": "2025-07-28",
+          "price": 440000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-DE80-5B9D-E063-4704A8C0331E",
+          "date": "2025-07-28",
+          "price": 520000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-E4CD-5B9D-E063-4704A8C0331E",
+          "date": "2025-07-28",
+          "price": 540000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "402A3A65-C947-A7DF-E063-4804A8C0B80D",
+          "date": "2025-07-28",
+          "price": 410000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3DCCB7C9-DE65-5B9D-E063-4704A8C0331E",
+          "date": "2025-07-30",
+          "price": 680000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3DCCB7C9-DFB9-5B9D-E063-4704A8C0331E",
+          "date": "2025-07-30",
+          "price": 1145000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-E2D2-5B9D-E063-4704A8C0331E",
+          "date": "2025-07-30",
+          "price": 540000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-DF50-5B9D-E063-4704A8C0331E",
+          "date": "2025-07-31",
+          "price": 275000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "3DCCB7C9-E38D-5B9D-E063-4704A8C0331E",
+          "date": "2025-07-31",
+          "price": 525000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "402A3A65-C6DF-A7DF-E063-4804A8C0B80D",
+          "date": "2025-07-31",
+          "price": 850000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-F2D8-B8D0-E063-4704A8C08D98",
+          "date": "2025-07-31",
+          "price": 325000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3DCCB7C9-E06C-5B9D-E063-4704A8C0331E",
+          "date": "2025-08-01",
+          "price": 501500,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3DCCB7C9-E0AD-5B9D-E063-4704A8C0331E",
+          "date": "2025-08-01",
+          "price": 750000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3DCCB7C9-E0E8-5B9D-E063-4704A8C0331E",
+          "date": "2025-08-01",
+          "price": 538000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D635-591C-E063-4704A8C00C31",
+          "date": "2025-08-04",
+          "price": 515000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3DCCB7C9-E443-5B9D-E063-4704A8C0331E",
+          "date": "2025-08-05",
+          "price": 840000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3DCCB7C9-E475-5B9D-E063-4704A8C0331E",
+          "date": "2025-08-05",
+          "price": 600000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "402A3A65-C73B-A7DF-E063-4804A8C0B80D",
+          "date": "2025-08-06",
+          "price": 538000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "42C129E4-81EB-60A9-E063-4804A8C0C25D",
+          "date": "2025-08-07",
+          "price": 720000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D68E-591C-E063-4704A8C00C31",
+          "date": "2025-08-07",
+          "price": 1250000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "3DCCB7C9-DEBC-5B9D-E063-4704A8C0331E",
+          "date": "2025-08-08",
+          "price": 365000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D991-591C-E063-4704A8C00C31",
+          "date": "2025-08-08",
+          "price": 500000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D4A2-591C-E063-4704A8C00C31",
+          "date": "2025-08-11",
+          "price": 635000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "402A3A65-C79E-A7DF-E063-4804A8C0B80D",
+          "date": "2025-08-14",
+          "price": 590000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "402A3A65-CBD7-A7DF-E063-4804A8C0B80D",
+          "date": "2025-08-14",
+          "price": 725000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1C35-8922-E063-4804A8C094D0",
+          "date": "2025-08-14",
+          "price": 620000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "402A3A65-CD80-A7DF-E063-4804A8C0B80D",
+          "date": "2025-08-15",
+          "price": 415000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "44F406B6-5EAE-1095-E063-4704A8C048D4",
+          "date": "2025-08-18",
+          "price": 482500,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "402A3A65-C69F-A7DF-E063-4804A8C0B80D",
+          "date": "2025-08-19",
+          "price": 500000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1C65-8922-E063-4804A8C094D0",
+          "date": "2025-08-22",
+          "price": 246000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-9584-1886-E063-4704A8C021AE",
+          "date": "2025-08-22",
+          "price": 915000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D652-591C-E063-4704A8C00C31",
+          "date": "2025-08-26",
+          "price": 677500,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "402A3A65-C9F7-A7DF-E063-4804A8C0B80D",
+          "date": "2025-08-29",
+          "price": 305000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D594-591C-E063-4704A8C00C31",
+          "date": "2025-08-29",
+          "price": 950000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "402A3A65-C57E-A7DF-E063-4804A8C0B80D",
+          "date": "2025-09-02",
+          "price": 680000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "402A3A65-C7A6-A7DF-E063-4804A8C0B80D",
+          "date": "2025-09-02",
+          "price": 395000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-8187-591C-E063-4704A8C00C31",
+          "date": "2025-09-02",
+          "price": 610000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "402A3A65-CA6F-A7DF-E063-4804A8C0B80D",
+          "date": "2025-09-05",
+          "price": 505000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "559C5AD5-078F-AFE3-E063-4804A8C004A4",
+          "date": "2025-09-05",
+          "price": 801000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "402A3A65-C712-A7DF-E063-4804A8C0B80D",
+          "date": "2025-09-10",
+          "price": 310000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "42C129E4-7FB9-60A9-E063-4804A8C0C25D",
+          "date": "2025-09-10",
+          "price": 507000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "42C129E4-809F-60A9-E063-4804A8C0C25D",
+          "date": "2025-09-10",
+          "price": 490000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "42C129E4-7BE1-60A9-E063-4804A8C0C25D",
+          "date": "2025-09-12",
+          "price": 595000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "42C129E4-7D22-60A9-E063-4804A8C0C25D",
+          "date": "2025-09-12",
+          "price": 885000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5340B1C5-55C3-8052-E063-4804A8C06EE4",
+          "date": "2025-09-12",
+          "price": 470000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "49E87C31-D8A7-591C-E063-4704A8C00C31",
+          "date": "2025-09-15",
+          "price": 265500,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-18A5-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-09-16",
+          "price": 542000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "402A3A65-C627-A7DF-E063-4804A8C0B80D",
+          "date": "2025-09-17",
+          "price": 467500,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "402A3A65-CD76-A7DF-E063-4804A8C0B80D",
+          "date": "2025-09-17",
+          "price": 965000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-6290-1095-E063-4704A8C048D4",
+          "date": "2025-09-18",
+          "price": 640000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673E-C9E3-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-09-18",
+          "price": 1380000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-1CC4-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-09-18",
+          "price": 1025000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "402A3A65-C71A-A7DF-E063-4804A8C0B80D",
+          "date": "2025-09-19",
+          "price": 320000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D730-591C-E063-4704A8C00C31",
+          "date": "2025-09-19",
+          "price": 1750000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-DA29-591C-E063-4704A8C00C31",
+          "date": "2025-09-19",
+          "price": 445000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B2DE-29C7-E063-4804A8C015BC",
+          "date": "2025-09-23",
+          "price": 440000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "42C129E4-7E44-60A9-E063-4804A8C0C25D",
+          "date": "2025-09-24",
+          "price": 672500,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "42C129E4-803E-60A9-E063-4804A8C0C25D",
+          "date": "2025-09-26",
+          "price": 355000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "42C129E4-7D29-60A9-E063-4804A8C0C25D",
+          "date": "2025-09-29",
+          "price": 420000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "42C129E4-804F-60A9-E063-4804A8C0C25D",
+          "date": "2025-09-29",
+          "price": 233000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1B3A-8922-E063-4804A8C094D0",
+          "date": "2025-09-29",
+          "price": 510000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-F852-B8D0-E063-4704A8C08D98",
+          "date": "2025-09-29",
+          "price": 806000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-AE24-29C7-E063-4804A8C015BC",
+          "date": "2025-09-29",
+          "price": 450000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "42C129E4-7CDE-60A9-E063-4804A8C0C25D",
+          "date": "2025-09-30",
+          "price": 872000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "42C129E4-7ED8-60A9-E063-4804A8C0C25D",
+          "date": "2025-09-30",
+          "price": 645000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-5C30-1095-E063-4704A8C048D4",
+          "date": "2025-09-30",
+          "price": 612000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "42C129E4-7C98-60A9-E063-4804A8C0C25D",
+          "date": "2025-10-01",
+          "price": 510000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "42C129E4-7E21-60A9-E063-4804A8C0C25D",
+          "date": "2025-10-01",
+          "price": 650000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-195E-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-10-02",
+          "price": 905000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4C1B673F-1A8C-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-10-03",
+          "price": 510000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "42C129E4-7D0F-60A9-E063-4804A8C0C25D",
+          "date": "2025-10-06",
+          "price": 850000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1BB6-8922-E063-4804A8C094D0",
+          "date": "2025-10-06",
+          "price": 935000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "42C129E4-7C75-60A9-E063-4804A8C0C25D",
+          "date": "2025-10-08",
+          "price": 865000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-17C5-D8EA-E063-4704A8C0BF7D",
+          "date": "2025-10-08",
+          "price": 970000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "42C129E4-818F-60A9-E063-4804A8C0C25D",
+          "date": "2025-10-10",
+          "price": 639500,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-5CAA-1095-E063-4704A8C048D4",
+          "date": "2025-10-10",
+          "price": 700000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "559C5AD5-08EE-AFE3-E063-4804A8C004A4",
+          "date": "2025-10-16",
+          "price": 540000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-209B-8922-E063-4804A8C094D0",
+          "date": "2025-10-17",
+          "price": 590000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "50D10B83-F329-B8D0-E063-4704A8C08D98",
+          "date": "2025-10-17",
+          "price": 560000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-9999-5D59-E063-4804A8C09F8E",
+          "date": "2025-10-22",
+          "price": 525000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-48BC-1886-E063-4704A8C021AE",
+          "date": "2025-10-22",
+          "price": 815000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "559C5AD5-08FF-AFE3-E063-4804A8C004A4",
+          "date": "2025-10-23",
+          "price": 565000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-5D26-1095-E063-4704A8C048D4",
+          "date": "2025-10-24",
+          "price": 800000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-AE93-29C7-E063-4804A8C015BC",
+          "date": "2025-10-24",
+          "price": 480000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-5AE4-1095-E063-4704A8C048D4",
+          "date": "2025-10-27",
+          "price": 547500,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-600C-1095-E063-4704A8C048D4",
+          "date": "2025-10-27",
+          "price": 400000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-2287-8922-E063-4804A8C094D0",
+          "date": "2025-10-27",
+          "price": 650000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1B80-8922-E063-4804A8C094D0",
+          "date": "2025-10-28",
+          "price": 765000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B4DB-29C7-E063-4804A8C015BC",
+          "date": "2025-10-28",
+          "price": 635000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "42C129E4-8048-60A9-E063-4804A8C0C25D",
+          "date": "2025-10-30",
+          "price": 571000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "44F406B6-5C14-1095-E063-4704A8C048D4",
+          "date": "2025-10-30",
+          "price": 365000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-5CAE-1095-E063-4704A8C048D4",
+          "date": "2025-10-30",
+          "price": 580000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-5D1C-1095-E063-4704A8C048D4",
+          "date": "2025-10-30",
+          "price": 365000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1BE0-8922-E063-4804A8C094D0",
+          "date": "2025-10-30",
+          "price": 610000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1CFC-8922-E063-4804A8C094D0",
+          "date": "2025-10-30",
+          "price": 355000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-616F-1095-E063-4704A8C048D4",
+          "date": "2025-10-31",
+          "price": 1100000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "49E87C31-8351-591C-E063-4704A8C00C31",
+          "date": "2025-10-31",
+          "price": 741000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "50D10B83-F4FD-B8D0-E063-4704A8C08D98",
+          "date": "2025-10-31",
+          "price": 575000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29C-C524-8922-E063-4804A8C094D0",
+          "date": "2025-11-03",
+          "price": 590000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1DED-8922-E063-4804A8C094D0",
+          "date": "2025-11-03",
+          "price": 570000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "44F406B6-5CF2-1095-E063-4704A8C048D4",
+          "date": "2025-11-07",
+          "price": 450000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-9A61-5D59-E063-4804A8C09F8E",
+          "date": "2025-11-07",
+          "price": 497000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4777E0AE-9CAE-5D59-E063-4804A8C09F8E",
+          "date": "2025-11-07",
+          "price": 650000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-A039-5D59-E063-4804A8C09F8E",
+          "date": "2025-11-07",
+          "price": 515000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-933D-1886-E063-4704A8C021AE",
+          "date": "2025-11-07",
+          "price": 415000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-5E2E-1095-E063-4704A8C048D4",
+          "date": "2025-11-13",
+          "price": 403000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-5EB1-1095-E063-4704A8C048D4",
+          "date": "2025-11-13",
+          "price": 985000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-9EB7-5D59-E063-4804A8C09F8E",
+          "date": "2025-11-14",
+          "price": 605000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-494F-1886-E063-4704A8C021AE",
+          "date": "2025-11-14",
+          "price": 750000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "44F406B6-5B0F-1095-E063-4704A8C048D4",
+          "date": "2025-11-17",
+          "price": 730000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4777E0AE-A02A-5D59-E063-4804A8C09F8E",
+          "date": "2025-11-17",
+          "price": 905000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5340B1C5-56D8-8052-E063-4804A8C06EE4",
+          "date": "2025-11-17",
+          "price": 1175000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "50D10B83-F354-B8D0-E063-4704A8C08D98",
+          "date": "2025-11-18",
+          "price": 690000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-5684-8052-E063-4804A8C06EE4",
+          "date": "2025-11-18",
+          "price": 900000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-4937-1886-E063-4704A8C021AE",
+          "date": "2025-11-18",
+          "price": 510000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-9A1D-5D59-E063-4804A8C09F8E",
+          "date": "2025-11-19",
+          "price": 685000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-9CA4-5D59-E063-4804A8C09F8E",
+          "date": "2025-11-19",
+          "price": 395000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-9C88-5D59-E063-4804A8C09F8E",
+          "date": "2025-11-20",
+          "price": 700000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-5BF8-8052-E063-4804A8C06EE4",
+          "date": "2025-11-24",
+          "price": 650000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-494B-1886-E063-4704A8C021AE",
+          "date": "2025-11-24",
+          "price": 925000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-495F-1886-E063-4704A8C021AE",
+          "date": "2025-11-24",
+          "price": 405000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-1EE9-FB1F-E063-4704A8C08825",
+          "date": "2025-11-24",
+          "price": 599995,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-F7B0-B8D0-E063-4704A8C08D98",
+          "date": "2025-11-26",
+          "price": 1400000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5340B1C5-57BF-8052-E063-4804A8C06EE4",
+          "date": "2025-11-26",
+          "price": 760000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4777E0AE-9CE6-5D59-E063-4804A8C09F8E",
+          "date": "2025-11-27",
+          "price": 785000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-57FB-8052-E063-4804A8C06EE4",
+          "date": "2025-11-27",
+          "price": 502000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-9C86-5D59-E063-4804A8C09F8E",
+          "date": "2025-11-28",
+          "price": 360000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1B1B-8922-E063-4804A8C094D0",
+          "date": "2025-11-28",
+          "price": 318000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-9919-1886-E063-4704A8C021AE",
+          "date": "2025-11-28",
+          "price": 450000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-9F03-5D59-E063-4804A8C09F8E",
+          "date": "2025-12-03",
+          "price": 480000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-201B-FB1F-E063-4704A8C08825",
+          "date": "2025-12-03",
+          "price": 560000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4777E0AE-9A14-5D59-E063-4804A8C09F8E",
+          "date": "2025-12-08",
+          "price": 695000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4777E0AE-9A34-5D59-E063-4804A8C09F8E",
+          "date": "2025-12-08",
+          "price": 625000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-A06E-5D59-E063-4804A8C09F8E",
+          "date": "2025-12-08",
+          "price": 833000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "559C5AD5-0C3E-AFE3-E063-4804A8C004A4",
+          "date": "2025-12-08",
+          "price": 505000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4777E0AE-9DC4-5D59-E063-4804A8C09F8E",
+          "date": "2025-12-09",
+          "price": 423000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-DBE5-591C-E063-4704A8C00C31",
+          "date": "2025-12-09",
+          "price": 475000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-9D37-5D59-E063-4804A8C09F8E",
+          "date": "2025-12-11",
+          "price": 532000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D87C-591C-E063-4704A8C00C31",
+          "date": "2025-12-11",
+          "price": 865000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D8E7-591C-E063-4704A8C00C31",
+          "date": "2025-12-11",
+          "price": 580000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "49E87C31-D625-591C-E063-4704A8C00C31",
+          "date": "2025-12-12",
+          "price": 450000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-22A9-FB1F-E063-4704A8C08825",
+          "date": "2025-12-12",
+          "price": 534000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4777E0AE-9947-5D59-E063-4804A8C09F8E",
+          "date": "2025-12-15",
+          "price": 470000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "49E87C31-8191-591C-E063-4704A8C00C31",
+          "date": "2025-12-19",
+          "price": 405000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-DAB3-591C-E063-4704A8C00C31",
+          "date": "2025-12-19",
+          "price": 480000,
+          "type": "S",
+          "sector": "CM12 9"
+        }
+      ],
+      "2026": [
+        {
+          "id": "49E87C31-D5B7-591C-E063-4704A8C00C31",
+          "date": "2026-01-07",
+          "price": 450000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D83B-591C-E063-4704A8C00C31",
+          "date": "2026-01-07",
+          "price": 400000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D97B-591C-E063-4704A8C00C31",
+          "date": "2026-01-07",
+          "price": 660000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-190E-D8EA-E063-4704A8C0BF7D",
+          "date": "2026-01-08",
+          "price": 322500,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D5AA-591C-E063-4704A8C00C31",
+          "date": "2026-01-09",
+          "price": 465000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D7E3-591C-E063-4704A8C00C31",
+          "date": "2026-01-09",
+          "price": 410000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "49E87C31-D8FC-591C-E063-4704A8C00C31",
+          "date": "2026-01-09",
+          "price": 427500,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-DB74-591C-E063-4704A8C00C31",
+          "date": "2026-01-16",
+          "price": 462000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "559C5AD5-0940-AFE3-E063-4804A8C004A4",
+          "date": "2026-01-16",
+          "price": 200000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "49E87C31-D62A-591C-E063-4704A8C00C31",
+          "date": "2026-01-21",
+          "price": 432500,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-18A2-D8EA-E063-4704A8C0BF7D",
+          "date": "2026-01-21",
+          "price": 580000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-17E3-D8EA-E063-4704A8C0BF7D",
+          "date": "2026-01-23",
+          "price": 350000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-19D5-8922-E063-4804A8C094D0",
+          "date": "2026-01-23",
+          "price": 565000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "559C5AD5-0996-AFE3-E063-4804A8C004A4",
+          "date": "2026-01-23",
+          "price": 326000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-AF3A-29C7-E063-4804A8C015BC",
+          "date": "2026-01-26",
+          "price": 1200000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4C1B673F-16F4-D8EA-E063-4704A8C0BF7D",
+          "date": "2026-01-30",
+          "price": 450000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4C1B673F-183A-D8EA-E063-4704A8C0BF7D",
+          "date": "2026-01-30",
+          "price": 350000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-1CC8-D8EA-E063-4704A8C0BF7D",
+          "date": "2026-02-06",
+          "price": 525000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4C1B673F-1D53-D8EA-E063-4704A8C0BF7D",
+          "date": "2026-02-06",
+          "price": 1485000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-AF74-29C7-E063-4804A8C015BC",
+          "date": "2026-02-06",
+          "price": 330000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-16EA-D8EA-E063-4704A8C0BF7D",
+          "date": "2026-02-09",
+          "price": 660000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B114-29C7-E063-4804A8C015BC",
+          "date": "2026-02-09",
+          "price": 500000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B24A-29C7-E063-4804A8C015BC",
+          "date": "2026-02-09",
+          "price": 462500,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-AE4F-29C7-E063-4804A8C015BC",
+          "date": "2026-02-10",
+          "price": 414000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1B98-8922-E063-4804A8C094D0",
+          "date": "2026-02-11",
+          "price": 270000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-1767-D8EA-E063-4704A8C0BF7D",
+          "date": "2026-02-12",
+          "price": 443000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4C1B673F-1A89-D8EA-E063-4704A8C0BF7D",
+          "date": "2026-02-12",
+          "price": 525000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1BB9-8922-E063-4804A8C094D0",
+          "date": "2026-02-12",
+          "price": 442000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1D51-8922-E063-4804A8C094D0",
+          "date": "2026-02-12",
+          "price": 840000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-2090-8922-E063-4804A8C094D0",
+          "date": "2026-02-12",
+          "price": 610000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4C1B673F-177F-D8EA-E063-4704A8C0BF7D",
+          "date": "2026-02-13",
+          "price": 575000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1F90-8922-E063-4804A8C094D0",
+          "date": "2026-02-13",
+          "price": 550000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4C1B673F-1A49-D8EA-E063-4704A8C0BF7D",
+          "date": "2026-02-19",
+          "price": 360000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B0C9-29C7-E063-4804A8C015BC",
+          "date": "2026-02-20",
+          "price": 755000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1F77-8922-E063-4804A8C094D0",
+          "date": "2026-02-25",
+          "price": 400000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1DC7-8922-E063-4804A8C094D0",
+          "date": "2026-02-26",
+          "price": 665000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-AD07-29C7-E063-4804A8C015BC",
+          "date": "2026-02-26",
+          "price": 675000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B321-29C7-E063-4804A8C015BC",
+          "date": "2026-02-26",
+          "price": 560000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-19ED-8922-E063-4804A8C094D0",
+          "date": "2026-02-27",
+          "price": 390000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1B2A-8922-E063-4804A8C094D0",
+          "date": "2026-02-27",
+          "price": 485000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1B7A-8922-E063-4804A8C094D0",
+          "date": "2026-02-27",
+          "price": 427000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1BF7-8922-E063-4804A8C094D0",
+          "date": "2026-02-27",
+          "price": 525000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1E58-8922-E063-4804A8C094D0",
+          "date": "2026-02-27",
+          "price": 427000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B173-29C7-E063-4804A8C015BC",
+          "date": "2026-02-27",
+          "price": 485000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-AED6-29C7-E063-4804A8C015BC",
+          "date": "2026-03-02",
+          "price": 725000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-B142-B8D0-E063-4704A8C08D98",
+          "date": "2026-03-06",
+          "price": 457000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1DE6-8922-E063-4804A8C094D0",
+          "date": "2026-03-09",
+          "price": 690000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1E10-8922-E063-4804A8C094D0",
+          "date": "2026-03-09",
+          "price": 525000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1C62-8922-E063-4804A8C094D0",
+          "date": "2026-03-10",
+          "price": 640000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-21E7-8922-E063-4804A8C094D0",
+          "date": "2026-03-10",
+          "price": 480000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-2149-8922-E063-4804A8C094D0",
+          "date": "2026-03-11",
+          "price": 470000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "4E75C29D-1B12-8922-E063-4804A8C094D0",
+          "date": "2026-03-12",
+          "price": 405000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-F4C8-B8D0-E063-4704A8C08D98",
+          "date": "2026-03-12",
+          "price": 1050000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-9B1A-1886-E063-4704A8C021AE",
+          "date": "2026-03-12",
+          "price": 440000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1B02-8922-E063-4804A8C094D0",
+          "date": "2026-03-13",
+          "price": 425000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-F3EA-B8D0-E063-4704A8C08D98",
+          "date": "2026-03-13",
+          "price": 640000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-AED4-29C7-E063-4804A8C015BC",
+          "date": "2026-03-13",
+          "price": 350000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1FF2-8922-E063-4804A8C094D0",
+          "date": "2026-03-18",
+          "price": 640000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1DC1-8922-E063-4804A8C094D0",
+          "date": "2026-03-19",
+          "price": 420000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "559C5AD5-0746-AFE3-E063-4804A8C004A4",
+          "date": "2026-03-19",
+          "price": 650000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-B053-B8D0-E063-4704A8C08D98",
+          "date": "2026-03-20",
+          "price": 962500,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "50D10B83-F844-B8D0-E063-4704A8C08D98",
+          "date": "2026-03-20",
+          "price": 437500,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-AE6B-29C7-E063-4804A8C015BC",
+          "date": "2026-03-20",
+          "price": 582500,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-9813-1886-E063-4704A8C021AE",
+          "date": "2026-03-20",
+          "price": 485000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1FF6-8922-E063-4804A8C094D0",
+          "date": "2026-03-24",
+          "price": 600000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-F220-B8D0-E063-4704A8C08D98",
+          "date": "2026-03-25",
+          "price": 560000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-F39D-B8D0-E063-4704A8C08D98",
+          "date": "2026-03-25",
+          "price": 465000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "4E75C29D-1E9B-8922-E063-4804A8C094D0",
+          "date": "2026-03-27",
+          "price": 765000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "50D10B83-F310-B8D0-E063-4704A8C08D98",
+          "date": "2026-03-27",
+          "price": 365000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-590E-8052-E063-4804A8C06EE4",
+          "date": "2026-03-27",
+          "price": 780000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "50D10B83-F3F1-B8D0-E063-4704A8C08D98",
+          "date": "2026-03-30",
+          "price": 545000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5340B1C5-5672-8052-E063-4804A8C06EE4",
+          "date": "2026-03-30",
+          "price": 895000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-F3E3-B8D0-E063-4704A8C08D98",
+          "date": "2026-03-31",
+          "price": 347500,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-F3FC-B8D0-E063-4704A8C08D98",
+          "date": "2026-03-31",
+          "price": 325000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "50D10B83-F515-B8D0-E063-4704A8C08D98",
+          "date": "2026-03-31",
+          "price": 300000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-5A85-8052-E063-4804A8C06EE4",
+          "date": "2026-03-31",
+          "price": 560000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "50D10B83-F583-B8D0-E063-4704A8C08D98",
+          "date": "2026-04-07",
+          "price": 375000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-562C-8052-E063-4804A8C06EE4",
+          "date": "2026-04-08",
+          "price": 350000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "50D10B83-F3D7-B8D0-E063-4704A8C08D98",
+          "date": "2026-04-14",
+          "price": 475000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "50D10B83-F50B-B8D0-E063-4704A8C08D98",
+          "date": "2026-04-15",
+          "price": 500000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B4FB-29C7-E063-4804A8C015BC",
+          "date": "2026-04-16",
+          "price": 470000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-5646-8052-E063-4804A8C06EE4",
+          "date": "2026-04-24",
+          "price": 283000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-56F3-8052-E063-4804A8C06EE4",
+          "date": "2026-04-24",
+          "price": 373000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5CD70F5D-1D1D-FB1F-E063-4704A8C08825",
+          "date": "2026-04-27",
+          "price": 805000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-56C6-8052-E063-4804A8C06EE4",
+          "date": "2026-04-28",
+          "price": 382500,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-5999-8052-E063-4804A8C06EE4",
+          "date": "2026-04-28",
+          "price": 450000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-20CC-FB1F-E063-4704A8C08825",
+          "date": "2026-04-30",
+          "price": 550000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-2134-FB1F-E063-4704A8C08825",
+          "date": "2026-04-30",
+          "price": 500000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-2273-FB1F-E063-4704A8C08825",
+          "date": "2026-04-30",
+          "price": 735000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-1360-8052-E063-4804A8C06EE4",
+          "date": "2026-05-01",
+          "price": 510000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5340B1C5-585E-8052-E063-4804A8C06EE4",
+          "date": "2026-05-01",
+          "price": 500000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5340B1C5-5881-8052-E063-4804A8C06EE4",
+          "date": "2026-05-01",
+          "price": 350000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-59D4-8052-E063-4804A8C06EE4",
+          "date": "2026-05-01",
+          "price": 900000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-5B9A-8052-E063-4804A8C06EE4",
+          "date": "2026-05-01",
+          "price": 468000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5CD70F5D-201F-FB1F-E063-4704A8C08825",
+          "date": "2026-05-01",
+          "price": 490000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-93FB-1886-E063-4704A8C021AE",
+          "date": "2026-05-08",
+          "price": 440000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5340B1C5-5608-8052-E063-4804A8C06EE4",
+          "date": "2026-05-11",
+          "price": 450000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5340B1C5-58AD-8052-E063-4804A8C06EE4",
+          "date": "2026-05-11",
+          "price": 625000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-AE30-29C7-E063-4804A8C015BC",
+          "date": "2026-05-15",
+          "price": 372000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-1F22-FB1F-E063-4704A8C08825",
+          "date": "2026-05-15",
+          "price": 410000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5340B1C5-5908-8052-E063-4804A8C06EE4",
+          "date": "2026-05-18",
+          "price": 390000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5340B1C5-594C-8052-E063-4804A8C06EE4",
+          "date": "2026-05-21",
+          "price": 480000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "559C5AD5-086D-AFE3-E063-4804A8C004A4",
+          "date": "2026-05-22",
+          "price": 180000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "559C5AD5-087B-AFE3-E063-4804A8C004A4",
+          "date": "2026-05-22",
+          "price": 450000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "559C5AD5-090C-AFE3-E063-4804A8C004A4",
+          "date": "2026-05-22",
+          "price": 330000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "559C5AD5-088A-AFE3-E063-4804A8C004A4",
+          "date": "2026-05-28",
+          "price": 1270000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "559C5AD5-0960-AFE3-E063-4804A8C004A4",
+          "date": "2026-05-28",
+          "price": 330000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "559C5AD5-0773-AFE3-E063-4804A8C004A4",
+          "date": "2026-06-01",
+          "price": 653500,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "559C5AD5-0A54-AFE3-E063-4804A8C004A4",
+          "date": "2026-06-01",
+          "price": 510000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "559C5AD5-0AB9-AFE3-E063-4804A8C004A4",
+          "date": "2026-06-02",
+          "price": 402000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-B12C-29C7-E063-4804A8C015BC",
+          "date": "2026-06-11",
+          "price": 390000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "559C5AD5-0869-AFE3-E063-4804A8C004A4",
+          "date": "2026-06-12",
+          "price": 710000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B08E-29C7-E063-4804A8C015BC",
+          "date": "2026-06-12",
+          "price": 675000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-ADD2-29C7-E063-4804A8C015BC",
+          "date": "2026-06-25",
+          "price": 436000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B1EE-29C7-E063-4804A8C015BC",
+          "date": "2026-06-25",
+          "price": 845000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-B2C5-29C7-E063-4804A8C015BC",
+          "date": "2026-06-25",
+          "price": 365000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-B416-29C7-E063-4804A8C015BC",
+          "date": "2026-06-25",
+          "price": 487500,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-AE0F-29C7-E063-4804A8C015BC",
+          "date": "2026-06-26",
+          "price": 830000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-AF10-29C7-E063-4804A8C015BC",
+          "date": "2026-06-26",
+          "price": 350000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B069-29C7-E063-4804A8C015BC",
+          "date": "2026-06-26",
+          "price": 595000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-ADF9-29C7-E063-4804A8C015BC",
+          "date": "2026-06-30",
+          "price": 350000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-AF90-29C7-E063-4804A8C015BC",
+          "date": "2026-06-30",
+          "price": 650000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B045-29C7-E063-4804A8C015BC",
+          "date": "2026-06-30",
+          "price": 1100000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B0C0-29C7-E063-4804A8C015BC",
+          "date": "2026-06-30",
+          "price": 690000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B1A4-29C7-E063-4804A8C015BC",
+          "date": "2026-06-30",
+          "price": 465000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-9420-1886-E063-4704A8C021AE",
+          "date": "2026-06-30",
+          "price": 445000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-AE3C-29C7-E063-4804A8C015BC",
+          "date": "2026-07-01",
+          "price": 340000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B1F3-29C7-E063-4804A8C015BC",
+          "date": "2026-07-01",
+          "price": 537500,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-B3A8-29C7-E063-4804A8C015BC",
+          "date": "2026-07-01",
+          "price": 595000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B1D4-29C7-E063-4804A8C015BC",
+          "date": "2026-07-02",
+          "price": 737500,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-AD4D-29C7-E063-4804A8C015BC",
+          "date": "2026-07-03",
+          "price": 1250000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-947B-1886-E063-4704A8C021AE",
+          "date": "2026-07-03",
+          "price": 1130000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5834E4E8-B21F-29C7-E063-4804A8C015BC",
+          "date": "2026-07-08",
+          "price": 497000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B272-29C7-E063-4804A8C015BC",
+          "date": "2026-07-08",
+          "price": 530000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-AEFA-29C7-E063-4804A8C015BC",
+          "date": "2026-07-09",
+          "price": 525000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-982F-1886-E063-4704A8C021AE",
+          "date": "2026-07-09",
+          "price": 475000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-99F9-1886-E063-4704A8C021AE",
+          "date": "2026-07-13",
+          "price": 560000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-953A-1886-E063-4704A8C021AE",
+          "date": "2026-07-14",
+          "price": 750000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-9425-1886-E063-4704A8C021AE",
+          "date": "2026-07-16",
+          "price": 250000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-B4E8-29C7-E063-4804A8C015BC",
+          "date": "2026-07-17",
+          "price": 725000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-9AFD-1886-E063-4704A8C021AE",
+          "date": "2026-07-21",
+          "price": 920000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5834E4E8-AE54-29C7-E063-4804A8C015BC",
+          "date": "2026-07-23",
+          "price": 717000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-93EE-1886-E063-4704A8C021AE",
+          "date": "2026-07-24",
+          "price": 655000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-9A3C-1886-E063-4704A8C021AE",
+          "date": "2026-07-28",
+          "price": 664000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-991B-1886-E063-4704A8C021AE",
+          "date": "2026-07-29",
+          "price": 720000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-959B-1886-E063-4704A8C021AE",
+          "date": "2026-07-31",
+          "price": 367000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-9759-1886-E063-4704A8C021AE",
+          "date": "2026-07-31",
+          "price": 450000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-97B8-1886-E063-4704A8C021AE",
+          "date": "2026-07-31",
+          "price": 567000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-9814-1886-E063-4704A8C021AE",
+          "date": "2026-07-31",
+          "price": 695000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5CD70F5D-1D49-FB1F-E063-4704A8C08825",
+          "date": "2026-07-31",
+          "price": 700000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-9534-1886-E063-4704A8C021AE",
+          "date": "2026-08-03",
+          "price": 800000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-940E-1886-E063-4704A8C021AE",
+          "date": "2026-08-10",
+          "price": 785000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-944E-1886-E063-4704A8C021AE",
+          "date": "2026-08-10",
+          "price": 435000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-9468-1886-E063-4704A8C021AE",
+          "date": "2026-08-10",
+          "price": 425000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-2379-FB1F-E063-4704A8C08825",
+          "date": "2026-08-10",
+          "price": 425000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-995A-1886-E063-4704A8C021AE",
+          "date": "2026-08-11",
+          "price": 990000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-95D3-1886-E063-4704A8C021AE",
+          "date": "2026-08-12",
+          "price": 440000,
+          "type": "T",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-9851-1886-E063-4704A8C021AE",
+          "date": "2026-08-12",
+          "price": 685000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-9866-1886-E063-4704A8C021AE",
+          "date": "2026-08-13",
+          "price": 377500,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-94B2-1886-E063-4704A8C021AE",
+          "date": "2026-08-14",
+          "price": 345000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-1BBD-FB1F-E063-4704A8C08825",
+          "date": "2026-08-14",
+          "price": 615000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5A7B802C-9A93-1886-E063-4704A8C021AE",
+          "date": "2026-08-19",
+          "price": 400000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5A7B802C-98C5-1886-E063-4704A8C021AE",
+          "date": "2026-08-20",
+          "price": 980000,
+          "type": "D",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5CD70F5D-1DE6-FB1F-E063-4704A8C08825",
+          "date": "2026-08-21",
+          "price": 655000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-1CEF-FB1F-E063-4704A8C08825",
+          "date": "2026-08-24",
+          "price": 360000,
+          "type": "S",
+          "sector": "CM12 9"
+        },
+        {
+          "id": "5CD70F5D-22B6-FB1F-E063-4704A8C08825",
+          "date": "2026-08-27",
+          "price": 1380000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-248B-FB1F-E063-4704A8C08825",
+          "date": "2026-08-28",
+          "price": 725000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-1B75-FB1F-E063-4704A8C08825",
+          "date": "2026-09-02",
+          "price": 460000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-1C36-FB1F-E063-4704A8C08825",
+          "date": "2026-09-02",
+          "price": 758000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-1D5D-FB1F-E063-4704A8C08825",
+          "date": "2026-09-02",
+          "price": 710000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-1BC3-FB1F-E063-4704A8C08825",
+          "date": "2026-09-03",
+          "price": 550000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-203C-FB1F-E063-4704A8C08825",
+          "date": "2026-09-09",
+          "price": 375000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-1D9F-FB1F-E063-4704A8C08825",
+          "date": "2026-09-11",
+          "price": 855000,
+          "type": "D",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-1FE4-FB1F-E063-4704A8C08825",
+          "date": "2026-09-17",
+          "price": 293000,
+          "type": "T",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-1C6E-FB1F-E063-4704A8C08825",
+          "date": "2026-09-18",
+          "price": 490000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-1DB2-FB1F-E063-4704A8C08825",
+          "date": "2026-09-18",
+          "price": 590000,
+          "type": "S",
+          "sector": "CM12 0"
+        },
+        {
+          "id": "5CD70F5D-1EF9-FB1F-E063-4704A8C08825",
+          "date": "2026-09-22",
+          "price": 675000,
+          "type": "D",
+          "sector": "CM12 9"
+        }
+      ]
+    },
+    "checkedMonths": {
+      "2025": "2026-11",
+      "2026": "2026-11"
+    }
+  },
+  "localSales": {
+    "asOf": "2026-11-11",
+    "periodEnd": "2026-06",
+    "previousPeriodEnd": "2025-06",
+    "scope": "CM12 0 postcode sector",
+    "typeDescription": "Detached and semi-detached completed sales",
+    "medianPrice": 500000,
+    "previousMedianPrice": 507500,
+    "annualChange": -1.478,
+    "count": 66,
+    "previousCount": 70,
+    "bandSales": 26,
+    "priceBand": "£450,000–£600,000",
+    "sourceUrl": "https://www.gov.uk/government/statistical-data-sets/price-paid-data-yearly-file",
+    "note": "Price Paid Data has no bedroom count, floor area, station distance or end-terrace flag; not a listing search. Latest months excluded for registration lag.",
+    "attribution": "Contains HM Land Registry data © Crown copyright and database right 2021. This data is licensed under the Open Government Licence v3.0."
+  }
 }
