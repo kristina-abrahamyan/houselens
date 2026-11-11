@@ -99,11 +99,13 @@ def _excel_row_date(v):
     return None
 
 
-def parse_curve_zip(content: bytes, filename_token: str, sheet_pattern: str):
+def parse_curve_zip(content: bytes, filename_token: str, sheet_pattern: str, *, required_months=()):
     """Return (as-of date, {months: percentage-rate}) from the BoE *latest* ZIP.
 
     Parsing follows the published workbook layout: maturities in years on row
     3-6 and observations 2 rows below. We check the actual workbook/headers.
+    For required short-end tenors, use the newest sufficiently complete dated
+    observation; individual tenors may be absent on the latest trading day.
     """
     from openpyxl import load_workbook
     with zipfile.ZipFile(io.BytesIO(content)) as archive:
@@ -163,7 +165,32 @@ def parse_curve_zip(content: bytes, filename_token: str, sheet_pattern: str):
                 candidates.append((date, points))
         if not candidates:
             raise ValueError('BoE yield file contains no dated numeric observations')
-        return max(candidates, key=lambda v: v[0])
+        candidates.sort(key=lambda v: v[0], reverse=True)
+        if not required_months:
+            return candidates[0]
+
+        newest_date = dt.date.fromisoformat(candidates[0][0])
+        # Only use curves within seven calendar days of the newest published
+        # observation; otherwise the market-implied outlook is unavailable.
+        # Do not silently extrapolate beyond known maturity points.
+        for date, points in candidates:
+            if (newest_date - dt.date.fromisoformat(date)).days > 7:
+                break
+            interpolated = dict(points)
+            for month in required_months:
+                if month in interpolated:
+                    continue
+                lower = max((m for m in points if m < month), default=None)
+                upper = min((m for m in points if m > month), default=None)
+                # A one- or two-month missing point is acceptable for this
+                # indicative scenario. Wider gaps would mask poor coverage.
+                if lower is None or upper is None or upper - lower > 3:
+                    continue
+                weight = (month - lower) / (upper - lower)
+                interpolated[month] = round(points[lower] + weight * (points[upper] - points[lower]), 4)
+            if all(month in interpolated for month in required_months):
+                return date, interpolated
+        raise ValueError('BoE OIS short-end curve has no recent complete 3, 6 and 12 month observations')
     finally:
         wb.close()
 
@@ -177,7 +204,7 @@ def get_market_curves(bank_rate, sonia_rate, fetch=fetch_bytes):
     raw = fetch(BOE_YIELDS, max_bytes=12_000_000, timeout=120)
     results = {'warnings': []}
     try:
-        ois_date, ois = parse_curve_zip(raw, 'OIS', r'fwds?,?\s*short end$')
+        ois_date, ois = parse_curve_zip(raw, 'OIS', r'fwds?,?\s*short end$', required_months=(3, 6, 12))
         basis = bank_rate - sonia_rate
         forecast = []
         for months in (3, 6, 12):

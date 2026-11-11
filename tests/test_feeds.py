@@ -67,6 +67,44 @@ class ParsingTests(unittest.TestCase):
         self.assertAlmostEqual(curves['ois']['forecast'][0]['rate'],3.75)
         self.assertAlmostEqual(curves['gilts']['rpiBreakeven'],3.8)
 
+    def test_ois_uses_recent_complete_observation_without_extrapolating(self):
+        def make_zip(latest, earlier):
+            output = io.BytesIO()
+            wb = Workbook()
+            ws = wb.active
+            ws.title = '1. fwds, short end'
+            ws.append(['header'])
+            ws.append(['header'])
+            ws.append(['header'])
+            ws.append(['Date', 1/12, 2/12, 3/12, 4/12, 5/12, 6/12, 7/12, 12/12, 13/12])
+            ws.append(['units'])
+            ws.append([dt.datetime(2026, 11, 9)] + earlier)
+            ws.append([dt.datetime(2026, 11, 10)] + latest)
+            content = io.BytesIO()
+            wb.save(content)
+            with zipfile.ZipFile(output, 'w') as z:
+                z.writestr('OIS daily.xlsx', content.getvalue())
+            return output.getvalue()
+
+        # Latest row has no data at the required 3m and 6m tenors but has
+        # adjacent points to interpolate; the published 12m point is present.
+        missing = [3.8, 3.75, None, 3.70, 3.69, None, 3.60, 3.58, 3.55]
+        complete = [3.9, 3.85, 3.82, 3.78, 3.76, 3.73, 3.66, 3.65, 3.64]
+        date, curve = feeds.parse_curve_zip(make_zip(missing, complete), 'OIS',
+                 r'fwds?,?\s*short end$', required_months=(3,6,12))
+        self.assertEqual(date, '2026-11-10')
+        self.assertAlmostEqual(curve[3], 3.725)
+        self.assertAlmostEqual(curve[6], 3.69 + (3.6 - 3.69)/2)
+        self.assertAlmostEqual(curve[12], 3.58)
+
+        # No next point means no extrapolation. Fall back to a dated complete
+        # observation if within seven days of the latest.
+        missing_far = [3.8, 3.75, None, None, None, None, None, None, None]
+        date, curve = feeds.parse_curve_zip(make_zip(missing_far, complete), 'OIS',
+                 r'fwds?,?\s*short end$', required_months=(3,6,12))
+        self.assertEqual(date, '2026-11-09')
+        self.assertEqual(curve[12], 3.65)
+
     def test_refresh_retains_failure_as_warning_not_fabricated(self):
         class Adapters:
             @staticmethod
