@@ -1,0 +1,29 @@
+HouseLens v1.2 — Bank of England OIS short-end maturity header fix
+
+Why:
+The published BoE yield-curve workbook includes adjacent "months:" and "years:"
+header rows. The prior importer could interpret the months row as a years row,
+so the real 3- and 6-month maturities appeared missing. This update distinguishes
+both units explicitly. It also adds a regression test for that layout.
+
+What to replace in your existing billericay-affordability folder:
+  update/feeds.py
+  tests/test_feeds.py
+
+PowerShell, from your existing billericay-affordability folder:
+  git pull --rebase origin main
+  (extract ZIP and copy the two files into matching folders, replacing old ones)
+  python -m unittest discover -s tests -p "test_*.py" -v
+  node tests/test_calculations.js  # optional if Node.js is installed
+  git add update/feeds.py tests/test_feeds.py
+  git commit -m "Fix BoE month and year maturity header parsing"
+  git push
+
+Then trigger the workflow manually in GitHub Actions. Success of the workflow
+alone does not mean all feeds succeeded; check web/data/state.json after it runs:
+  "ois" > "forecast" should contain 3 entries (months 3, 6 and 12)
+  "ois" > "asOf" should be a current observation date
+  "errors" should not contain an OIS-related issue
+
+If there are still OIS errors, share the "errors" field from state.json.
+No rates are fabricated or backfilled from the video spreadsheet.

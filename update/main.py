@@ -7,7 +7,7 @@ import os
 import sys
 from pathlib import Path
 from statistics import median
-from update import feeds
+from update import feeds, local_sales
 
 STATE_PATH = Path(__file__).resolve().parents[1] / 'web' / 'data' / 'state.json'
 
@@ -56,6 +56,16 @@ def refresh(state, *, now=None, adapters=feeds):
         historical[hpi['date']] = {'date': hpi['date'], 'averagePrice': hpi['averagePrice']}
         state['hpiHistory'] = [historical[k] for k in sorted(historical)][-120:]
         state['sources']['hpi'] = hpi['sourceUrl']
+    # Housemetric-style CM12 local comparables, using official sold-price
+    # records only. No scraping of Housemetric and no assumption that these
+    # properties satisfy the user's exact station-radius/bedroom criteria.
+    if adapters is feeds:
+        sales = run('CM12 completed sales', lambda: local_sales.update_local_sales(
+            state.get('localSalesDataset'), today=now.date()))
+        if sales:
+            state['localSalesDataset'] = sales['dataset']
+            state['localSales'] = sales['summary']
+            state.setdefault('sources', {})['localSales'] = sales['summary']['sourceUrl']
     key = os.environ.get('PROPERTYDATA_API_KEY', '')
     if key:
         feed = run('PropertyData listings', lambda: adapters.get_properties(key))

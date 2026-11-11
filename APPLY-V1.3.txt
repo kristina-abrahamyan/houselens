@@ -1,0 +1,47 @@
+HouseLens v1.3 — CM12 official sold-price analysis and inflation-status fix
+
+This is a PATCH for the existing, deployed HouseLens repo.
+IMPORTANT: There is NO web/data/state.json in this patch. Do NOT replace or reset your
+live data or its snapshots. Don't paste an older project ZIP over your live repo.
+
+STEP 1 — From PowerShell in your existing Git repo folder:
+  git pull --rebase origin main
+
+STEP 2 — Extract this ZIP. Copy its README.md, update, web and tests contents into
+the SAME folders in your existing project. Choose Replace for matching files.
+
+STEP 3 — From the same project folder, run:
+  python -m unittest discover -s tests -v
+  node tests/test_calculations.js
+  git add README.md update/main.py update/local_sales.py web/app.js web/index.html web/sw.js tests/test_local_sales.py
+  git commit -m "Add CM12 sold-price analysis and correct inflation status"
+  git push
+
+STEP 4 — In GitHub, go to Actions → Refresh HouseLens market data and deploy →
+Run workflow (main). If it fails, open the failing step and check its logs.
+The first official Price Paid Data import downloads large annual CSV files.
+
+STEP 5 — Once the run is green, open your HouseLens page, hard refresh
+(Ctrl+Shift+R), select Future outlook, and find "What similar homes actually
+sold for". The diagram appears only if official CM12 records were imported
+and enough recent detached/semi-detached transactions exist.
+
+WHAT THIS PATCH ADDS
+- Independently builds a CM12 0 sold-price comparison from official HMLR PPD.
+- Uses broader CM12 if sector has too few recorded sales; labels this clearly.
+- Correctly keeps the prior year's relevant data when crossing into 2027.
+- Displays the sales samples, price band sale count, and source limitations.
+- Uses this as an *illustrative* future price scenario when asking-price data
+  are unavailable; this is NOT a prediction.
+- Makes gilt-implied inflation source status unavailable if no usable rate.
+- Includes backend regression tests.
+
+WHAT IS STILL NOT INCLUDED
+- Comprehensive live asking-price listings near Billericay station.
+- Exact 0.75-mile/3-bed sold-home comparison (Land Registry PPD lacks these).
+- Automatic £/sqm (needs matched floor-area/EPC source).
+- Definitive inflation projections or future prices.
+
+Data source: https://www.gov.uk/government/statistical-data-sets/price-paid-data-yearly-file
+PPD attribution: Contains HM Land Registry data © Crown copyright and database
+right 2021. This data is licensed under the Open Government Licence v3.0.

@@ -36,6 +36,14 @@ function marketTrend(){
      return {monthly:Math.max(-.02,Math.min(.02,rate)),source:'Station-area asking-price snapshots',confidence:'Limited: the mix of homes can change'};
    }
  }
+ const sold=state?.localSales;
+ if(sold&&freshDate(sold.asOf,75)&&Number.isFinite(sold.annualChange)
+    && sold.count>=12&&sold.previousCount>=12){
+   const monthly=Math.pow(1+sold.annualChange/100,1/12)-1;
+   return {monthly:Math.max(-.02,Math.min(.02,monthly)),
+           source:`${sold.scope} completed sales (through ${sold.periodEnd})`,
+           confidence:'Illustrative historical year-on-year medians; sales mix and registration delays matter. Not the 0.75-mile station radius or a prediction'};
+ }
  const h=state?.hpi;
  if(h&&freshDate(h.date+'-01',125)&&Number.isFinite(h.annualChange)&&h.annualChange>-50){
    const rate=Math.pow(1+h.annualChange/100,1/12)-1;
@@ -67,12 +75,47 @@ function renderListings(){const age=state.listingsAsOf?(Date.now()-Date.parse(st
  el('listingsAlert').hidden=properties.length>0;setText('listingSummary',properties.length?`${properties.length} matches in provider sample · observed ${state.listingsAsOf?.slice(0,10)} (not necessarily all available homes)`:'No current qualifying listings in a connected sample yet, or the feed needs refreshing.');
  el('properties').innerHTML=properties.map(p=>{const payment=repayment(p.price,+settings.deposit,rate,+settings.term),safe=typeof p.url==='string'&&/^https:\/\//.test(p.url)?p.url:null;return `<article class="property"><div class="property-top"><div><div class="type">${escapeHtml(p.type)} · ${escapeHtml(p.bedrooms)}+ beds</div><h3>${escapeHtml(p.address||'Address withheld by portal')}</h3></div><span class="chip">${escapeHtml(p.distanceMiles.toFixed(2))} mi</span></div><p>${money(p.price)} asking price · ${escapeHtml(p.portal||'Property feed')}</p><div class="property-stats"><div><small>Model repayment</small><strong>${money(payment)}/mo</strong></div><div><small>Of take-home</small><strong>${pct(payment/net*100)}</strong></div></div>${safe?`<a href="${escapeHtml(safe)}" target="_blank" rel="noopener noreferrer">View original listing ↗</a>`:''}</article>`}).join('');}
 function renderOutlook(){const forecast=freshDate(state?.ois?.asOf,14)?(state?.ois?.forecast||[]):[],observations=[{months:0,rate:state.bankRate},...forecast.filter(p=>Number.isFinite(p.rate))];makeChart('oisChart',forecast.length?[{color:'#88bb9f',points:observations.map(p=>({x:p.months,y:p.rate}))}]:[],{empty:'Market-implied forecasts are not yet available. Run the scheduled BoE data updater.',ticks:[{x:0,label:'Now'},{x:3,label:'3 months'},{x:6,label:'6 months'},{x:12,label:'12 months'}],suffix:'%',label:'Short-end OIS forward interest rate path'});
- setText('oisDate',state.ois.asOf?`AS OF ${state.ois.asOf}`:'SONIA OIS');setText('oisNote',forecast.length?'These are short-end OIS instantaneous forwards, not guaranteed future Bank Rate decisions.':'Awaiting the Bank of England yield-curve archive.');setText('breakeven',freshDate(state.gilts.asOf,14)&&Number.isFinite(state.gilts.rpiBreakeven)?pct(state.gilts.rpiBreakeven):'Not available');const guidance=state.guidance;const guidanceAge=guidance?.asOf?(Date.now()-Date.parse(guidance.asOf))/86400000:Infinity;setText('guidanceText',guidance&&guidanceAge<150?`${guidance.headline} (checked ${guidance.asOf}).`:'Fresh BoE guidance unavailable; see the official Monetary Policy Report.');
+ setText('oisDate',state.ois.asOf?`AS OF ${state.ois.asOf}`:'SONIA OIS');setText('oisNote',forecast.length?'These are short-end OIS instantaneous forwards, not guaranteed future Bank Rate decisions.':'Awaiting the Bank of England yield-curve archive.');
+ const gilt=state?.gilts, inflationRef=gilt?.inflationReference || (Number.isFinite(gilt?.rpiBreakeven)?{months:12,rate:gilt.rpiBreakeven}:null);
+ const validInflation=freshDate(gilt?.asOf,14)&&Number.isFinite(inflationRef?.rate);
+ setText('breakeven',validInflation?pct(inflationRef.rate):'Not available');
+ setText('breakevenLabel',validInflation?`Gilt-implied RPI proxy (${inflationRef.months/12}-year)`:'Gilt-implied RPI proxy (unavailable)');
+ const guidance=state.guidance;const guidanceAge=guidance?.asOf?(Date.now()-Date.parse(guidance.asOf))/86400000:Infinity;setText('guidanceText',guidance&&guidanceAge<150?`${guidance.headline} (checked ${guidance.asOf}).`:'Fresh BoE guidance unavailable; see the official Monetary Policy Report.');
  const snaps=(state.snapshots||[]).filter(p=>Number.isFinite(p.medianPrice));makeChart('priceChart',snaps.length>1?[{color:'#81bfa4',points:snaps.map(p=>({x:Date.parse(p.date),y:p.medianPrice/1000}))}]:[],{empty:'Waiting for multiple real property-market snapshots. Collecting them twice weekly will reveal the direction of asking prices.',decimals:0,suffix:'k',label:'Median asking price of qualifying properties over recorded snapshots'});
  const trend=marketTrend();setText('trendNote',trend===null?`Recorded snapshots: ${snaps.length}. Awaiting data for a 3/6/12-month price scenario.`:`Price-change scenario: ${(trend.monthly*100).toFixed(2)}% per month · ${trend.source}. ${trend.confidence}. Clipped at ±2%/month to limit extremes.`);
+ renderLocalSales();
  const h=state?.hpi;renderSourceHealth();setText('hpiNote',h?`Official Basildon local-authority HPI: ${money(h.averagePrice)} average, ${h.annualChange==null?'annual change unavailable':pct(h.annualChange)+' annual change'}, for ${h.date}. This is a broader-area benchmark, not your station radius.`:'Awaiting a valid official HM Land Registry Basildon HPI observation.');
 }
-function renderSourceHealth(){const items=[['Bank Rate',state?.bankRateAsOf,14, 'Bank of England IADB'],['SONIA forwards',state?.ois?.asOf,14,'Bank of England yield curves'],['Gilt-implied inflation',state?.gilts?.asOf,14,'Bank of England yield curves'],['Local house prices',state?.hpi?.date?state.hpi.date+'-01':null,125,'HM Land Registry (Basildon LA)'],['Qualifying properties',state?.listingsAsOf,60,'Optional licensed PropertyData sample']];el('sourceHealth').innerHTML=items.map(([name,date,age,provider])=>`<div class="source-item"><div><strong>${name}</strong><small>${provider}</small></div><div class="source-status ${freshDate(date,age)?'healthy':'needs-attention'}">${freshDate(date,age)?'Current':'Missing / check date'}<small>${date?escapeHtml(String(date).slice(0,10)):'Not connected'}</small></div></div>`).join('');}
+function renderLocalSales(){
+ const sold=state?.localSales;
+ if(!sold||!freshDate(sold.asOf,75)){
+   makeChart('localSalesChart',[],{empty:'Waiting for official CM12 completed-sale data. The first import can be larger than subsequent refreshes.'});
+   setText('localSalesNote','No validated local sold-price comparison yet. This is not a live listings feed.');
+   return;
+ }
+ makeChart('localSalesChart',[{color:'#4f8d77',points:[
+    {x:0,y:sold.previousMedianPrice/1000}, {x:1,y:sold.medianPrice/1000}]}],
+    {decimals:0,suffix:'k',ticks:[{x:0,label:'Same 6 months prior year'},
+                                {x:1,label:`6 months to ${sold.periodEnd}`}],
+     label:'Official local detached and semi-detached sold-price medians, year-on-year'});
+ setText('localSalesNote',`${sold.scope} · ${sold.typeDescription}. ${money(sold.previousMedianPrice)} → ${money(sold.medianPrice)} (${sold.annualChange>=0?'+':''}${sold.annualChange.toFixed(1)}% year on year). ${sold.previousCount} prior / ${sold.count} recent sales; ${sold.bandSales} recent sales in the £450k–£600k band. ${sold.note}`);
+}
+function renderSourceHealth(){
+ const gilt=state?.gilts, inf=gilt?.inflationReference || (Number.isFinite(gilt?.rpiBreakeven)?{months:12,rate:gilt.rpiBreakeven}:null);
+ const items=[
+   ['Bank Rate',state?.bankRateAsOf,14,'Bank of England IADB',Number.isFinite(state?.bankRate)],
+   ['SONIA forwards',state?.ois?.asOf,14,'Bank of England yield curves',(state?.ois?.forecast||[]).length===3],
+   ['Gilt-implied inflation',gilt?.asOf,14,'Bank of England yield curves',Number.isFinite(inf?.rate)],
+   ['CM12 completed sales',state?.localSales?.asOf,75,'HM Land Registry Price Paid Data',Number.isFinite(state?.localSales?.annualChange)],
+   ['Broad-area house prices',state?.hpi?.date?state.hpi.date+'-01':null,125,'HM Land Registry (Basildon LA)',Number.isFinite(state?.hpi?.averagePrice)],
+   ['Qualifying property listings',state?.listingsAsOf,60,'Optional licensed PropertyData sample',!!state?.listingsAsOf]
+ ];
+ el('sourceHealth').innerHTML=items.map(([name,date,age,provider,usable])=>{
+    const ok=usable&&freshDate(date,age);
+    const note=name==='Gilt-implied inflation'&&ok?`${inf.months/12}-year market tenor`:(date?String(date).slice(0,10):'Not connected');
+    return `<div class="source-item"><div><strong>${escapeHtml(name)}</strong><small>${escapeHtml(provider)}</small></div><div class="source-status ${ok?'healthy':'needs-attention'}">${ok?'Usable':'Missing / check data'}<small>${escapeHtml(note)}</small></div></div>`;
+ }).join('');
+}
 function renderSettings(){for(const [k,v] of Object.entries(settings)){const field=document.querySelector(`[data-setting="${k}"]`);if(field)field.value=v;}const rate=state.bankRate+Number(settings.spread),loan=+settings.price*(1-+settings.deposit/100),p=repayment(+settings.price,+settings.deposit,rate,+settings.term);el('mortgageBreakdown').innerHTML=`House price <strong>${money(+settings.price)}</strong><br>Deposit <strong>${money(+settings.price*settings.deposit/100)}</strong><br>Mortgage balance <strong>${money(loan)}</strong><br>Estimated repayment <strong>${money(p)} / month</strong>`;}
 function render(){if(!state)return;const d=state.lastRun?new Date(state.lastRun).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'Not yet scheduled';setText('date-label',`SNAPSHOT · ${d.toUpperCase()}`);setText('freshness',state.lastRun?`Updated ${d}`:'Awaiting live setup');el('freshness').classList.toggle('warning',!state.lastRun||!state.listings.length);el('setupAlert').hidden=!!state.listings.length;setText('dataHealth',state.errors?.length?`${state.errors.length} source warning(s) · check data freshness in the outlook`:'');renderOverview();renderListings();renderSettings();}
 async function load(){try{const res=await fetch(`./data/state.json?bust=${Date.now()}`,{cache:'no-store'});if(!res.ok)throw Error(`${res.status}`);state=await res.json();render();}catch(err){setText('freshness','Data unavailable');document.querySelectorAll('.chart').forEach(e=>e.innerHTML='<div class="chart-empty">Could not load the published snapshot. Check your connection.</div>');console.warn(err);}}
