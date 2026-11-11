@@ -6,17 +6,19 @@ const el=id=>document.getElementById(id);
 let state=null,settings={...DEFAULTS},rateRange='5';
 try{const saved=JSON.parse(localStorage.getItem('houselens-settings')||'{}');settings={...settings,...saved};}catch{}
 
-const {netMonthly,householdNet,repayment}=window.HouseMath;
+const {netMonthly,householdNet,repayment,chartBounds}=window.HouseMath;
 function makeChart(target,series,config={}){
  const mount=el(target); if(!mount)return;
  const all=series.flatMap(s=>s.points.map(p=>p.y)).filter(Number.isFinite);
  if(!all.length){mount.innerHTML=`<div class="chart-empty">${config.empty||'Insufficient observations to draw this chart.'}</div>`;return;}
- const w=710,h=240,pad={l:42,r:13,t:13,b:35}; const values=series.flatMap(s=>s.points.map(p=>p.x));const xmin=Math.min(...values),xmax=Math.max(...values); let lo=Math.min(0,...all),hi=Math.max(0,...all)*1.12;if(lo===hi)hi=lo+1;
+ const w=710,h=240,pad={l:42,r:13,t:13,b:35}; const values=series.flatMap(s=>s.points.map(p=>p.x));const xmin=Math.min(...values),xmax=Math.max(...values); const {lo,hi}=chartBounds(all,config);
  const x=v=>pad.l+(v-xmin)/(xmax-xmin||1)*(w-pad.l-pad.r);
  const y=v=>h-pad.b-(v-lo)/(hi-lo)*(h-pad.t-pad.b);
  let content='';for(let i=0;i<=4;i++){const val=lo+(hi-lo)*i/4;const yy=y(val);content+=`<line x1="${pad.l}" y1="${yy}" x2="${w-pad.r}" y2="${yy}" stroke="#edf1f3"/><text x="${pad.l-8}" y="${yy+4}" text-anchor="end" font-size="11" fill="#95a4b2">${val.toFixed(config.decimals??1)}${config.suffix??''}</text>`;}
  for(const tick of (config.ticks||[])){content+=`<text x="${x(tick.x)}" y="${h-9}" text-anchor="middle" font-size="10" fill="#91a1b0">${tick.label}</text>`;}
- for(const s of series){if(!s.points.length)continue;const points=s.points.filter(p=>Number.isFinite(p.y)).map(p=>`${x(p.x)},${y(p.y)}`).join(' ');if(points)content+=`<polyline points="${points}" fill="none" stroke="${s.color}" stroke-width="${s.width||3}" stroke-linejoin="round" stroke-linecap="round" ${s.dash?'stroke-dasharray="6 5"':''}/>`;}
+ for(const s of series){if(!s.points.length)continue;const valid=s.points.filter(p=>Number.isFinite(p.y));const points=valid.map(p=>`${x(p.x)},${y(p.y)}`).join(' ');if(points)content+=`<polyline points="${points}" fill="none" stroke="${s.color}" stroke-width="${s.width||3}" stroke-linejoin="round" stroke-linecap="round" ${s.dash?'stroke-dasharray="6 5"':''}/>`;
+   if(config.showValues)valid.forEach((p,i)=>{const xx=x(p.x),yy=y(p.y);const label=`${config.valuePrefix||''}${p.y.toFixed(config.valueDecimals??0)}${config.suffix||''}`;const anchor=i===0?'start':i===valid.length-1?'end':'middle';const offset=i===0?7:i===valid.length-1?-7:0;content+=`<circle cx="${xx}" cy="${yy}" r="4.5" fill="${s.color}" stroke="white" stroke-width="2"/><text x="${xx+offset}" y="${yy-12}" text-anchor="${anchor}" font-size="12" font-weight="700" fill="#365f54">${label}</text>`;});
+ }
  mount.innerHTML=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${config.label||'Trend line chart'}">${content}</svg>`;
 }
 function setText(id,value){if(el(id))el(id).textContent=value;}
@@ -61,8 +63,8 @@ function renderScenarios(){
    return {month,targetRate,targetPrice,payment};
  });
  const todayPayment=arr[0].payment;
- el('scenarioList').innerHTML=arr.map(s=>{const delta=s.payment!==null&&todayPayment!==null?s.payment-todayPayment:null;const comparison=s.month===0?'Current baseline':delta===null?'Not enough data':Math.abs(delta)<1?'About the same':delta<0?`${money(Math.abs(delta))}/mo cheaper`:`${money(delta)}/mo more expensive`;return `<div class="scenario-item"><span>${s.month===0?'Today':`+${s.month} mo`}</span><div><div class="scenario-bar"><b style="width:${s.payment===null?0:Math.max(0,Math.min(100,s.payment/net*200))}%"></b></div><small>${s.month===0?'Observed Bank Rate':s.payment===null?'Missing OIS rate or local-price signal':`Model rate ${s.targetRate.toFixed(2)}%`}</small><small class="scenario-comparison ${delta===null?'':delta<0?'better':delta>0?'worse':''}">${comparison}</small></div><strong>${s.payment===null?'Not yet available':money(s.payment)}${s.payment!==null?`<small>${pct(s.payment/net*100)} of net</small>`:''}</strong></div>`}).join('');
- setText('forecastBasis',trend?`Illustrative house-price path: ${trend.source} (${trend.confidence}). Short-end OIS provides a market-implied rate proxy, not an actual mortgage quote.`:'Forward repayments are withheld until both the short-end OIS curve and a house-price trend are available.');
+ el('scenarioList').innerHTML=arr.map(s=>{const delta=s.payment!==null&&todayPayment!==null?s.payment-todayPayment:null;const comparison=s.month===0?'Current baseline':delta===null?'Not enough data':Math.abs(delta)<1?'About the same':delta<0?`${money(Math.abs(delta))}/mo cheaper`:`${money(delta)}/mo more expensive`;const houseScenario=s.month&&s.targetPrice!==null?`Illustrative house price ${money(s.targetPrice)} (${(100*(s.targetPrice/price-1)>=0?'+':'')}${(100*(s.targetPrice/price-1)).toFixed(1)}%)`:'';return `<div class="scenario-item"><span>${s.month===0?'Today':`+${s.month} mo`}</span><div><div class="scenario-bar"><b style="width:${s.payment===null?0:Math.max(0,Math.min(100,s.payment/net*200))}%"></b></div><small>${s.month===0?'Observed Bank Rate':s.payment===null?'Missing OIS rate or local-price signal':`Model rate ${s.targetRate.toFixed(2)}%`}</small>${houseScenario?`<small>${houseScenario}</small>`:''}<small class="scenario-comparison ${delta===null?'':delta<0?'better':delta>0?'worse':''}">${comparison}</small></div><strong>${s.payment===null?'Not yet available':money(s.payment)}${s.payment!==null?`<small>${pct(s.payment/net*100)} of net</small>`:''}</strong></div>`}).join('');
+ setText('forecastBasis',trend?`Illustrative, not a prediction: ${trend.source}. ${trend.confidence}. Assumes the same deposit percentage, mortgage term and household net income throughout. Rates are OIS-derived proxies + your spread, not lender offers. Stamp duty, fees and upkeep are excluded.`:'Forward repayments are withheld until both the short-end OIS curve and a house-price trend are available.');
 }
 function renderOverview(){if(!state)return;const net=householdNet(settings),rate=state.bankRate+Number(settings.spread),p=repayment(+settings.price,+settings.deposit,rate,+settings.term),share=net>0?p/net*100:0;
  setText('takehome',money(net));setText('mortgageRate',pct(rate));setText('repayment',money(p));setText('mortgageLabel',`${money(+settings.price)} example · ${settings.deposit}% deposit`);setText('affordability',pct(share));setText('affNote',`${money(net-p)} after mortgage`);setText('affDescription',`For a ${money(+settings.price)} property with a ${settings.deposit}% deposit, based on your estimated household take-home.`);
@@ -80,6 +82,7 @@ function renderOutlook(){const forecast=freshDate(state?.ois?.asOf,14)?(state?.o
  const validInflation=freshDate(gilt?.asOf,14)&&Number.isFinite(inflationRef?.rate);
  setText('breakeven',validInflation?pct(inflationRef.rate):'Not available');
  setText('breakevenLabel',validInflation?`Gilt-implied RPI proxy (${inflationRef.months/12}-year)`:'Gilt-implied RPI proxy (unavailable)');
+ setText('inflationCaveat',validInflation?'The figure is an RPI-linked market breakeven, not a forecast of household inflation or CPI.':'The importer has not recovered a validated usable inflation maturity. We are leaving this blank rather than substituting an invented forecast.');
  const guidance=state.guidance;const guidanceAge=guidance?.asOf?(Date.now()-Date.parse(guidance.asOf))/86400000:Infinity;setText('guidanceText',guidance&&guidanceAge<150?`${guidance.headline} (checked ${guidance.asOf}).`:'Fresh BoE guidance unavailable; see the official Monetary Policy Report.');
  const snaps=(state.snapshots||[]).filter(p=>Number.isFinite(p.medianPrice));makeChart('priceChart',snaps.length>1?[{color:'#81bfa4',points:snaps.map(p=>({x:Date.parse(p.date),y:p.medianPrice/1000}))}]:[],{empty:'Waiting for multiple real property-market snapshots. Collecting them twice weekly will reveal the direction of asking prices.',decimals:0,suffix:'k',label:'Median asking price of qualifying properties over recorded snapshots'});
  const trend=marketTrend();setText('trendNote',trend===null?`Recorded snapshots: ${snaps.length}. Awaiting data for a 3/6/12-month price scenario.`:`Price-change scenario: ${(trend.monthly*100).toFixed(2)}% per month · ${trend.source}. ${trend.confidence}. Clipped at ±2%/month to limit extremes.`);
@@ -90,14 +93,16 @@ function renderLocalSales(){
  const sold=state?.localSales;
  if(!sold||!freshDate(sold.asOf,75)){
    makeChart('localSalesChart',[],{empty:'Waiting for official CM12 completed-sale data. The first import can be larger than subsequent refreshes.'});
+   setText('localSalesSummary','A local completed-sales comparison is not available yet.');
    setText('localSalesNote','No validated local sold-price comparison yet. This is not a live listings feed.');
    return;
  }
  makeChart('localSalesChart',[{color:'#4f8d77',points:[
     {x:0,y:sold.previousMedianPrice/1000}, {x:1,y:sold.medianPrice/1000}]}],
-    {decimals:0,suffix:'k',ticks:[{x:0,label:'Same 6 months prior year'},
+    {decimals:0,suffix:'k',zeroBaseline:false,showValues:true,valuePrefix:'£',ticks:[{x:0,label:'Same 6 months prior year'},
                                 {x:1,label:`6 months to ${sold.periodEnd}`}],
      label:'Official local detached and semi-detached sold-price medians, year-on-year'});
+ const difference=sold.medianPrice-sold.previousMedianPrice;setText('localSalesSummary',`Median completed-sale price was ${money(Math.abs(difference))} ${difference<0?'lower':difference>0?'higher':'unchanged'} (${sold.annualChange>=0?'+':''}${sold.annualChange.toFixed(1)}%). Chart vertical scale is zoomed to show a small difference clearly.`);
  setText('localSalesNote',`${sold.scope} · ${sold.typeDescription}. ${money(sold.previousMedianPrice)} → ${money(sold.medianPrice)} (${sold.annualChange>=0?'+':''}${sold.annualChange.toFixed(1)}% year on year). ${sold.previousCount} prior / ${sold.count} recent sales; ${sold.bandSales} recent sales in the £450k–£600k band. ${sold.note}`);
 }
 function renderSourceHealth(){

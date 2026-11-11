@@ -34,7 +34,20 @@
     const principal=price*(1-depositPct/100),n=termYears*12,r=ratePct/1200;
     return r===0?principal/n:principal*r/(1-Math.pow(1+r,-n));
   }
-  const api={netMonthly,householdNet,repayment};
+  // Use a zero baseline for historical/rate charts, but make two comparable
+  // sold-price medians readable without claiming a massive price swing.
+  function chartBounds(values, options={}){
+    const valid=(Array.isArray(values)?values:[]).filter(Number.isFinite);
+    if(!valid.length) return null;
+    const min=Math.min(...valid),max=Math.max(...valid);
+    if(options.zeroBaseline!==false){
+      const lo=Math.min(0,min),hi=Math.max(0,max)*1.12;
+      return {lo,hi:hi<=lo?lo+1:hi};
+    }
+    const padding=Math.max((max-min)*0.85,Math.max(Math.abs(max),Math.abs(min),1)*0.025);
+    return {lo:Math.max(0,min-padding),hi:max+padding};
+  }
+  const api={netMonthly,householdNet,repayment,chartBounds};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   root.HouseMath=api;
 })(typeof window!=='undefined'?window:globalThis);
