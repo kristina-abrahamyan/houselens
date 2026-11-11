@@ -1,10 +1,514 @@
 {
-  "asOf": "2026-11-11T00:00:00Z",
-  "lastRun": null,
-  "status": "REFERENCE_RATE_ONLY",
+  "asOf": "2026-11-11T22:55:22Z",
+  "lastRun": "2026-11-11T22:55:22Z",
+  "status": "PARTIAL",
   "bankRate": 4.0,
-  "bankRateAsOf": "2026-11-05",
+  "bankRateAsOf": "2026-11-10",
   "history": [
+    {
+      "date": "1984-01-03",
+      "rate": 9.0625
+    },
+    {
+      "date": "1984-03-07",
+      "rate": 8.8125
+    },
+    {
+      "date": "1984-03-14",
+      "rate": 8.5625
+    },
+    {
+      "date": "1984-05-10",
+      "rate": 9.0625
+    },
+    {
+      "date": "1984-06-29",
+      "rate": 8.875
+    },
+    {
+      "date": "1984-07-06",
+      "rate": 10.0
+    },
+    {
+      "date": "1984-07-11",
+      "rate": 12.0
+    },
+    {
+      "date": "1984-08-08",
+      "rate": 11.5
+    },
+    {
+      "date": "1984-08-09",
+      "rate": 11.0
+    },
+    {
+      "date": "1984-08-16",
+      "rate": 10.75
+    },
+    {
+      "date": "1984-08-17",
+      "rate": 10.5
+    },
+    {
+      "date": "1984-11-05",
+      "rate": 10.0
+    },
+    {
+      "date": "1984-11-19",
+      "rate": 9.75
+    },
+    {
+      "date": "1984-11-23",
+      "rate": 9.5
+    },
+    {
+      "date": "1985-01-14",
+      "rate": 11.875
+    },
+    {
+      "date": "1985-01-28",
+      "rate": 13.875
+    },
+    {
+      "date": "1985-03-20",
+      "rate": 13.375
+    },
+    {
+      "date": "1985-03-28",
+      "rate": 12.875
+    },
+    {
+      "date": "1985-04-19",
+      "rate": 12.375
+    },
+    {
+      "date": "1985-07-11",
+      "rate": 11.875
+    },
+    {
+      "date": "1985-07-26",
+      "rate": 11.375
+    },
+    {
+      "date": "1986-01-15",
+      "rate": 12.375
+    },
+    {
+      "date": "1986-03-19",
+      "rate": 11.375
+    },
+    {
+      "date": "1986-04-11",
+      "rate": 10.875
+    },
+    {
+      "date": "1986-04-18",
+      "rate": 10.375
+    },
+    {
+      "date": "1986-05-23",
+      "rate": 9.875
+    },
+    {
+      "date": "1986-10-15",
+      "rate": 10.875
+    },
+    {
+      "date": "1987-03-09",
+      "rate": 10.375
+    },
+    {
+      "date": "1987-03-18",
+      "rate": 9.875
+    },
+    {
+      "date": "1987-04-28",
+      "rate": 9.375
+    },
+    {
+      "date": "1987-05-08",
+      "rate": 8.875
+    },
+    {
+      "date": "1987-08-06",
+      "rate": 9.875
+    },
+    {
+      "date": "1987-10-23",
+      "rate": 9.375
+    },
+    {
+      "date": "1987-11-04",
+      "rate": 8.875
+    },
+    {
+      "date": "1987-12-03",
+      "rate": 8.375
+    },
+    {
+      "date": "1988-02-01",
+      "rate": 8.875
+    },
+    {
+      "date": "1988-03-17",
+      "rate": 8.375
+    },
+    {
+      "date": "1988-04-08",
+      "rate": 7.875
+    },
+    {
+      "date": "1988-05-17",
+      "rate": 7.375
+    },
+    {
+      "date": "1988-06-03",
+      "rate": 7.875
+    },
+    {
+      "date": "1988-06-10",
+      "rate": 8.375
+    },
+    {
+      "date": "1988-06-24",
+      "rate": 8.875
+    },
+    {
+      "date": "1988-07-07",
+      "rate": 9.875
+    },
+    {
+      "date": "1988-07-21",
+      "rate": 10.375
+    },
+    {
+      "date": "1988-08-08",
+      "rate": 10.875
+    },
+    {
+      "date": "1988-08-25",
+      "rate": 11.875
+    },
+    {
+      "date": "1988-11-25",
+      "rate": 12.875
+    },
+    {
+      "date": "1989-05-25",
+      "rate": 13.75
+    },
+    {
+      "date": "1989-08-31",
+      "rate": 13.8438
+    },
+    {
+      "date": "1989-09-04",
+      "rate": 13.875
+    },
+    {
+      "date": "1989-09-08",
+      "rate": 13.75
+    },
+    {
+      "date": "1989-10-06",
+      "rate": 14.875
+    },
+    {
+      "date": "1990-10-08",
+      "rate": 13.875
+    },
+    {
+      "date": "1991-02-13",
+      "rate": 13.375
+    },
+    {
+      "date": "1991-02-27",
+      "rate": 12.875
+    },
+    {
+      "date": "1991-03-22",
+      "rate": 12.375
+    },
+    {
+      "date": "1991-04-12",
+      "rate": 11.875
+    },
+    {
+      "date": "1991-05-24",
+      "rate": 11.375
+    },
+    {
+      "date": "1991-07-12",
+      "rate": 10.875
+    },
+    {
+      "date": "1991-09-04",
+      "rate": 10.375
+    },
+    {
+      "date": "1992-05-05",
+      "rate": 9.875
+    },
+    {
+      "date": "1992-09-22",
+      "rate": 8.875
+    },
+    {
+      "date": "1992-10-16",
+      "rate": 7.875
+    },
+    {
+      "date": "1992-11-13",
+      "rate": 6.875
+    },
+    {
+      "date": "1993-01-26",
+      "rate": 5.875
+    },
+    {
+      "date": "1993-11-23",
+      "rate": 5.375
+    },
+    {
+      "date": "1994-02-08",
+      "rate": 5.125
+    },
+    {
+      "date": "1994-09-12",
+      "rate": 5.625
+    },
+    {
+      "date": "1994-12-07",
+      "rate": 6.125
+    },
+    {
+      "date": "1995-02-02",
+      "rate": 6.625
+    },
+    {
+      "date": "1995-12-13",
+      "rate": 6.375
+    },
+    {
+      "date": "1996-01-18",
+      "rate": 6.125
+    },
+    {
+      "date": "1996-03-08",
+      "rate": 5.9375
+    },
+    {
+      "date": "1996-06-06",
+      "rate": 5.6875
+    },
+    {
+      "date": "1996-10-30",
+      "rate": 5.9375
+    },
+    {
+      "date": "1997-05-06",
+      "rate": 6.25
+    },
+    {
+      "date": "1997-06-06",
+      "rate": 6.5
+    },
+    {
+      "date": "1997-07-10",
+      "rate": 6.75
+    },
+    {
+      "date": "1997-08-07",
+      "rate": 7.0
+    },
+    {
+      "date": "1997-11-06",
+      "rate": 7.25
+    },
+    {
+      "date": "1998-06-04",
+      "rate": 7.5
+    },
+    {
+      "date": "1998-10-08",
+      "rate": 7.25
+    },
+    {
+      "date": "1998-11-05",
+      "rate": 6.75
+    },
+    {
+      "date": "1998-12-10",
+      "rate": 6.25
+    },
+    {
+      "date": "1999-01-07",
+      "rate": 6.0
+    },
+    {
+      "date": "1999-02-04",
+      "rate": 5.5
+    },
+    {
+      "date": "1999-04-08",
+      "rate": 5.25
+    },
+    {
+      "date": "1999-06-10",
+      "rate": 5.0
+    },
+    {
+      "date": "1999-09-08",
+      "rate": 5.25
+    },
+    {
+      "date": "1999-11-04",
+      "rate": 5.5
+    },
+    {
+      "date": "2000-01-13",
+      "rate": 5.75
+    },
+    {
+      "date": "2000-02-10",
+      "rate": 6.0
+    },
+    {
+      "date": "2001-02-08",
+      "rate": 5.75
+    },
+    {
+      "date": "2001-04-05",
+      "rate": 5.5
+    },
+    {
+      "date": "2001-05-10",
+      "rate": 5.25
+    },
+    {
+      "date": "2001-08-02",
+      "rate": 5.0
+    },
+    {
+      "date": "2001-09-18",
+      "rate": 4.75
+    },
+    {
+      "date": "2001-10-04",
+      "rate": 4.5
+    },
+    {
+      "date": "2001-11-08",
+      "rate": 4.0
+    },
+    {
+      "date": "2003-02-06",
+      "rate": 3.75
+    },
+    {
+      "date": "2003-07-10",
+      "rate": 3.5
+    },
+    {
+      "date": "2003-11-06",
+      "rate": 3.75
+    },
+    {
+      "date": "2004-02-05",
+      "rate": 4.0
+    },
+    {
+      "date": "2004-05-06",
+      "rate": 4.25
+    },
+    {
+      "date": "2004-06-10",
+      "rate": 4.5
+    },
+    {
+      "date": "2004-08-05",
+      "rate": 4.75
+    },
+    {
+      "date": "2005-08-04",
+      "rate": 4.5
+    },
+    {
+      "date": "2006-08-03",
+      "rate": 4.75
+    },
+    {
+      "date": "2006-11-09",
+      "rate": 5.0
+    },
+    {
+      "date": "2007-01-11",
+      "rate": 5.25
+    },
+    {
+      "date": "2007-05-10",
+      "rate": 5.5
+    },
+    {
+      "date": "2007-07-05",
+      "rate": 5.75
+    },
+    {
+      "date": "2007-12-06",
+      "rate": 5.5
+    },
+    {
+      "date": "2008-02-07",
+      "rate": 5.25
+    },
+    {
+      "date": "2008-04-10",
+      "rate": 5.0
+    },
+    {
+      "date": "2008-10-08",
+      "rate": 4.5
+    },
+    {
+      "date": "2008-11-06",
+      "rate": 3.0
+    },
+    {
+      "date": "2008-12-04",
+      "rate": 2.0
+    },
+    {
+      "date": "2009-01-08",
+      "rate": 1.5
+    },
+    {
+      "date": "2009-02-05",
+      "rate": 1.0
+    },
+    {
+      "date": "2009-03-05",
+      "rate": 0.5
+    },
+    {
+      "date": "2016-08-04",
+      "rate": 0.25
+    },
+    {
+      "date": "2017-11-02",
+      "rate": 0.5
+    },
+    {
+      "date": "2018-08-02",
+      "rate": 0.75
+    },
+    {
+      "date": "2020-03-11",
+      "rate": 0.25
+    },
+    {
+      "date": "2020-03-19",
+      "rate": 0.1
+    },
     {
       "date": "2021-12-16",
       "rate": 0.25
@@ -95,29 +599,78 @@
     "forecast": []
   },
   "gilts": {
-    "asOf": null,
+    "asOf": "2026-11-10",
     "rpiBreakeven": null,
-    "curve": []
+    "curve": [
+      {
+        "months": 30,
+        "rate": 3.6165
+      },
+      {
+        "months": 36,
+        "rate": 3.5286
+      },
+      {
+        "months": 42,
+        "rate": 3.4584
+      },
+      {
+        "months": 48,
+        "rate": 3.3994
+      },
+      {
+        "months": 54,
+        "rate": 3.3487
+      },
+      {
+        "months": 60,
+        "rate": 3.3052
+      }
+    ],
+    "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
   },
   "guidance": {
-    "asOf": "2026-11-05",
-    "headline": "Bank of England expects inflation to reach about 5% by mid-2027 (November 2026 guidance)",
+    "asOf": "2026-11-11",
+    "headline": "Inflation is expected to reach about 5% by mid-2027 We’ve raised Bank Rate to reduce how much rising energy costs affect other prices",
     "url": "https://www.bankofengland.co.uk/monetary-policy/the-interest-rate-bank-rate",
-    "note": "This is an official qualitative projection, not a market-implied CPI path."
+    "note": "Extracted from official BoE explanation; checked on retrieval date"
   },
   "listings": [],
   "snapshots": [],
   "sources": {
-    "bankRate": "Last manually verified against Bank of England on 11 Nov 2026; automatic data refresh not yet run",
+    "bankRate": "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp",
     "ois": "Not yet collected",
-    "gilts": "Not yet collected",
-    "listings": "Not configured: add GitHub secret PROPERTYDATA_API_KEY"
+    "gilts": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip",
+    "listings": "Not configured: add GitHub secret PROPERTYDATA_API_KEY",
+    "hpi": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-prices-2026-08.csv"
   },
-  "errors": [],
+  "errors": [
+    "Yield curves: OIS forwards: OIS curve missing one or more of 3, 6, 12 month tenors"
+  ],
   "listingsAsOf": null,
-  "lastAttempt": null,
-  "hpi": null,
-  "hpiHistory": [],
+  "lastAttempt": "2026-11-11T22:55:22Z",
+  "hpi": {
+    "date": "2026-08",
+    "averagePrice": 366218,
+    "annualChange": 0.4,
+    "monthlyChange": 0.1,
+    "area": "Basildon local authority",
+    "sourceUrl": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-prices-2026-08.csv"
+  },
+  "hpiHistory": [
+    {
+      "date": "2026-08",
+      "averagePrice": 366218
+    }
+  ],
   "listingCoverage": null,
-  "runResults": []
+  "runResults": [
+    "Bank Rate",
+    "SONIA",
+    "Yield curves",
+    "BoE guidance",
+    "Basildon HPI"
+  ],
+  "soniaRate": 3.9842,
+  "soniaAsOf": "2026-11-09"
 }
