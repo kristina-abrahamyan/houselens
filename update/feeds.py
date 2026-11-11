@@ -102,8 +102,9 @@ def _excel_row_date(v):
 def parse_curve_zip(content: bytes, filename_token: str, sheet_pattern: str, *, required_months=()):
     """Return (as-of date, {months: percentage-rate}) from the BoE *latest* ZIP.
 
-    Parsing follows the published workbook layout: maturities in years on row
-    3-6 and observations 2 rows below. We check the actual workbook/headers.
+    The published workbook can contain adjacent months and years headers.
+    We select explicitly labelled maturity units and validate their grid.
+    Observations start two rows after the maturity header.
     For required short-end tenors, use the newest sufficiently complete dated
     observation; individual tenors may be absent on the latest trading day.
     """
@@ -122,30 +123,53 @@ def parse_curve_zip(content: bytes, filename_token: str, sheet_pattern: str, *, 
         if not sheets:
             raise ValueError(f'BoE {filename_token}: requested sheet not published ({wb.sheetnames})')
         rows = list(wb[sheets[0]].iter_rows(values_only=True))
-        mat_idx = None
-        for i in range(2, min(7, len(rows))):
-            vals = []
-            for v in rows[i][1:]:
+        # The BoE workbook often has TWO numerical maturity header rows:
+        # "months:" (1, 2, 3, ...) and "years:" (1/12, 2/12, 3/12, ...).
+        # The first numerical row is NOT necessarily denominated in years.
+        # Reading months as years silently maps a 1-month rate to 12 months,
+        # and loses the 3- and 6-month forecasts. Prefer an explicitly
+        # labelled years header, then months, then a clearly fractional grid.
+        candidates = []
+        for row_idx in range(2, min(7, len(rows))):
+            row = rows[row_idx]
+            numeric = []
+            for col_idx, value in enumerate(row[1:], 1):
                 try:
-                    num = float(v)
+                    num = float(value)
                 except (TypeError, ValueError):
                     continue
-                if 0 < num <= 45:
-                    vals.append(num)
-            if len(vals) >= 5 and all(a <= b for a,b in zip(vals, vals[1:])):
-                mat_idx = i
-                break
-        if mat_idx is None:
-            raise ValueError('BoE yield file maturity header not found')
-        columns = {}
-        for i, value in enumerate(rows[mat_idx][1:], 1):
-            try:
-                yr = float(value)
-            except (ValueError, TypeError):
+                if math.isfinite(num) and num > 0:
+                    numeric.append((col_idx, num))
+            if len(numeric) < 5:
                 continue
-            months = round(yr * 12)
-            if months > 0 and months <= 480 and abs(months - yr * 12) < .15:
-                columns[i] = months
+            if any(a[1] > b[1] for a, b in zip(numeric, numeric[1:])):
+                continue
+            header = str(row[0] or '').strip().casefold()
+            if 'year' in header:
+                unit, priority = 'years', 3
+            elif 'month' in header:
+                unit, priority = 'months', 2
+            elif numeric[0][1] < 0.5 and numeric[1][1] < 1:
+                # Unlabelled short-end fractional years, e.g. 0.08333, 0.16667.
+                unit, priority = 'years', 1
+            elif numeric[0][1] >= 0.5 and numeric[0][1] <= 5 and numeric[1][1] <= 5:
+                # Legacy standard curves begin at 0.5, 1.0 years.
+                unit, priority = 'years', 1
+            else:
+                continue  # ambiguous; don't silently assign incorrect tenors
+            columns_candidate = {}
+            for col_idx, number in numeric:
+                raw_months = number * 12 if unit == 'years' else number
+                months = round(raw_months)
+                if 0 < months <= 480 and abs(months - raw_months) < .15:
+                    columns_candidate[col_idx] = months
+            if len(columns_candidate) >= 5:
+                candidates.append((priority, row_idx, columns_candidate))
+        if not candidates:
+            raise ValueError('BoE yield file maturity header not found or ambiguous')
+        # Explicitly labelled "years:" outranks any adjacent "months:" row.
+        # In equal-priority layouts the later header wins (modern row 4).
+        _, mat_idx, columns = max(candidates, key=lambda x: (x[0], x[1]))
         candidates = []
         for row in rows[mat_idx + 2:]:
             date = _excel_row_date(row[0]) if row else None

@@ -67,6 +67,31 @@ class ParsingTests(unittest.TestCase):
         self.assertAlmostEqual(curves['ois']['forecast'][0]['rate'],3.75)
         self.assertAlmostEqual(curves['gilts']['rpiBreakeven'],3.8)
 
+    def test_boe_short_end_months_row_precedes_years_row(self):
+        # Actual BoE layout: month numbers followed by fractional YEAR values.
+        # A parser selecting the first numeric header would turn 1m into 12m.
+        buff = io.BytesIO()
+        wb = Workbook()
+        ws = wb.active
+        ws.title = '1. fwds, short end'
+        ws.append(['Bank of England'])
+        ws.append(['Interest rate forwards'])
+        ws.append(['months:', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+        ws.append(['years:'] + [m / 12 for m in range(1, 13)])
+        ws.append(['units: percent'])
+        ws.append([dt.datetime(2026, 11, 10)] + [4.0 + m / 100 for m in range(1, 13)])
+        excel = io.BytesIO()
+        wb.save(excel)
+        with zipfile.ZipFile(buff, 'w') as archive:
+            archive.writestr('OIS daily data current month.xlsx', excel.getvalue())
+        date, curve = feeds.parse_curve_zip(
+            buff.getvalue(), 'OIS', r'fwds?,?\s*short end$',
+            required_months=(3, 6, 12))
+        self.assertEqual(date, '2026-11-10')
+        self.assertAlmostEqual(curve[3], 4.03)
+        self.assertAlmostEqual(curve[6], 4.06)
+        self.assertAlmostEqual(curve[12], 4.12)
+
     def test_ois_uses_recent_complete_observation_without_extrapolating(self):
         def make_zip(latest, earlier):
             output = io.BytesIO()
