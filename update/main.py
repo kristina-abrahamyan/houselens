@@ -7,7 +7,7 @@ import os
 import sys
 from pathlib import Path
 from statistics import median
-from update import feeds, local_sales
+from update import feeds, local_sales, free_listings
 
 STATE_PATH = Path(__file__).resolve().parents[1] / 'web' / 'data' / 'state.json'
 
@@ -66,34 +66,40 @@ def refresh(state, *, now=None, adapters=feeds):
             state['localSalesDataset'] = sales['dataset']
             state['localSales'] = sales['summary']
             state.setdefault('sources', {})['localSales'] = sales['summary']['sourceUrl']
-    key = os.environ.get('PROPERTYDATA_API_KEY', '')
+    # Opt-in free provider. Fetch a broad Billericay inventory; the website
+    # filters the collected stock locally, with an optional on-demand refresh.
+    # Its key must be a secret and must never be included in state.json.
+    key = os.environ.get('UNTERA_API_KEY', '')
     if key:
-        feed = run('PropertyData listings', lambda: adapters.get_properties(key))
+        feed = run('Untera house listings', lambda: free_listings.get_untera_listings(key))
         if feed:
             state['listings'] = feed['listings']
             state['listingsAsOf'] = timestamp
-            state['listingCoverage'] = {'sampleSize': feed['sampleSize'], 'note': feed['coverageNote']}
-            state['sources']['listings'] = feed['sourceUrl']
-            listings = feed['listings']
-            # Permanent dated historical observations permitted by provider licensing.
-            # Never present them as current property availability.
-            if listings:
-                snapshot = {'date': now.date().isoformat(), 'observedAt': timestamp,
-                            'count': len(listings), 'medianPrice': int(median(p['price'] for p in listings)),
-                            'properties': [{'id':p['id'], 'price':p['price']} for p in listings]}
-                old = [s for s in state.get('snapshots', []) if s.get('date') != snapshot['date']]
-                state['snapshots'] = (old + [snapshot])[-350:]
+            state['listingProvider'] = 'Untera'
+            state['listingCoverage'] = {'sampleSize':feed['sampleSize'],
+                'note':feed['coverageNote'], 'pages':feed['pages']}
+            state.setdefault('sources', {})['listings'] = feed['sourceUrl']
+            # Trend snapshots contain ONLY verified properties meeting the
+            # baseline criteria (not unknown locations or broad Billericay).
+            matches=free_listings.strict_default_matches(feed['listings'])
+            if len(matches)>=3:
+                snapshot={'date':now.date().isoformat(),'observedAt':timestamp,
+                          'count':len(matches),'medianPrice':int(median(p['price'] for p in matches)),
+                          'scope':'verified station radius, default filters',
+                          'properties':[{'id':p['id'],'price':p['price']} for p in matches]}
+                old=[s for s in state.get('snapshots',[]) if s.get('date')!=snapshot['date']]
+                state['snapshots']=(old+[snapshot])[-350:]
     else:
-        state['sources']['listings'] = 'Not configured: add GitHub secret PROPERTYDATA_API_KEY'
-    # Prevent a provider outage from making a 60+ day-old listing appear active.
+        state.setdefault('sources', {})['listings'] = 'Not configured: free UNTERA_API_KEY GitHub secret'
+    # Never label old listings as currently for sale after a failed refresh.
     if state.get('listingsAsOf'):
         try:
-            age = (now - dt.datetime.fromisoformat(state['listingsAsOf'].replace('Z', '+00:00'))).days
-            if age >= 60:
-                state['listings'] = []
-                errs.append('PropertyData listings expired after 60-day provider caching limit')
-        except (TypeError, ValueError):
-            state['listings'] = []
+            age=(now-dt.datetime.fromisoformat(state['listingsAsOf'].replace('Z','+00:00'))).total_seconds()/86400
+            if age>7:
+                state['listings']=[]
+                errs.append('Property listing snapshot is older than 7 days: shown as unavailable')
+        except (TypeError,ValueError):
+            state['listings']=[]
     state['lastRun'] = timestamp if successful else state.get('lastRun')
     state['status'] = 'UPDATED' if not errs else ('PARTIAL' if successful else 'ERROR')
     state['errors'] = errs

@@ -4,6 +4,13 @@ const pct=v=>Number.isFinite(v)?`${v.toFixed(1)}%`:'—';
 const money=v=>Number.isFinite(v)?GBP.format(v):'—';
 const el=id=>document.getElementById(id);
 let state=null,settings={...DEFAULTS},rateRange='5';
+const listingLib=window.HouseListings;
+let propertyFilters={...listingLib.DEFAULT_FILTERS};
+let liveSearchResult=null;
+let localApiKey='';
+try{const f=JSON.parse(localStorage.getItem('houselens-property-filters')||'null');if(f)propertyFilters=listingLib.validateFilters(f);}catch{}
+try{localApiKey=localStorage.getItem('houselens-untera-key')||'';}catch{}
+
 try{const saved=JSON.parse(localStorage.getItem('houselens-settings')||'{}');settings={...settings,...saved};}catch{}
 
 const {netMonthly,householdNet,repayment,chartBounds}=window.HouseMath;
@@ -69,13 +76,63 @@ function renderScenarios(){
 function renderOverview(){if(!state)return;const net=householdNet(settings),rate=state.bankRate+Number(settings.spread),p=repayment(+settings.price,+settings.deposit,rate,+settings.term),share=net>0?p/net*100:0;
  setText('takehome',money(net));setText('mortgageRate',pct(rate));setText('repayment',money(p));setText('mortgageLabel',`${money(+settings.price)} example · ${settings.deposit}% deposit`);setText('affordability',pct(share));setText('affNote',`${money(net-p)} after mortgage`);setText('affDescription',`For a ${money(+settings.price)} property with a ${settings.deposit}% deposit, based on your estimated household take-home.`);
  setText('donutNumber',pct(share));setText('mortgageShare',money(p));setText('remaining',money(net-p));el('donut').style.background=`conic-gradient(#e3a08f 0 ${Math.max(0,Math.min(100,share))}%,#b9e7c7 ${Math.max(0,Math.min(100,share))}% 100%)`;
- setText('criteriaCount',state.listings.length?`${state.listings.length} qualifying matches in collected sample`:'No live properties yet · feed not connected');
+ 
  renderBankChart();renderScenarios();renderOutlook();
 }
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function renderListings(){const age=state.listingsAsOf?(Date.now()-Date.parse(state.listingsAsOf))/86400000:Infinity;const properties=age<60?(state.listings||[]):[],net=householdNet(settings),rate=state.bankRate+Number(settings.spread);
- el('listingsAlert').hidden=properties.length>0;setText('listingSummary',properties.length?`${properties.length} matches in provider sample · observed ${state.listingsAsOf?.slice(0,10)} (not necessarily all available homes)`:'No current qualifying listings in a connected sample yet, or the feed needs refreshing.');
- el('properties').innerHTML=properties.map(p=>{const payment=repayment(p.price,+settings.deposit,rate,+settings.term),safe=typeof p.url==='string'&&/^https:\/\//.test(p.url)?p.url:null;return `<article class="property"><div class="property-top"><div><div class="type">${escapeHtml(p.type)} · ${escapeHtml(p.bedrooms)}+ beds</div><h3>${escapeHtml(p.address||'Address withheld by portal')}</h3></div><span class="chip">${escapeHtml(p.distanceMiles.toFixed(2))} mi</span></div><p>${money(p.price)} asking price · ${escapeHtml(p.portal||'Property feed')}</p><div class="property-stats"><div><small>Model repayment</small><strong>${money(payment)}/mo</strong></div><div><small>Of take-home</small><strong>${pct(payment/net*100)}</strong></div></div>${safe?`<a href="${escapeHtml(safe)}" target="_blank" rel="noopener noreferrer">View original listing ↗</a>`:''}</article>`}).join('');}
+function currentListingFeed(){
+ if(liveSearchResult)return {listings:liveSearchResult.listings,at:liveSearchResult.at,origin:'Fresh search',pages:liveSearchResult.pages,truncated:liveSearchResult.truncated};
+ const age=state?.listingsAsOf?(Date.now()-Date.parse(state.listingsAsOf))/86400000:Infinity;
+ return {listings:age>=0&&age<=7?(state?.listings||[]):[],at:state?.listingsAsOf,origin:'Scheduled snapshot',pages:state?.listingCoverage?.pages,truncated:false,stale:age>7};
+}
+function filterSummary(){const f=propertyFilters;return `${money(f.minPrice)}–${money(f.maxPrice)} · ${f.minBeds}+ beds · within ${f.maxMiles} miles`}
+function listingCard(p,unverified,net,rate){
+ const payment=repayment(p.price,+settings.deposit,rate,+settings.term);
+ const safe=typeof p.url==='string'&&/^https:\/\/[^\s"<>]+$/.test(p.url)?p.url:null;
+ return `<article class="property"><div class="property-top"><div><div class="type">${escapeHtml(p.type)} · ${escapeHtml(p.bedrooms)} beds</div><h3>${escapeHtml(p.address||'Address not provided')}</h3></div><span class="chip ${unverified?'unverified-chip':''}">${unverified?'Distance unverified':`${p.distanceMiles.toFixed(2)} mi`}</span></div><p>${money(p.price)} asking price</p><div class="property-stats"><div><small>Model repayment</small><strong>${money(payment)}/mo</strong></div><div><small>Of take-home pay</small><strong>${pct(payment/net*100)}</strong></div></div>${unverified?'<p class="property-footnote">Not confirmed within the station radius</p>':''}${safe?`<a href="${escapeHtml(safe)}" target="_blank" rel="noopener noreferrer">View original listing ↗</a>`:''}</article>`;
+}
+function renderListings(){
+ const feed=currentListingFeed(),net=householdNet(settings),rate=state.bankRate+Number(settings.spread),results=listingLib.sortMatches(feed.listings,propertyFilters);
+ const hasFeed=!!feed.at&&!feed.stale;el('listingsAlert').hidden=hasFeed;
+ if(!hasFeed){const title=el('listingsAlert').querySelector('strong'),note=el('listingsAlert').querySelector('span');if(title)title.textContent=feed.stale?'Saved listings are out of date.':'No current listings connected yet.';if(note)note.textContent=feed.stale?'The last listing snapshot is more than 7 days old. Search now or check the scheduled workflow; stale listings are hidden.':'The free provider needs a one-time API key; Bank of England and Land Registry updates continue without it.';}
+ const searched=feed.listings.length;
+ const coverage=state?.listingCoverage?.note||'This is a provider sample; some houses may be absent.';
+ setText('listingDate',feed.at?`${feed.origin.toUpperCase()} · ${feed.at.slice(0,10)}`:'PROPERTY FEED');
+ setText('listingSummary',`${results.verified.length} confirmed within radius · ${results.unverified.length} possible without verified coordinates · ${searched} supported listings in ${feed.origin.toLowerCase()}. ${filterSummary()}. ${feed.truncated?'Search limited to '+feed.pages+' pages. ':''}${feed.stale?'Scheduled results expired. ':''}${coverage}`);
+ el('properties').innerHTML=results.verified.length?results.verified.map(p=>listingCard(p,false,net,rate)).join(''):'<div class="chart-empty property-empty">No verified matches in this feed for these filters. That does not mean there are no homes on the market.</div>';
+ el('unverifiedBlock').hidden=!results.unverified.length;
+ el('unverifiedProperties').innerHTML=results.unverified.map(p=>listingCard(p,true,net,rate)).join('');
+ el('attribution').hidden=!hasFeed;
+ const f=propertyFilters;
+ const inputs={filterMinPrice:f.minPrice,filterMaxPrice:f.maxPrice,filterBeds:f.minBeds,filterMiles:f.maxMiles};
+ for(const [id,value] of Object.entries(inputs)){if(document.activeElement!==el(id))el(id).value=value;}
+ el('filterDetached').checked=f.detached;el('filterSemi').checked=f.semi;el('filterEndTerrace').checked=f.endTerrace;
+ setText('criteriaDistance',`Within ${f.maxMiles} miles`);
+ setText('criteriaBudget',`${money(f.minPrice)}–${money(f.maxPrice)}`);
+ setText('criteriaBeds',`${f.minBeds}+ bedrooms`);
+ setText('criteriaCount',hasFeed?`${results.verified.length} verified matches · ${results.unverified.length} need location checks`:'No live listings connected yet · change filters in Properties');el('providerCredit').hidden=!hasFeed;
+}
+function readFilters(){return listingLib.validateFilters({minPrice:el('filterMinPrice').value,maxPrice:el('filterMaxPrice').value,minBeds:el('filterBeds').value,maxMiles:el('filterMiles').value,detached:el('filterDetached').checked,semi:el('filterSemi').checked,endTerrace:el('filterEndTerrace').checked});}
+function saveFilters(){
+ try{propertyFilters=readFilters();localStorage.setItem('houselens-property-filters',JSON.stringify(propertyFilters));setText('filterMessage','Filters applied. Search results have been recalculated from the latest available listings.');el('filterMessage').className='field-note success';renderListings();}
+ catch(err){setText('filterMessage',err.message);el('filterMessage').className='field-note error';}
+}
+async function runFreshSearch(){
+ saveFilters(); if(el('filterMessage').classList.contains('error'))return;
+ const key=el('freeApiKey').value.trim()||localApiKey;
+ if(!key){setText('providerStatus','Get a free key from Untera and paste it here first.');el('providerStatus').className='field-note error';return;}
+ const button=el('searchLive');button.disabled=true;button.textContent='Searching…';
+ setText('providerStatus','Contacting Untera for current Billericay listings (may take several requests)…');el('providerStatus').className='field-note';
+ try{
+   const result=await listingLib.searchFresh(key);
+   liveSearchResult=result;
+   localApiKey=key;
+   try{localStorage.setItem('houselens-untera-key',key);}catch{}
+   setText('providerStatus',`Search complete: ${result.listings.length} supported houses in the provider sample; ${result.pages} request(s). Your key was saved only on this device.`);
+   el('providerStatus').className='field-note success';renderListings();
+ }catch(err){setText('providerStatus',`Search failed: ${err.message}. Existing snapshots remain available.`);el('providerStatus').className='field-note error';}
+ finally{button.disabled=false;button.textContent='Search now';}
+}
 function renderOutlook(){const forecast=freshDate(state?.ois?.asOf,14)?(state?.ois?.forecast||[]):[],observations=[{months:0,rate:state.bankRate},...forecast.filter(p=>Number.isFinite(p.rate))];makeChart('oisChart',forecast.length?[{color:'#88bb9f',points:observations.map(p=>({x:p.months,y:p.rate}))}]:[],{empty:'Market-implied forecasts are not yet available. Run the scheduled BoE data updater.',ticks:[{x:0,label:'Now'},{x:3,label:'3 months'},{x:6,label:'6 months'},{x:12,label:'12 months'}],suffix:'%',label:'Short-end OIS forward interest rate path'});
  setText('oisDate',state.ois.asOf?`AS OF ${state.ois.asOf}`:'SONIA OIS');setText('oisNote',forecast.length?'These are short-end OIS instantaneous forwards, not guaranteed future Bank Rate decisions.':'Awaiting the Bank of England yield-curve archive.');
  const gilt=state?.gilts, inflationRef=gilt?.inflationReference || (Number.isFinite(gilt?.rpiBreakeven)?{months:12,rate:gilt.rpiBreakeven}:null);
@@ -113,7 +170,7 @@ function renderSourceHealth(){
    ['Gilt-implied inflation',gilt?.asOf,14,'Bank of England yield curves',Number.isFinite(inf?.rate)],
    ['CM12 completed sales',state?.localSales?.asOf,75,'HM Land Registry Price Paid Data',Number.isFinite(state?.localSales?.annualChange)],
    ['Broad-area house prices',state?.hpi?.date?state.hpi.date+'-01':null,125,'HM Land Registry (Basildon LA)',Number.isFinite(state?.hpi?.averagePrice)],
-   ['Qualifying property listings',state?.listingsAsOf,60,'Optional licensed PropertyData sample',!!state?.listingsAsOf]
+   ['Qualifying property listings',state?.listingsAsOf,7, 'Untera free provider · saved sample',!!state?.listingsAsOf]
  ];
  el('sourceHealth').innerHTML=items.map(([name,date,age,provider,usable])=>{
     const ok=usable&&freshDate(date,age);
@@ -122,10 +179,16 @@ function renderSourceHealth(){
  }).join('');
 }
 function renderSettings(){for(const [k,v] of Object.entries(settings)){const field=document.querySelector(`[data-setting="${k}"]`);if(field)field.value=v;}const rate=state.bankRate+Number(settings.spread),loan=+settings.price*(1-+settings.deposit/100),p=repayment(+settings.price,+settings.deposit,rate,+settings.term);el('mortgageBreakdown').innerHTML=`House price <strong>${money(+settings.price)}</strong><br>Deposit <strong>${money(+settings.price*settings.deposit/100)}</strong><br>Mortgage balance <strong>${money(loan)}</strong><br>Estimated repayment <strong>${money(p)} / month</strong>`;}
-function render(){if(!state)return;const d=state.lastRun?new Date(state.lastRun).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'Not yet scheduled';setText('date-label',`SNAPSHOT · ${d.toUpperCase()}`);setText('freshness',state.lastRun?`Updated ${d}`:'Awaiting live setup');el('freshness').classList.toggle('warning',!state.lastRun||!state.listings.length);el('setupAlert').hidden=!!state.listings.length;setText('dataHealth',state.errors?.length?`${state.errors.length} source warning(s) · check data freshness in the outlook`:'');renderOverview();renderListings();renderSettings();}
+function render(){if(!state)return;const d=state.lastRun?new Date(state.lastRun).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'Not yet scheduled';setText('date-label',`SNAPSHOT · ${d.toUpperCase()}`);setText('freshness',state.lastRun?`Updated ${d}`:'Awaiting live setup');el('freshness').classList.toggle('warning',!state.lastRun);el('setupAlert').hidden=!!liveSearchResult||!!(state.listingsAsOf&&freshDate(state.listingsAsOf,7));setText('dataHealth',state.errors?.length?`${state.errors.length} source warning(s) · check data freshness in the outlook`:'');renderOverview();renderListings();renderSettings();}
 async function load(){try{const res=await fetch(`./data/state.json?bust=${Date.now()}`,{cache:'no-store'});if(!res.ok)throw Error(`${res.status}`);state=await res.json();render();}catch(err){setText('freshness','Data unavailable');document.querySelectorAll('.chart').forEach(e=>e.innerHTML='<div class="chart-empty">Could not load the published snapshot. Check your connection.</div>');console.warn(err);}}
 function switchTab(name){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===name));document.querySelectorAll('[data-tab]').forEach(n=>n.classList.toggle('selected',n.dataset.tab===name));location.hash=name;window.scrollTo({top:0,behavior:'instant'});}
-document.querySelectorAll('[data-tab]').forEach(n=>n.addEventListener('click',()=>switchTab(n.dataset.tab)));document.querySelectorAll('[data-jump]').forEach(n=>n.addEventListener('click',()=>switchTab(n.dataset.jump)));el('reload').addEventListener('click',load);el('reset').addEventListener('click',()=>{settings={...DEFAULTS};localStorage.setItem('houselens-settings',JSON.stringify(settings));render();});document.querySelectorAll('[data-setting]').forEach(input=>input.addEventListener('change',()=>{let val=input.value;if(input.type==='number')val=Number(val);settings[input.dataset.setting]=val;localStorage.setItem('houselens-settings',JSON.stringify(settings));render();el('saveToast').classList.add('show');setTimeout(()=>el('saveToast').classList.remove('show'),1600);}));
+document.querySelectorAll('[data-tab]').forEach(n=>n.addEventListener('click',()=>switchTab(n.dataset.tab)));document.querySelectorAll('[data-jump]').forEach(n=>n.addEventListener('click',()=>switchTab(n.dataset.jump)));el('reload').addEventListener('click',load);
+el('applyFilters').addEventListener('click',saveFilters);
+el('resetFilters').addEventListener('click',()=>{propertyFilters={...listingLib.DEFAULT_FILTERS};localStorage.setItem('houselens-property-filters',JSON.stringify(propertyFilters));el('filterMessage').className='field-note success';setText('filterMessage','Default filters restored.');renderListings();});
+el('searchLive').addEventListener('click',runFreshSearch);
+el('clearApiKey').addEventListener('click',()=>{localApiKey='';try{localStorage.removeItem('houselens-untera-key');}catch{}el('freeApiKey').value='';setText('providerStatus','Saved API key cleared from this device.');el('providerStatus').className='field-note';});
+if(localApiKey){el('freeApiKey').value=localApiKey;setText('providerStatus','Free API key found on this device. Press Search now to refresh listings.');}
+el('reset').addEventListener('click',()=>{settings={...DEFAULTS};localStorage.setItem('houselens-settings',JSON.stringify(settings));render();});document.querySelectorAll('[data-setting]').forEach(input=>input.addEventListener('change',()=>{let val=input.value;if(input.type==='number')val=Number(val);settings[input.dataset.setting]=val;localStorage.setItem('houselens-settings',JSON.stringify(settings));render();el('saveToast').classList.add('show');setTimeout(()=>el('saveToast').classList.remove('show'),1600);}));
 document.querySelectorAll('[data-range]').forEach(button=>button.addEventListener('click',()=>{rateRange=button.dataset.range;document.querySelectorAll('[data-range]').forEach(b=>{b.classList.toggle('selected',b===button);b.setAttribute('aria-pressed',String(b===button));});renderBankChart();}));
 if(['overview','listings','outlook','settings'].includes(location.hash.slice(1)))switchTab(location.hash.slice(1));
 load();if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('./sw.js').catch(()=>{});

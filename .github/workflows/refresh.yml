@@ -29,10 +29,12 @@ jobs:
       - name: Check unit tests
         run: python -m unittest discover -s tests -p 'test_*.py' -v
       - name: Check JavaScript calculations
-        run: node tests/test_calculations.js
+        run: |
+          node tests/test_calculations.js
+          node tests/test_listing_filters.js
       - name: Update from authoritative sources
         env:
-          PROPERTYDATA_API_KEY: ${{ secrets.PROPERTYDATA_API_KEY }}
+          UNTERA_API_KEY: ${{ secrets.UNTERA_API_KEY }}
         run: python -m update.main
       - name: Commit new dated snapshot
         run: |
