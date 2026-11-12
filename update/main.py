@@ -7,7 +7,7 @@ import os
 import sys
 from pathlib import Path
 from statistics import median
-from update import feeds, local_sales, free_listings
+from update import feeds, local_sales, free_listings, cpi_projections
 
 STATE_PATH = Path(__file__).resolve().parents[1] / 'web' / 'data' / 'state.json'
 
@@ -46,6 +46,13 @@ def refresh(state, *, now=None, adapters=feeds):
                     state[name] = curves[name]
                     state['sources'][name] = curves[name]['sourceUrl']
             errs.extend('Yield curves: ' + warning for warning in curves.get('warnings', []))
+    # Independent official quarterly CPI central projection. Never substitute
+    # RPI gilt breakevens, which are a different inflation measure.
+    if adapters is feeds:
+        cpi = run('BoE CPI projections', lambda: cpi_projections.get_cpi_projection(feeds.fetch_bytes, today=now.date()))
+        if cpi:
+            state['cpiProjection'] = cpi
+            state.setdefault('sources', {})['cpiProjection'] = cpi['sourceUrl']
     guidance = run('BoE guidance', adapters.get_guidance)
     if guidance:
         state['guidance'] = guidance
@@ -77,7 +84,8 @@ def refresh(state, *, now=None, adapters=feeds):
             state['listingsAsOf'] = timestamp
             state['listingProvider'] = 'Untera'
             state['listingCoverage'] = {'sampleSize':feed['sampleSize'],
-                'note':feed['coverageNote'], 'pages':feed['pages']}
+                'note':feed['coverageNote'], 'pages':feed['pages'],
+                'diagnostics':feed.get('diagnostics',{})}
             state.setdefault('sources', {})['listings'] = feed['sourceUrl']
             # Trend snapshots contain ONLY verified properties meeting the
             # baseline criteria (not unknown locations or broad Billericay).

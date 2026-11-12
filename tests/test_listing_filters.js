@@ -8,8 +8,20 @@ assert.equal(L.classify(result,L.DEFAULT_FILTERS),'verified');
 assert.equal(L.classify({...result,distanceMiles:null},L.DEFAULT_FILTERS),'unverified');
 assert.equal(L.classify({...result,price:650000},L.DEFAULT_FILTERS),'excluded');
 assert.equal(L.normalizeItem({...home, original_currency:'USD'}),null);
-assert.equal(L.normalizeItem({...home,property_type:'terraced',title:'3 bedroom terraced house'}),null);
+assert.equal(L.normalizeItem({...home,property_type:'terraced',title:'3 bedroom terraced house'}).type,'Type unverified');
+assert.equal(L.normalizeItem({...home,property_type:'mid-terrace',title:'3 bedroom mid terrace house'}),null);
 assert.equal(L.normalizeItem({...home,property_type:'terraced',title:'End of terrace cottage'}).type,'End of terrace');
+const ambiguous=L.normalizeItem({...home,property_type:'residential',title:'3 bedroom house for sale'});
+assert.equal(ambiguous.type,'Type unverified');
+assert.equal(L.classify(ambiguous,L.DEFAULT_FILTERS),'unverified');
+assert.equal(L.classify({...ambiguous,distanceMiles:2},L.DEFAULT_FILTERS),'excluded');
+const diag={rawResults:0,reasons:{}};
+const parsed=L.parseResponse({results:[home,{...home,id:'unknown',property_type:'residential',title:'3 bedroom house'}, {...home,id:'flat',property_type:'flat',title:'3 bedroom flat'}, {...home,id:'wrongcurrency',original_currency:'USD'}]},diag);
+assert.equal(diag.rawResults,4);
+assert.equal(diag.reasons.unconfirmedType,1);
+assert.equal(diag.reasons.otherType,1);
+assert.equal(diag.reasons.currency,1);
+assert.equal(parsed.length,2);
 assert.equal(L.normalizeItem({...home,status:'Sold STC'}),null);
 assert.equal(L.normalizeItem({...home,longitude:0.51}),null); // too far to be Billericay
 assert.throws(()=>L.validateFilters({...L.DEFAULT_FILTERS,minPrice:700000,maxPrice:600000}));
@@ -21,7 +33,7 @@ async function main(){
  let calls=0;
  const fake=async(url,opts)=>{calls++;assert.ok(url.includes('location=Billericay'));assert.equal(opts.headers['X-API-Key'],'unt_fake');return {ok:true,json:async()=>({results:[home]})}};
  const out=await L.searchFresh('unt_fake',{fetchImpl:fake});
- assert.equal(calls,1);assert.equal(out.listings.length,1);
+ assert.equal(calls,1);assert.equal(out.listings.length,1);assert.equal(out.diagnostics.rawResults,1);
  await assert.rejects(()=>L.searchFresh('invalid',{fetchImpl:fake}));
  console.log('HouseLens listing filter tests passed.');
 }

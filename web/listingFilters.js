@@ -33,36 +33,57 @@
   }
   function typeOf(...values) {
     const text=values.filter(x=>typeof x==='string').join(' ').toLowerCase().replace(/[_-]/g,' ');
-    if(/\bend\s+(?:of\s+)?terrace(?:d)?\b/.test(text) || /\bterrace\s+end\b/.test(text)) return 'End of terrace';
+    if(/\bend\s+(?:of\s+)?terrace(?:d)?\b/.test(text) || /\bendterrace\b/.test(text) || /\bterrace\s+end\b/.test(text)) return 'End of terrace';
     if(/\bsemi\s*detached\b/.test(text)) return 'Semi-detached';
     if(/\bdetached\b/.test(text)) return 'Detached';
     return null;
   }
-  function normalizeItem(raw) {
-    if(!raw || typeof raw!=='object') return null;
-    // The provider also reports converted USD prices. The GBP model can ONLY
-    // consume original GBP asking prices, not a converted value without FX.
-    if(String(raw.original_currency||'').toUpperCase()!=='GBP')return null;
+  // A rejection reason is recorded BEFORE we discard a provider record.
+  // No addresses or API keys are included in the diagnostic counts.
+  const REASON_LABELS = Object.freeze({
+    invalid:'Invalid provider record',currency:'No original GBP asking price',
+    price:'No usable asking price',bedrooms:'Bedrooms not specified',
+    status:'Not clearly available for sale',otherType:'Definitely not an allowed house type',
+    outside:'Outside the broad Billericay station area',
+    location:'Billericay location cannot be established',id:'Missing listing identifier',
+    unconfirmedType:'Property type not confirmed'
+  });
+  function normalizeDetailed(raw) {
+    if(!raw || typeof raw!=='object')return {item:null,reason:'invalid'};
+    // Never treat provider-normalised USD figures as a GBP asking price.
+    if(String(raw.original_currency||'').toUpperCase()!=='GBP')return {item:null,reason:'currency'};
     const price=finiteNum(raw.original_price), beds=finiteNum(raw.bedrooms??raw.beds);
-    if(price===null || price<=0 || beds===null || beds<1)return null;
-    const kind=typeOf(raw.property_type,raw.type,raw.title);
-    if(!kind)return null;
+    if(price===null||price<=0)return {item:null,reason:'price'};
+    if(beds===null||beds<1)return {item:null,reason:'bedrooms'};
     const status=[raw.status,raw.availability,raw.transaction].filter(Boolean).join(' ').toLowerCase();
-    if(/\bsold\b|\bsstc\b|under.offer|\brent(?:al)?\b|\blet\b/.test(status)) return null;
-    const c=coordsOf(raw), dist=c?haversine(c.lat,c.lng):null;
-    if(dist!==null&&dist>3.5)return null; // station-area cache window
-    const address=String(raw.address||raw.location_name||raw.title||'Address not provided').slice(0,180);
-    if(dist===null&&!/billericay|cm12/i.test(address))return null;
+    if(/\bsold\b|\bsstc\b|under.offer|\brent(?:al)?\b|\blet\b/.test(status))return {item:null,reason:'status'};
+    const c=coordsOf(raw),dist=c?haversine(c.lat,c.lng):null;
+    if(dist!==null&&dist>3.5)return {item:null,reason:'outside'};
+    const address=String(raw.address||raw.location_name||(typeof raw.location==='string'?raw.location:'')||raw.city||raw.title||'Address not provided').slice(0,180);
+    if(dist===null&&!/billericay|cm12/i.test(address))return {item:null,reason:'location'};
+    const kind=typeOf(raw.property_type,raw.type,raw.title);
+    if(!kind){
+      const text=[raw.property_type,raw.type,raw.title].filter(x=>typeof x==='string').join(' ').toLowerCase();
+      // These are explicitly excluded, not "maybe detached" properties.
+      if(/\bflat\b|\bapartment\b|\bmaisonette\b|\bstudio\b|\bbungalow\b|\bland\b|\bplot\b|\bcommercial\b|\bmid[ -]?terrace\b/.test(text))
+        return {item:null,reason:'otherType'};
+    }
     const url=typeof raw.url==='string'&&raw.url.startsWith('https://')?raw.url:'';
     const id=String(raw.id??raw._id??url??'').slice(0,160);
-    if(!id) return null;
-    return {id,price:Math.round(price),bedrooms:Math.trunc(beds),type:kind,address,
+    if(!id)return {item:null,reason:'id'};
+    const item={id,price:Math.round(price),bedrooms:Math.trunc(beds),type:kind||'Type unverified',address,
       distanceMiles:dist===null?null:Math.round(dist*1000)/1000,distanceVerified:dist!==null,
       url,portal:'Untera',sourceProvider:'Untera'};
+    return {item,reason:kind?null:'unconfirmedType'};
   }
-  function parseResponse(body) {
+  function normalizeItem(raw) { return normalizeDetailed(raw).item; }
+  function parseResponse(body,diagnostics) {
     if(!body || !Array.isArray(body.results) || body.success===false)throw new Error('Provider returned an invalid listings response');
-    return body.results.map(normalizeItem).filter(Boolean);
+    return body.results.map(raw=>{
+      const {item,reason}=normalizeDetailed(raw);
+      if(diagnostics){diagnostics.rawResults++;if(reason)diagnostics.reasons[reason]=(diagnostics.reasons[reason]||0)+1;}
+      return item;
+    }).filter(Boolean);
   }
   function validateFilters(p) {
     const minPrice=finiteNum(p.minPrice),maxPrice=finiteNum(p.maxPrice),minBeds=finiteNum(p.minBeds),maxMiles=finiteNum(p.maxMiles);
@@ -76,6 +97,7 @@
     if(!item || !Number.isFinite(item.price) || !Number.isFinite(item.bedrooms))return 'excluded';
     if(item.price<filters.minPrice||item.price>filters.maxPrice||item.bedrooms<filters.minBeds)return 'excluded';
     if((item.type==='Detached'&&!filters.detached)||(item.type==='Semi-detached'&&!filters.semi)||(item.type==='End of terrace'&&!filters.endTerrace))return 'excluded';
+    if(item.type==='Type unverified')return !Number.isFinite(item.distanceMiles)||item.distanceMiles<=filters.maxMiles ? 'unverified' : 'excluded';
     if(!TYPES.includes(item.type))return 'excluded';
     if(!Number.isFinite(item.distanceMiles))return 'unverified';
     return item.distanceMiles<=filters.maxMiles ? 'verified' : 'excluded';
@@ -91,6 +113,7 @@
     if(!/^unt_[A-Za-z0-9_-]+$/.test(String(apiKey).trim()))throw new Error('Enter your free Untera API key (starting with unt_).');
     const call=fetchImpl||fetch;
     const listings=[],seen=new Set();let pages=0, truncated=false;
+    const diagnostics={rawResults:0,reasons:{}};
     for(let page=1;page<=maxPages;page++){
       // Fetch a broad Billericay inventory and apply ALL numeric / distance
       // filters locally. Never confuse USD price filters with GBP budgets.
@@ -98,14 +121,14 @@
       const response=await call(`${SEARCH}?${query}`,{headers:{'X-API-Key':apiKey.trim(),'Accept':'application/json'},cache:'no-store'});
       if(!response.ok)throw new Error(response.status===401||response.status===403?'API key rejected by Untera.':`Listing service returned HTTP ${response.status}.`);
       const body=await response.json();
-      const normalized=parseResponse(body);
+      const normalized=parseResponse(body,diagnostics);
       for(const item of normalized)if(!seen.has(item.id)){listings.push(item);seen.add(item.id);}
       pages=page;
       if(body.results.length<50 && body.hasMore!==true && !body.next_page)break;
       if(body.results.length===0)break;
       if(page===maxPages)truncated=true;
     }
-    return {listings,pages,truncated,at:new Date().toISOString()};
+    return {listings,pages,truncated,diagnostics,at:new Date().toISOString()};
   }
-  return {STATION,DEFAULT_FILTERS,finiteNum,haversine,typeOf,coordsOf,normalizeItem,parseResponse,validateFilters,classify,sortMatches,searchFresh};
+  return {STATION,DEFAULT_FILTERS,REASON_LABELS,finiteNum,haversine,typeOf,coordsOf,normalizeItem,normalizeDetailed,parseResponse,validateFilters,classify,sortMatches,searchFresh};
 });

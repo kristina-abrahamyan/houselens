@@ -26,13 +26,33 @@ class FreeListingsTests(unittest.TestCase):
 
     def test_ignored_unknown_or_wrong_currency(self):
         self.assertIsNone(free_listings.normalize_item(house(original_currency='USD',price_usd=700000)))
-        self.assertIsNone(free_listings.normalize_item(house(property_type='terraced', title='Terraced house')))
+        self.assertEqual(free_listings.normalize_item(house(property_type='terraced', title='Terraced house'))['type'],'Type unverified')
         self.assertIsNone(free_listings.normalize_item(house(status='Sold STC')))
         self.assertEqual(free_listings.normalize_item(house(original_price='£525,000'))['price'],525000)
 
     def test_explicit_end_terrace(self):
         p=free_listings.normalize_item(house(property_type='terraced',title='3 bedroom end of terrace house'))
         self.assertEqual(p['type'],'End of terrace')
+
+    def test_unknown_house_type_is_review_only_not_verified(self):
+        p=free_listings.normalize_item(house(property_type='residential',title='3 bedroom house for sale'))
+        self.assertEqual(p['type'],'Type unverified')
+        self.assertEqual(free_listings.strict_default_matches([p]), [])
+        self.assertIsNone(free_listings.normalize_item(house(property_type='flat',title='3 bedroom flat')))
+        self.assertIsNone(free_listings.normalize_item(house(property_type='mid-terrace',title='3 bed mid terrace home')))
+
+    def test_diagnostic_counts_do_not_include_addresses_or_secrets(self):
+        diag={'rawResults':0,'reasons':{}}
+        items=free_listings.parse_response({'results':[
+            house(),house(id='two',property_type='residential',title='3 bedroom house'),
+            house(id='three',property_type='flat',title='3 bedroom flat'),
+            house(id='four',original_currency='USD')]},diag)
+        self.assertEqual(len(items),2)
+        self.assertEqual(diag['rawResults'],4)
+        self.assertEqual(diag['reasons']['unconfirmedType'],1)
+        self.assertEqual(diag['reasons']['otherType'],1)
+        self.assertEqual(diag['reasons']['currency'],1)
+        self.assertNotIn('Billericay',str(diag))
 
     def test_pagination_mock_and_duplicate(self):
         def fake(url,key):
@@ -42,6 +62,7 @@ class FreeListingsTests(unittest.TestCase):
         output=free_listings.get_untera_listings('unt_test_not_secret',get_json=fake)
         self.assertEqual(output['sampleSize'],2)
         self.assertEqual(output['pages'],1)
+        self.assertEqual(output['diagnostics']['rawResults'],2)
 
     def test_provider_errors_do_not_become_empty_results(self):
         with self.assertRaises(ValueError):

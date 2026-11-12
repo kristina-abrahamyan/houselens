@@ -1,0 +1,35 @@
+HouseLens v1.4 - sold-price chart and forecast transparency
+
+This ZIP contains only complete replacement code files and no web/data/state.json.
+It does not change the scheduled refresh or your household settings.
+
+1. In PowerShell at your houselens repository root:
+   git pull --rebase origin main
+2. Unzip. Copy the web and tests folders from this ZIP into your repository,
+   merging folders and replacing the included files when Windows prompts.
+   Do NOT delete the other project files.
+3. Test:
+   node tests/test_calculations.js
+   python -m unittest discover -s tests -v
+4. Commit and push:
+   git add web/app.js web/calculations.js web/index.html web/sw.js tests/test_calculations.js
+   git commit -m "Improve local sold-price chart and forecast labels"
+   git push
+5. In GitHub Actions, run the existing refresh/deploy workflow on main.
+   Open the website, Ctrl+Shift+R if it remains cached.
+
+What changed:
+- CM12 medians chart now uses a clearly labelled ZOOMED vertical axis and value markers,
+  instead of a zero-based axis that concealed a 1.5% price change.
+- The projected house price is visible alongside each 3/6/12 month mortgage scenario.
+- Outright says these are illustrative paths, not lender quotes or price predictions.
+- Missing gilt inflation data explicitly means no validated figure extracted,
+  rather than pretending a usable forecast exists.
+- Bumps offline service-worker cache to v7 so the site updates on phones.
+
+Still missing:
+- Live qualifying listing feed is not connected.
+- CM12/CM12 0 completed sales are NOT the exact 0.75-mile station radius, and
+  are NOT filtered by bedroom count.
+- No basis to claim a true future house-price forecast.
+- Tax calculations still need annual 2027/28 threshold maintenance.

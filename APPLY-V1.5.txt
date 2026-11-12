@@ -1,0 +1,58 @@
+HouseLens v1.5 — FREE PROPERTY SEARCH UPDATE
+=========================================
+
+WHAT CHANGED
+- Editable min/max property price, minimum bedrooms, detached/semi/end-terrace,
+  and max straight-line distance from Billericay station (0.75 miles by default).
+- Optional on-demand listing search using a free Untera API key on your device.
+- Optional unattended Tuesday/Friday fetching using a GitHub Actions secret.
+- Listing mortgage repayments and fraction of household take-home pay.
+- Missing/uncertain coordinates are SEPARATE from verified radius matches.
+- No scraping of Rightmove, no emails, no paid subscription.
+
+IMPORTANT: Do not copy a new state.json over your existing live one.
+This ZIP intentionally contains NO state.json, no personal details, no API keys.
+It is intended as an incremental update to v1.4, not a stand-alone project.
+
+STEP A: APPLY PATCH
+1. Open PowerShell in your existing billericay-affordability repo.
+2. Run: git pull --rebase origin main
+3. Extract this ZIP and copy its .github, tests, update and web folders into
+   the root of your existing repo. Choose "replace existing files".
+4. Run these commands in the repo root:
+
+   python -m unittest discover -s tests -v
+   node tests/test_calculations.js
+   node tests/test_listing_filters.js
+   git add .github/workflows/refresh.yml update/main.py update/free_listings.py web/app.js web/index.html web/styles.css web/listingFilters.js web/sw.js tests/test_free_listings.py tests/test_listing_filters.js
+   git commit -m "Add free configurable property search"
+   git push
+
+STEP B: ENABLE TWICE-WEEKLY LISTINGS
+1. Get a free key from https://untera.io/developers (do not send it to chat).
+2. Open https://github.com/kristina-abrahamyan/houselens/settings/secrets/actions
+3. New repository secret, name EXACTLY UNTERA_API_KEY, value = your key.
+4. Save. Do NOT put the key in a code file, commit, issue, or public screenshot.
+5. GitHub Actions -> Refresh HouseLens market data and deploy -> Run workflow.
+6. The existing schedule continues Tuesday/Friday at 08:00 UTC.
+
+STEP C: USE THE APP
+- Open https://kristina-abrahamyan.github.io/houselens/#listings
+- Modify filters and click Apply filters to re-filter the saved inventory.
+- If you need brand-new results immediately, paste your key into the API-key
+  field and click Search now. This key is saved in local browser storage on
+  that device (click Forget key on a shared device); it is not committed.
+- Results depend on Untera's UK coverage. If none are returned, the app
+  will show zero, not invent properties. Verified provider coordinates may
+  still be approximate; check distances before relying on an address.
+- The free service requires the visible "Powered by Untera" attribution.
+
+DATA QUALITY
+- Untera says its browser API supports CORS, but live requests still need
+  checking with your own free key. We have NOT validated a real Billericay
+  inventory yet. An empty listing feed is not proof no homes are on sale.
+- GBP calculations use original GBP prices only, not USD conversions.
+- The importer collects at most eight pages of broad Billericay results per
+  run, so listing coverage may be incomplete. The site labels this.
+- Historical house prices / rates are independent and continue updating
+  even if the listing provider is unavailable.

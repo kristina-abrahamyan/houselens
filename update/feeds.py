@@ -244,11 +244,22 @@ def get_market_curves(bank_rate, sonia_rate, fetch=fetch_bytes):
         results['warnings'].append('OIS forwards: ' + str(exc)[:160])
     try:
         inflation_date, inflation = parse_curve_zip(raw, 'GLC Inflation', r'spot curve$')
+        # UK index-linked gilts can lack short-end inflation observations.
+        # Preserve a genuinely quoted longer-term tenor as CONTEXT, correctly
+        # labelled, rather than silently calling a 7/10-year quote a 1-year
+        # forecast. RPI breakevens are never substituted for CPI projections.
+        available = [(months, inflation[months]) for months in (12, 24, 36, 60, 84, 120)
+                     if months in inflation and math.isfinite(inflation[months])]
+        reference = ({'months': available[0][0], 'rate': available[0][1]}
+                     if available else None)
         results['gilts'] = {
             'asOf': inflation_date, 'rpiBreakeven': inflation.get(12),
-            'curve': [{'months': m, 'rate': v} for m, v in sorted(inflation.items()) if m <= 60],
+            'inflationReference': reference,
+            'curve': [{'months': m, 'rate': v} for m, v in sorted(inflation.items()) if m <= 120],
             'sourceUrl': BOE_YIELDS,
         }
+        if reference is None:
+            results['warnings'].append('No usable 1–10 year RPI-linked gilt breakeven in the downloaded curve')
     except Exception as exc:
         results['warnings'].append('Gilt inflation: ' + str(exc)[:160])
     if 'ois' not in results and 'gilts' not in results:

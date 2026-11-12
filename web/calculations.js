@@ -47,7 +47,15 @@
     const padding=Math.max((max-min)*0.85,Math.max(Math.abs(max),Math.abs(min),1)*0.025);
     return {lo:Math.max(0,min-padding),hi:max+padding};
   }
-  const api={netMonthly,householdNet,repayment,chartBounds};
+  // Express a future nominal payment in today's purchasing-power pounds.
+  // This is an *illustrative* constant CPI-rate scenario, not a BoE monthly
+  // CPI forecast. It does not change the nominal loan payment or net-pay %.
+  function paymentInTodayMoney(futurePayment,annualCpiPct,months){
+    const p=Number(futurePayment),cpi=Number(annualCpiPct),m=Number(months);
+    if(![p,cpi,m].every(Number.isFinite)||p<0||m<0||cpi<=-100||cpi>100)return NaN;
+    return p/Math.pow(1+cpi/100,m/12);
+  }
+  const api={netMonthly,householdNet,repayment,chartBounds,paymentInTodayMoney};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   root.HouseMath=api;
 })(typeof window!=='undefined'?window:globalThis);

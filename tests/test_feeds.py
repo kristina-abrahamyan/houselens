@@ -67,6 +67,21 @@ class ParsingTests(unittest.TestCase):
         self.assertAlmostEqual(curves['ois']['forecast'][0]['rate'],3.75)
         self.assertAlmostEqual(curves['gilts']['rpiBreakeven'],3.8)
 
+    def test_long_dated_rpi_quote_is_labelled_with_true_tenor(self):
+        # Short-end gilt inflation curve often lacks a 1-year observation.
+        # A genuine 7-year market quote may be shown as long-term context,
+        # but it cannot be mislabelled as a 1-year forecast.
+        original = feeds.parse_curve_zip
+        def stub(raw, token, sheet, **kwargs):
+            if token == 'OIS':
+                return '2026-11-10', {3:4.2, 6:4.4, 12:4.6}
+            return '2026-11-10', {84:3.27, 120:3.38}
+        with patch.object(feeds, 'parse_curve_zip', side_effect=stub):
+            result = feeds.get_market_curves(4.0, 3.95, fetch=lambda *a,**kw: b'dummy')
+        self.assertIsNone(result['gilts']['rpiBreakeven'])
+        self.assertEqual(result['gilts']['inflationReference'], {'months':84, 'rate':3.27})
+        self.assertEqual(len(result['ois']['forecast']),3)
+
     def test_boe_short_end_months_row_precedes_years_row(self):
         # Actual BoE layout: month numbers followed by fractional YEAR values.
         # A parser selecting the first numeric header would turn 1m into 12m.

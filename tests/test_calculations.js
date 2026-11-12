@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-const {netMonthly,repayment,householdNet,chartBounds}=require('../web/calculations.js');
+const {netMonthly,repayment,householdNet,chartBounds,paymentInTodayMoney}=require('../web/calculations.js');
 // Zero-interest amortisation and standard 5% rate against known amortisation formula.
 assert.equal(repayment(300000,20,0,25),800);
 assert.ok(Math.abs(repayment(300000,20,5,25)-1403.02)<1);
@@ -18,4 +18,9 @@ assert.equal(chartBounds([507.5,500],{}).lo,0);
 const equalPrices=chartBounds([500,500],{zeroBaseline:false});
 assert.ok(equalPrices.hi>equalPrices.lo);
 assert.equal(chartBounds([],{}),null);
-console.log('JavaScript mortgage/tax/chart calculations passed.');
+// CPI deflation is a separate purchasing-power lens; it must not alter
+// nominal mortgage amortisation or imply automatic wage growth.
+assert.ok(Math.abs(paymentInTodayMoney(2600,4,12)-2500)<.001);
+assert.ok(Math.abs(paymentInTodayMoney(2600,4,0)-2600)<.001);
+assert.equal(Number.isNaN(paymentInTodayMoney(2600,-101,6)),true);
+console.log('JavaScript mortgage/tax/chart/CPI calculations passed.');

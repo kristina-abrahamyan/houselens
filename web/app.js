@@ -13,7 +13,7 @@ try{localApiKey=localStorage.getItem('houselens-untera-key')||'';}catch{}
 
 try{const saved=JSON.parse(localStorage.getItem('houselens-settings')||'{}');settings={...settings,...saved};}catch{}
 
-const {netMonthly,householdNet,repayment,chartBounds}=window.HouseMath;
+const {netMonthly,householdNet,repayment,chartBounds,paymentInTodayMoney}=window.HouseMath;
 function makeChart(target,series,config={}){
  const mount=el(target); if(!mount)return;
  const all=series.flatMap(s=>s.points.map(p=>p.y)).filter(Number.isFinite);
@@ -60,8 +60,8 @@ function marketTrend(){
  }
  return null;
 }
-function renderScenarios(){
- const net=householdNet(settings),price=Number(settings.price),dep=Number(settings.deposit),term=Number(settings.term),trend=marketTrend();
+function calculateScenarios(){
+ const price=Number(settings.price),dep=Number(settings.deposit),term=Number(settings.term),trend=marketTrend();
  const arr=[0,3,6,12].map(month=>{
    const implied=month===0?(freshDate(state.bankRateAsOf,14)?state.bankRate:null):getForecast(month);
    const targetRate=typeof implied==='number'&&Number.isFinite(implied)?implied+Number(settings.spread):null;
@@ -69,6 +69,11 @@ function renderScenarios(){
    const payment=targetRate===null||targetPrice===null?null:repayment(targetPrice,dep,targetRate,term);
    return {month,targetRate,targetPrice,payment};
  });
+ return {arr,trend};
+}
+function renderScenarios(){
+ const net=householdNet(settings),price=Number(settings.price);
+ const {arr,trend}=calculateScenarios();
  const todayPayment=arr[0].payment;
  el('scenarioList').innerHTML=arr.map(s=>{const delta=s.payment!==null&&todayPayment!==null?s.payment-todayPayment:null;const comparison=s.month===0?'Current baseline':delta===null?'Not enough data':Math.abs(delta)<1?'About the same':delta<0?`${money(Math.abs(delta))}/mo cheaper`:`${money(delta)}/mo more expensive`;const houseScenario=s.month&&s.targetPrice!==null?`Illustrative house price ${money(s.targetPrice)} (${(100*(s.targetPrice/price-1)>=0?'+':'')}${(100*(s.targetPrice/price-1)).toFixed(1)}%)`:'';return `<div class="scenario-item"><span>${s.month===0?'Today':`+${s.month} mo`}</span><div><div class="scenario-bar"><b style="width:${s.payment===null?0:Math.max(0,Math.min(100,s.payment/net*200))}%"></b></div><small>${s.month===0?'Observed Bank Rate':s.payment===null?'Missing OIS rate or local-price signal':`Model rate ${s.targetRate.toFixed(2)}%`}</small>${houseScenario?`<small>${houseScenario}</small>`:''}<small class="scenario-comparison ${delta===null?'':delta<0?'better':delta>0?'worse':''}">${comparison}</small></div><strong>${s.payment===null?'Not yet available':money(s.payment)}${s.payment!==null?`<small>${pct(s.payment/net*100)} of net</small>`:''}</strong></div>`}).join('');
  setText('forecastBasis',trend?`Illustrative, not a prediction: ${trend.source}. ${trend.confidence}. Assumes the same deposit percentage, mortgage term and household net income throughout. Rates are OIS-derived proxies + your spread, not lender offers. Stamp duty, fees and upkeep are excluded.`:'Forward repayments are withheld until both the short-end OIS curve and a house-price trend are available.');
@@ -81,24 +86,34 @@ function renderOverview(){if(!state)return;const net=householdNet(settings),rate
 }
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function currentListingFeed(){
- if(liveSearchResult)return {listings:liveSearchResult.listings,at:liveSearchResult.at,origin:'Fresh search',pages:liveSearchResult.pages,truncated:liveSearchResult.truncated};
+ if(liveSearchResult)return {listings:liveSearchResult.listings,at:liveSearchResult.at,origin:'Fresh search',pages:liveSearchResult.pages,truncated:liveSearchResult.truncated,diagnostics:liveSearchResult.diagnostics};
  const age=state?.listingsAsOf?(Date.now()-Date.parse(state.listingsAsOf))/86400000:Infinity;
- return {listings:age>=0&&age<=7?(state?.listings||[]):[],at:state?.listingsAsOf,origin:'Scheduled snapshot',pages:state?.listingCoverage?.pages,truncated:false,stale:age>7};
+ return {listings:age>=0&&age<=7?(state?.listings||[]):[],at:state?.listingsAsOf,origin:'Scheduled snapshot',pages:state?.listingCoverage?.pages,truncated:false,stale:age>7,diagnostics:state?.listingCoverage?.diagnostics};
 }
 function filterSummary(){const f=propertyFilters;return `${money(f.minPrice)}–${money(f.maxPrice)} · ${f.minBeds}+ beds · within ${f.maxMiles} miles`}
 function listingCard(p,unverified,net,rate){
  const payment=repayment(p.price,+settings.deposit,rate,+settings.term);
+ const typeUnverified=p.type==='Type unverified';const missingDistance=!Number.isFinite(p.distanceMiles);
+ const issues=[typeUnverified?'Type not confirmed':null,missingDistance?'Distance unverified':null].filter(Boolean);
  const safe=typeof p.url==='string'&&/^https:\/\/[^\s"<>]+$/.test(p.url)?p.url:null;
- return `<article class="property"><div class="property-top"><div><div class="type">${escapeHtml(p.type)} · ${escapeHtml(p.bedrooms)} beds</div><h3>${escapeHtml(p.address||'Address not provided')}</h3></div><span class="chip ${unverified?'unverified-chip':''}">${unverified?'Distance unverified':`${p.distanceMiles.toFixed(2)} mi`}</span></div><p>${money(p.price)} asking price</p><div class="property-stats"><div><small>Model repayment</small><strong>${money(payment)}/mo</strong></div><div><small>Of take-home pay</small><strong>${pct(payment/net*100)}</strong></div></div>${unverified?'<p class="property-footnote">Not confirmed within the station radius</p>':''}${safe?`<a href="${escapeHtml(safe)}" target="_blank" rel="noopener noreferrer">View original listing ↗</a>`:''}</article>`;
+ return `<article class="property"><div class="property-top"><div><div class="type">${escapeHtml(p.type)} · ${escapeHtml(p.bedrooms)} beds</div><h3>${escapeHtml(p.address||'Address not provided')}</h3></div><span class="chip ${unverified?'unverified-chip':''}">${issues.length?issues.join(' · '):`${p.distanceMiles.toFixed(2)} mi`}</span></div><p>${money(p.price)} asking price</p><div class="property-stats"><div><small>Model repayment</small><strong>${money(payment)}/mo</strong></div><div><small>Of take-home pay</small><strong>${pct(payment/net*100)}</strong></div></div>${unverified?'<p class="property-footnote">Needs independent confirmation of house type and/or station distance; not a confirmed match.</p>':''}${safe?`<a href="${escapeHtml(safe)}" target="_blank" rel="noopener noreferrer">View original listing ↗</a>`:''}</article>`;
 }
 function renderListings(){
  const feed=currentListingFeed(),net=householdNet(settings),rate=state.bankRate+Number(settings.spread),results=listingLib.sortMatches(feed.listings,propertyFilters);
  const hasFeed=!!feed.at&&!feed.stale;el('listingsAlert').hidden=hasFeed;
  if(!hasFeed){const title=el('listingsAlert').querySelector('strong'),note=el('listingsAlert').querySelector('span');if(title)title.textContent=feed.stale?'Saved listings are out of date.':'No current listings connected yet.';if(note)note.textContent=feed.stale?'The last listing snapshot is more than 7 days old. Search now or check the scheduled workflow; stale listings are hidden.':'The free provider needs a one-time API key; Bank of England and Land Registry updates continue without it.';}
  const searched=feed.listings.length;
+ const diag=feed.diagnostics;
+ const detail=el('listingDiagnostics');
+ if(diag&&Number.isFinite(diag.rawResults)){
+   const ranked=Object.entries(diag.reasons||{}).sort((a,b)=>b[1]-a[1]).slice(0,4);
+   const explanation=ranked.length?ranked.map(([reason,count])=>`${count} ${listingLib.REASON_LABELS[reason]||reason}`).join(' · '):'No excluded or unconfirmed records in the sample.';
+   detail.textContent=`Provider returned ${diag.rawResults} raw records. HouseLens retained ${searched} potential listings for review. ${explanation}. Counts describe the downloaded sample, not all homes on the market. ${feed.truncated?'The 8-page limit was reached.':''}`;
+   detail.hidden=false;
+ }else detail.hidden=true;
  const coverage=state?.listingCoverage?.note||'This is a provider sample; some houses may be absent.';
  setText('listingDate',feed.at?`${feed.origin.toUpperCase()} · ${feed.at.slice(0,10)}`:'PROPERTY FEED');
- setText('listingSummary',`${results.verified.length} confirmed within radius · ${results.unverified.length} possible without verified coordinates · ${searched} supported listings in ${feed.origin.toLowerCase()}. ${filterSummary()}. ${feed.truncated?'Search limited to '+feed.pages+' pages. ':''}${feed.stale?'Scheduled results expired. ':''}${coverage}`);
+ setText('listingSummary',`${results.verified.length} confirmed within radius · ${results.unverified.length} possible needing verification · ${searched} potential listings in ${feed.origin.toLowerCase()}. ${filterSummary()}. ${feed.truncated?'Search limited to '+feed.pages+' pages. ':''}${feed.stale?'Scheduled results expired. ':''}${coverage}`);
  el('properties').innerHTML=results.verified.length?results.verified.map(p=>listingCard(p,false,net,rate)).join(''):'<div class="chart-empty property-empty">No verified matches in this feed for these filters. That does not mean there are no homes on the market.</div>';
  el('unverifiedBlock').hidden=!results.unverified.length;
  el('unverifiedProperties').innerHTML=results.unverified.map(p=>listingCard(p,true,net,rate)).join('');
@@ -110,7 +125,7 @@ function renderListings(){
  setText('criteriaDistance',`Within ${f.maxMiles} miles`);
  setText('criteriaBudget',`${money(f.minPrice)}–${money(f.maxPrice)}`);
  setText('criteriaBeds',`${f.minBeds}+ bedrooms`);
- setText('criteriaCount',hasFeed?`${results.verified.length} verified matches · ${results.unverified.length} need location checks`:'No live listings connected yet · change filters in Properties');el('providerCredit').hidden=!hasFeed;
+ setText('criteriaCount',hasFeed?`${results.verified.length} verified matches · ${results.unverified.length} need checks`:'No live listings connected yet · change filters in Properties');el('providerCredit').hidden=!hasFeed;
 }
 function readFilters(){return listingLib.validateFilters({minPrice:el('filterMinPrice').value,maxPrice:el('filterMaxPrice').value,minBeds:el('filterBeds').value,maxMiles:el('filterMiles').value,detached:el('filterDetached').checked,semi:el('filterSemi').checked,endTerrace:el('filterEndTerrace').checked});}
 function saveFilters(){
@@ -128,7 +143,7 @@ async function runFreshSearch(){
    liveSearchResult=result;
    localApiKey=key;
    try{localStorage.setItem('houselens-untera-key',key);}catch{}
-   setText('providerStatus',`Search complete: ${result.listings.length} supported houses in the provider sample; ${result.pages} request(s). Your key was saved only on this device.`);
+   setText('providerStatus',`Search complete: ${result.diagnostics.rawResults} raw records from ${result.pages} request(s); ${result.listings.length} broad-area listings retained. See the coverage check below. Your key was saved only on this device.`);
    el('providerStatus').className='field-note success';renderListings();
  }catch(err){setText('providerStatus',`Search failed: ${err.message}. Existing snapshots remain available.`);el('providerStatus').className='field-note error';}
  finally{button.disabled=false;button.textContent='Search now';}
@@ -139,7 +154,29 @@ function renderOutlook(){const forecast=freshDate(state?.ois?.asOf,14)?(state?.o
  const validInflation=freshDate(gilt?.asOf,14)&&Number.isFinite(inflationRef?.rate);
  setText('breakeven',validInflation?pct(inflationRef.rate):'Not available');
  setText('breakevenLabel',validInflation?`Gilt-implied RPI proxy (${inflationRef.months/12}-year)`:'Gilt-implied RPI proxy (unavailable)');
- setText('inflationCaveat',validInflation?'The figure is an RPI-linked market breakeven, not a forecast of household inflation or CPI.':'The importer has not recovered a validated usable inflation maturity. We are leaving this blank rather than substituting an invented forecast.');
+ setText('inflationCaveat',validInflation?'The figure is an RPI-linked market breakeven for the stated tenor, not a forecast of household inflation or CPI. Longer-dated rates do not predict inflation over the next 3–12 months.':'The importer has not recovered a validated usable inflation maturity. We are leaving this blank rather than substituting an invented forecast.');
+ // CPI forecasts are reported as annual inflation rates at specific
+ // quarter-ends, NOT precise cumulative predictions over 3, 6 or 12 months.
+ const report=state?.cpiProjection;
+ const usable=report&&freshDate(report.asOf,160)&&Array.isArray(report.series)&&report.series.length>=2;
+ const future=usable?report.series.filter(point=>/20\d{2} Q[1-4]/.test(point.quarter)&&Number.isFinite(point.rate)):[];
+ // The report table contains Q4 annual rates, not a 3/6/12-month
+ // CPI curve. For a labelled constant-rate illustration only, use the
+ // report quarter closest to 12 months from today (within nine months).
+ const oneYearFromToday=Date.now()+365.25*86400000;
+ const withinRange=future.map(point=>{const m=point.quarter.match(/^(20\d{2}) Q([1-4])$/);return m?{point,date:Date.UTC(+m[1],+m[2]*3,0),gap:Infinity}:null;}).filter(Boolean)
+   .map(p=>({...p,gap:Math.abs(p.date-oneYearFromToday)})).sort((a,b)=>a.gap-b.gap);
+ const cpiPoint=withinRange.length&&withinRange[0].gap<=275*86400000?withinRange[0].point:null;
+ setText('cpiLabel',cpiPoint?`BoE CPI · ${cpiPoint.quarter}`:'BoE CPI central projection');
+ setText('cpiValue',cpiPoint?pct(cpiPoint.rate):'Not available');
+ setText('cpiNote',usable?`Official central projection (${report.asOf}): ${future.map(p=>`${p.quarter}: ${pct(p.rate)}`).join(' · ')}. These are year-on-year inflation rates at quarter-end, not forecasts for every individual month.`:'No validated, recent official Bank of England CPI projection was imported. Real-money scenarios are withheld.');
+ const comparison=el('realPaymentComparison');
+ const {arr}=calculateScenarios();
+ if(cpiPoint&&cpiPoint.rate>-3&&cpiPoint.rate<=20){
+  comparison.textContent=`In today's money (illustrative ${pct(cpiPoint.rate)} annual CPI held constant): `+
+    arr.filter(p=>p.month>0).map(p=>`+${p.month} months: ${p.payment===null?'not available':money(paymentInTodayMoney(p.payment,cpiPoint.rate,p.month))}/month`).join(' · ')+
+    '. These amounts adjust the purchasing power of projected payments only. The main affordability percentages assume unchanged nominal take-home pay; inflation does not reduce the share of income paid to the lender unless earnings change.';
+ }else comparison.textContent='Inflation-adjusted monthly comparisons unavailable until an official BoE CPI projection is validated. Nominal mortgage calculations continue separately.';
  const guidance=state.guidance;const guidanceAge=guidance?.asOf?(Date.now()-Date.parse(guidance.asOf))/86400000:Infinity;setText('guidanceText',guidance&&guidanceAge<150?`${guidance.headline} (checked ${guidance.asOf}).`:'Fresh BoE guidance unavailable; see the official Monetary Policy Report.');
  const snaps=(state.snapshots||[]).filter(p=>Number.isFinite(p.medianPrice));makeChart('priceChart',snaps.length>1?[{color:'#81bfa4',points:snaps.map(p=>({x:Date.parse(p.date),y:p.medianPrice/1000}))}]:[],{empty:'Waiting for multiple real property-market snapshots. Collecting them twice weekly will reveal the direction of asking prices.',decimals:0,suffix:'k',label:'Median asking price of qualifying properties over recorded snapshots'});
  const trend=marketTrend();setText('trendNote',trend===null?`Recorded snapshots: ${snaps.length}. Awaiting data for a 3/6/12-month price scenario.`:`Price-change scenario: ${(trend.monthly*100).toFixed(2)}% per month · ${trend.source}. ${trend.confidence}. Clipped at ±2%/month to limit extremes.`);
@@ -168,6 +205,7 @@ function renderSourceHealth(){
    ['Bank Rate',state?.bankRateAsOf,14,'Bank of England IADB',Number.isFinite(state?.bankRate)],
    ['SONIA forwards',state?.ois?.asOf,14,'Bank of England yield curves',(state?.ois?.forecast||[]).length===3],
    ['Gilt-implied inflation',gilt?.asOf,14,'Bank of England yield curves',Number.isFinite(inf?.rate)],
+   ['Official CPI projection',state?.cpiProjection?.asOf,160,'Bank of England Monetary Policy Report',(state?.cpiProjection?.series||[]).length>=2],
    ['CM12 completed sales',state?.localSales?.asOf,75,'HM Land Registry Price Paid Data',Number.isFinite(state?.localSales?.annualChange)],
    ['Broad-area house prices',state?.hpi?.date?state.hpi.date+'-01':null,125,'HM Land Registry (Basildon LA)',Number.isFinite(state?.hpi?.averagePrice)],
    ['Qualifying property listings',state?.listingsAsOf,7, 'Untera free provider · saved sample',!!state?.listingsAsOf]

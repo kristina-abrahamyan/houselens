@@ -30,6 +30,7 @@ def type_name(*values):
         return 'Semi-detached'
     if 'detached' in text:
         return 'Detached'
+    if 'endterrace' in text: return 'End of terrace'
     return None
 
 
@@ -59,43 +60,70 @@ def _coords(record):
     return lat,lng
 
 
-def normalize_item(raw):
-    if not isinstance(raw, dict): return None
-    # Untera converts source prices into USD. Never convert USD back to GBP with
-    # an invented FX rate; only use the original GBP-denominated asking price.
-    if str(raw.get('original_currency', '')).upper() != 'GBP': return None
+# Aggregate rejection reasons; never write raw provider responses or API keys to state.
+REASON_LABELS = {
+    'invalid': 'Invalid provider record', 'currency': 'No original GBP asking price',
+    'price': 'No usable asking price', 'bedrooms': 'Bedrooms not specified',
+    'status': 'Not clearly available for sale',
+    'otherType': 'Definitely not an allowed house type',
+    'outside': 'Outside the broad Billericay station area',
+    'location': 'Billericay location cannot be established',
+    'id': 'Missing listing identifier', 'unconfirmedType': 'Property type not confirmed',
+}
+
+
+def normalize_detailed(raw):
+    if not isinstance(raw, dict): return None, 'invalid'
+    if str(raw.get('original_currency', '')).upper() != 'GBP': return None, 'currency'
     price = _float(raw.get('original_price'))
     beds = _float(raw.get('bedrooms', raw.get('beds')))
-    if price is None or price <= 0 or beds is None or beds < 1: return None
-    address = str(raw.get('address') or raw.get('location_name') or raw.get('title') or '').strip()[:180]
-    kind = type_name(raw.get('property_type'), raw.get('type'), raw.get('title'))
-    if kind is None: return None
+    if price is None or price <= 0: return None, 'price'
+    if beds is None or beds < 1: return None, 'bedrooms'
     status = ' '.join(str(raw.get(f) or '') for f in ('status','availability','transaction')).lower()
     if any(term in status for term in ('sold', 'sstc', 'under offer', 'under_offer', 'rent', 'let')):
-        return None
+        return None, 'status'
     coord = _coords(raw)
     distance = round(distance_miles(*coord), 3) if coord else None
-    if distance is not None and distance > 3.5: return None
-    # If the provider has no geo-point, insist on an identifiable Billericay
-    # location; never imply this proves the exact station radius.
+    if distance is not None and distance > 3.5: return None, 'outside'
+    address = str(raw.get('address') or raw.get('location_name') or (raw.get('location') if isinstance(raw.get('location'),str) else '') or raw.get('city') or raw.get('title') or '').strip()[:180]
     if distance is None and not any(term in address.casefold() for term in ('billericay','cm12')):
-        return None
+        return None, 'location'
+    kind = type_name(raw.get('property_type'), raw.get('type'), raw.get('title'))
+    if kind is None:
+        text=' '.join(str(raw.get(k) or '') for k in ('property_type','type','title')).lower()
+        import re
+        if re.search(r'\b(flat|apartment|maisonette|studio|bungalow|land|plot|commercial)\b|\bmid[ -]?terrace\b',text):
+            return None, 'otherType'
     safe_url = str(raw.get('url') or '')
     if not safe_url.startswith('https://'): safe_url = ''
     listing_id = str(raw.get('id') or raw.get('_id') or safe_url)
-    if not listing_id: return None
-    return {'id': listing_id[:160], 'price': round(price), 'bedrooms': int(beds),
-            'type': kind, 'address': address or 'Address not provided',
+    if not listing_id: return None, 'id'
+    item = {'id': listing_id[:160], 'price': round(price), 'bedrooms': int(beds),
+            'type': kind or 'Type unverified', 'address': address or 'Address not provided',
             'distanceMiles': distance, 'distanceVerified': distance is not None,
             'url': safe_url, 'portal': 'Untera', 'sourceProvider':'Untera'}
+    return item, ('unconfirmedType' if kind is None else None)
 
 
-def parse_response(payload):
+def normalize_item(raw):
+    return normalize_detailed(raw)[0]
+
+
+def parse_response(payload, diagnostics=None):
     if not isinstance(payload,dict): raise ValueError('Listing response is not a JSON object')
     if payload.get('success') is False: raise ValueError('Listing provider reported an error')
     results = payload.get('results')
     if not isinstance(results,list): raise ValueError('Listing response is missing results array')
-    return [p for raw in results if (p:=normalize_item(raw))]
+    out=[]
+    for raw in results:
+        item, reason=normalize_detailed(raw)
+        if diagnostics is not None:
+            diagnostics['rawResults']+=1
+            if reason:
+                counts=diagnostics['reasons']
+                counts[reason]=counts.get(reason,0)+1
+        if item: out.append(item)
+    return out
 
 
 def get_untera_listings(api_key, *, get_json=None, max_pages=8):
@@ -103,24 +131,23 @@ def get_untera_listings(api_key, *, get_json=None, max_pages=8):
     if get_json is None:
         def get_json(url, key):
             req=Request(url,headers={'X-API-Key':key, 'Accept':'application/json',
-                          'User-Agent':'HouseLens/1.5 (personal UK home search)'})
+                          'User-Agent':'HouseLens/1.6 (personal UK home search)'})
             with urlopen(req,timeout=35) as response:
                 if response.status!=200: raise ValueError('Untera request failed')
                 raw=response.read(4_000_000 + 1)
                 if len(raw)>4_000_000: raise ValueError('Listing response too large')
                 return json.loads(raw)
     all_items=[]; seen=set(); pages=0; truncated=False
+    diagnostics={'rawResults':0,'reasons':{}}
     for page in range(1,max_pages+1):
         query=urlencode({'country':'GB','location':'Billericay', 'transaction':'sale',
                          'pageSize':50,'page':page})
         payload=get_json(SEARCH_ENDPOINT+'?'+query,api_key)
-        page_items=parse_response(payload)
-        for p in page_items:
-            if p['id'] not in seen:
-                all_items.append(p); seen.add(p['id'])
+        page_items=parse_response(payload,diagnostics)
+        for item in page_items:
+            if item['id'] not in seen:
+                all_items.append(item);seen.add(item['id'])
         pages=page
-        # Some versions use 'next_page', some use 'hasMore'; a short page can
-        # also terminate pagination. Do not assume exhaustive coverage.
         raw_count=len(payload.get('results',[]))
         if payload.get('next_page') is None and payload.get('hasMore') is not True and raw_count<50:
             break
@@ -128,6 +155,7 @@ def get_untera_listings(api_key, *, get_json=None, max_pages=8):
     else:
         truncated=True
     return {'listings':all_items,'sampleSize':len(all_items),'pages':pages,
+            'diagnostics':diagnostics,
             'coverageNote': ('Search capped at %d pages; results may be incomplete. ' % max_pages if truncated else '')+
             'Only Untera-indexed listings. Distance needs verified coordinates. ' +
             'Original GBP asking prices only; other currencies excluded.',
