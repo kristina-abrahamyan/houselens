@@ -7,7 +7,7 @@ import os
 import sys
 from pathlib import Path
 from statistics import median
-from update import feeds, local_sales, free_listings, cpi_projections
+from update import feeds, local_sales, realty_listings, cpi_projections
 
 STATE_PATH = Path(__file__).resolve().parents[1] / 'web' / 'data' / 'state.json'
 
@@ -73,32 +73,44 @@ def refresh(state, *, now=None, adapters=feeds):
             state['localSalesDataset'] = sales['dataset']
             state['localSales'] = sales['summary']
             state.setdefault('sources', {})['localSales'] = sales['summary']['sourceUrl']
-    # Opt-in free provider. Fetch a broad Billericay inventory; the website
-    # filters the collected stock locally, with an optional on-demand refresh.
-    # Its key must be a secret and must never be included in state.json.
-    key = os.environ.get('UNTERA_API_KEY', '')
+    # RealtyAPI is optional. The server-side secret is NEVER committed to the public
+    # snapshot. Keep official economics sources independent of this third party.
+    key = os.environ.get('REALTYAPI_KEY', '').strip()
     if key:
-        feed = run('Untera house listings', lambda: free_listings.get_untera_listings(key))
-        if feed:
+        feed = run('RealtyAPI listings', lambda: realty_listings.get_realty_listings(key))
+        if feed is not None:
             state['listings'] = feed['listings']
             state['listingsAsOf'] = timestamp
-            state['listingProvider'] = 'Untera'
-            state['listingCoverage'] = {'sampleSize':feed['sampleSize'],
-                'note':feed['coverageNote'], 'pages':feed['pages'],
-                'diagnostics':feed.get('diagnostics',{})}
+            state['listingProvider'] = 'RealtyAPI (unofficial Rightmove API)'
+            state['listingCoverage'] = {
+                'sampleSize': feed['sampleSize'], 'note': feed['coverageNote'],
+                'pages': feed['pages'], 'truncated': feed['truncated'],
+                'diagnostics': feed['diagnostics'],
+            }
             state.setdefault('sources', {})['listings'] = feed['sourceUrl']
-            # Trend snapshots contain ONLY verified properties meeting the
-            # baseline criteria (not unknown locations or broad Billericay).
-            matches=free_listings.strict_default_matches(feed['listings'])
-            if len(matches)>=3:
-                snapshot={'date':now.date().isoformat(),'observedAt':timestamp,
-                          'count':len(matches),'medianPrice':int(median(p['price'] for p in matches)),
-                          'scope':'verified station radius, default filters',
-                          'properties':[{'id':p['id'],'price':p['price']} for p in matches]}
-                old=[s for s in state.get('snapshots',[]) if s.get('date')!=snapshot['date']]
-                state['snapshots']=(old+[snapshot])[-350:]
+            matches = realty_listings.strict_default_matches(feed['listings'])
+            if len(matches) >= 3:
+                snapshot = {'date': now.date().isoformat(), 'observedAt': timestamp,
+                    'count': len(matches), 'medianPrice': int(median(p['price'] for p in matches)),
+                    'scope': 'confirmed station-radius matches from RealtyAPI; 0.75mi / 3 beds / £450k–£600k',
+                    'properties': [{'id': p['id'], 'price': p['price']} for p in matches]}
+                state['snapshots'] = ([entry for entry in state.get('snapshots', [])
+                    if entry.get('date') != snapshot['date']] + [snapshot])[-350:]
+        elif state.get('listingProvider', '').lower().find('realtyapi') < 0:
+            # Never display previous Untera data under the RealtyAPI branding.
+            state['listings'] = []
+            state['listingsAsOf'] = None
+            state['listingProvider'] = 'RealtyAPI (connection failed)'
     else:
-        state.setdefault('sources', {})['listings'] = 'Not configured: free UNTERA_API_KEY GitHub secret'
+        # A missing secret does not mean prior Untera listings are verified.
+        if 'realtyapi' not in str(state.get('listingProvider', '')).lower():
+            state['listings'] = []
+            state['listingsAsOf'] = None
+            state['listingCoverage'] = {'sampleSize': 0, 'pages': 0,
+                'diagnostics': {'rawResults': 0, 'reasons': {}},
+                'note': 'RealtyAPI not connected. Add the REALTYAPI_KEY GitHub Actions secret.'}
+        state['listingProvider'] = 'RealtyAPI (not configured)'
+        state.setdefault('sources', {})['listings'] = 'Not configured: REALTYAPI_KEY secret'
     # Never label old listings as currently for sale after a failed refresh.
     if state.get('listingsAsOf'):
         try:

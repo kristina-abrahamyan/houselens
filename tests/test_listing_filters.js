@@ -1,40 +1,20 @@
 const assert=require('node:assert/strict');
 const L=require('../web/listingFilters.js');
-const home={id:'1',title:'3 bed semi-detached home',property_type:'semi-detached',original_currency:'GBP',original_price:525000,bedrooms:3,address:'Billericay CM12',latitude:L.STATION.lat,longitude:L.STATION.lng,url:'https://example.org/one'};
-const result=L.normalizeItem(home);
-assert.ok(result);
-assert.equal(result.distanceMiles,0);
-assert.equal(L.classify(result,L.DEFAULT_FILTERS),'verified');
-assert.equal(L.classify({...result,distanceMiles:null},L.DEFAULT_FILTERS),'unverified');
-assert.equal(L.classify({...result,price:650000},L.DEFAULT_FILTERS),'excluded');
-assert.equal(L.normalizeItem({...home, original_currency:'USD'}),null);
-assert.equal(L.normalizeItem({...home,property_type:'terraced',title:'3 bedroom terraced house'}).type,'Type unverified');
-assert.equal(L.normalizeItem({...home,property_type:'mid-terrace',title:'3 bedroom mid terrace house'}),null);
-assert.equal(L.normalizeItem({...home,property_type:'terraced',title:'End of terrace cottage'}).type,'End of terrace');
-const ambiguous=L.normalizeItem({...home,property_type:'residential',title:'3 bedroom house for sale'});
-assert.equal(ambiguous.type,'Type unverified');
-assert.equal(L.classify(ambiguous,L.DEFAULT_FILTERS),'unverified');
-assert.equal(L.classify({...ambiguous,distanceMiles:2},L.DEFAULT_FILTERS),'excluded');
-const diag={rawResults:0,reasons:{}};
-const parsed=L.parseResponse({results:[home,{...home,id:'unknown',property_type:'residential',title:'3 bedroom house'}, {...home,id:'flat',property_type:'flat',title:'3 bedroom flat'}, {...home,id:'wrongcurrency',original_currency:'USD'}]},diag);
-assert.equal(diag.rawResults,4);
-assert.equal(diag.reasons.unconfirmedType,1);
-assert.equal(diag.reasons.otherType,1);
-assert.equal(diag.reasons.currency,1);
-assert.equal(parsed.length,2);
-assert.equal(L.normalizeItem({...home,status:'Sold STC'}),null);
-assert.equal(L.normalizeItem({...home,longitude:0.51}),null); // too far to be Billericay
+const home={id:'rightmove:1234567', price:525000, bedrooms:3, type:'Semi-detached', address:'Billericay CM12', distanceMiles:0.24};
+assert.equal(L.classify(home,L.DEFAULT_FILTERS),'verified');
+assert.equal(L.classify({...home,distanceMiles:null},L.DEFAULT_FILTERS),'unverified');
+assert.equal(L.classify({...home,price:650000},L.DEFAULT_FILTERS),'excluded');
+assert.equal(L.classify({...home,bedrooms:2},L.DEFAULT_FILTERS),'excluded');
+assert.equal(L.classify({...home,type:'Type unverified'},L.DEFAULT_FILTERS),'unverified');
+assert.equal(L.classify({...home,type:'Type unverified',distanceMiles:2},L.DEFAULT_FILTERS),'excluded');
+assert.equal(L.classify({...home,type:'Mid-terrace'},L.DEFAULT_FILTERS),'excluded');
+assert.equal(L.classify({...home,distanceMiles:1},L.DEFAULT_FILTERS),'excluded');
+assert.equal(L.haversine(L.STATION.lat,L.STATION.lng),0);
 assert.throws(()=>L.validateFilters({...L.DEFAULT_FILTERS,minPrice:700000,maxPrice:600000}));
-const updated=L.validateFilters({...L.DEFAULT_FILTERS,minPrice:400000,maxMiles:1.5,endTerrace:false});
-assert.equal(updated.maxMiles,1.5);
-assert.equal(L.classify(result,updated),'verified');
-assert.deepEqual(L.sortMatches([result,{...result,id:'2',distanceMiles:null}],updated).verified.length,1);
-async function main(){
- let calls=0;
- const fake=async(url,opts)=>{calls++;assert.ok(url.includes('location=Billericay'));assert.equal(opts.headers['X-API-Key'],'unt_fake');return {ok:true,json:async()=>({results:[home]})}};
- const out=await L.searchFresh('unt_fake',{fetchImpl:fake});
- assert.equal(calls,1);assert.equal(out.listings.length,1);assert.equal(out.diagnostics.rawResults,1);
- await assert.rejects(()=>L.searchFresh('invalid',{fetchImpl:fake}));
- console.log('HouseLens listing filter tests passed.');
-}
-main().catch(e=>{console.error(e);process.exitCode=1});
+const f=L.validateFilters({...L.DEFAULT_FILTERS,minPrice:400000,maxMiles:1.5,endTerrace:false});
+assert.equal(f.maxMiles,1.5);
+assert.equal(L.classify(home,f),'verified');
+assert.equal(L.classify({...home,type:'End of terrace'},f),'excluded');
+assert.equal(L.sortMatches([home,{...home,id:'rightmove:2',distanceMiles:null}],f).verified.length,1);
+assert.equal(typeof L.searchFresh,'undefined'); // Secret must not be used by public website.
+console.log('HouseLens RealtyAPI listing filter tests passed.');

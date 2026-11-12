@@ -34,7 +34,7 @@ jobs:
           node tests/test_listing_filters.js
       - name: Update from authoritative sources
         env:
-          UNTERA_API_KEY: ${{ secrets.UNTERA_API_KEY }}
+          REALTYAPI_KEY: ${{ secrets.REALTYAPI_KEY }}
         run: python -m update.main
       - name: Commit new dated snapshot
         run: |
