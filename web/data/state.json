@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-12T00:38:10Z",
-  "lastRun": "2026-11-12T00:38:10Z",
+  "asOf": "2026-11-12T01:08:20Z",
+  "lastRun": "2026-11-12T01:08:20Z",
   "status": "UPDATED",
   "bankRate": 4.0,
   "bankRateAsOf": "2026-11-10",
@@ -619,6 +619,10 @@
   "gilts": {
     "asOf": "2026-11-10",
     "rpiBreakeven": null,
+    "inflationReference": {
+      "months": 36,
+      "rate": 3.5286
+    },
     "curve": [
       {
         "months": 30,
@@ -643,6 +647,46 @@
       {
         "months": 60,
         "rate": 3.3052
+      },
+      {
+        "months": 66,
+        "rate": 3.268
+      },
+      {
+        "months": 72,
+        "rate": 3.2368
+      },
+      {
+        "months": 78,
+        "rate": 3.2109
+      },
+      {
+        "months": 84,
+        "rate": 3.1899
+      },
+      {
+        "months": 90,
+        "rate": 3.1731
+      },
+      {
+        "months": 96,
+        "rate": 3.1602
+      },
+      {
+        "months": 102,
+        "rate": 3.1507
+      },
+      {
+        "months": 108,
+        "rate": 3.144
+      },
+      {
+        "months": 114,
+        "rate": 3.1397
+      },
+      {
+        "months": 120,
+        "rate": 3.1374
       }
     ],
     "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
@@ -653,7 +697,20 @@
     "url": "https://www.bankofengland.co.uk/monetary-policy/the-interest-rate-bank-rate",
     "note": "Extracted from official BoE explanation; checked on retrieval date"
   },
-  "listings": [],
+  "listings": [
+    {
+      "id": "onthemarket_uk_19549637",
+      "price": 350000,
+      "bedrooms": 3,
+      "type": "Type unverified",
+      "address": "96 High Street\nBillericay\nCM12 9BT",
+      "distanceMiles": 0.297,
+      "distanceVerified": true,
+      "url": "https://untera.io/listings/onthemarket_uk_19549637",
+      "portal": "Untera",
+      "sourceProvider": "Untera"
+    }
+  ],
   "snapshots": [],
   "sources": {
     "bankRate": "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp",
@@ -661,11 +718,12 @@
     "gilts": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip",
     "listings": "https://untera.io/developers",
     "hpi": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-prices-2026-08.csv",
-    "localSales": "https://www.gov.uk/government/statistical-data-sets/price-paid-data-yearly-file"
+    "localSales": "https://www.gov.uk/government/statistical-data-sets/price-paid-data-yearly-file",
+    "cpiProjection": "https://www.bankofengland.co.uk/monetary-policy-report/2026/november-2026"
   },
   "errors": [],
-  "listingsAsOf": "2026-11-12T00:38:10Z",
-  "lastAttempt": "2026-11-12T00:38:10Z",
+  "listingsAsOf": "2026-11-12T01:08:20Z",
+  "lastAttempt": "2026-11-12T01:08:20Z",
   "hpi": {
     "date": "2026-08",
     "averagePrice": 366218,
@@ -681,14 +739,23 @@
     }
   ],
   "listingCoverage": {
-    "sampleSize": 0,
+    "sampleSize": 1,
     "note": "Search capped at 8 pages; results may be incomplete. Only Untera-indexed listings. Distance needs verified coordinates. Original GBP asking prices only; other currencies excluded.",
-    "pages": 8
+    "pages": 8,
+    "diagnostics": {
+      "rawResults": 400,
+      "reasons": {
+        "outside": 398,
+        "bedrooms": 1,
+        "unconfirmedType": 1
+      }
+    }
   },
   "runResults": [
     "Bank Rate",
     "SONIA",
     "Yield curves",
+    "BoE CPI projections",
     "BoE guidance",
     "Basildon HPI",
     "CM12 completed sales",
@@ -4190,5 +4257,29 @@
     "note": "Price Paid Data has no bedroom count, floor area, station distance or end-terrace flag; not a listing search. Latest months excluded for registration lag.",
     "attribution": "Contains HM Land Registry data © Crown copyright and database right 2021. This data is licensed under the Open Government Licence v3.0."
   },
-  "listingProvider": "Untera"
+  "listingProvider": "Untera",
+  "cpiProjection": {
+    "asOf": "2026-11-10",
+    "sourceUrl": "https://www.bankofengland.co.uk/monetary-policy-report/2026/november-2026",
+    "series": [
+      {
+        "quarter": "2026 Q4",
+        "rate": 3.8
+      },
+      {
+        "quarter": "2027 Q4",
+        "rate": 4.0
+      },
+      {
+        "quarter": "2028 Q4",
+        "rate": 2.0
+      },
+      {
+        "quarter": "2029 Q4",
+        "rate": 1.8
+      }
+    ],
+    "measure": "four-quarter CPI inflation, central projection",
+    "note": "Quarter-end annual CPI inflation forecasts; not a precise CPI path for each intervening month."
+  }
 }
