@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-11T23:55:27Z",
-  "lastRun": "2026-11-11T23:55:27Z",
+  "asOf": "2026-11-12T00:38:10Z",
+  "lastRun": "2026-11-12T00:38:10Z",
   "status": "UPDATED",
   "bankRate": 4.0,
   "bankRateAsOf": "2026-11-10",
@@ -648,7 +648,7 @@
     "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
   },
   "guidance": {
-    "asOf": "2026-11-11",
+    "asOf": "2026-11-12",
     "headline": "Inflation is expected to reach about 5% by mid-2027 We’ve raised Bank Rate to reduce how much rising energy costs affect other prices",
     "url": "https://www.bankofengland.co.uk/monetary-policy/the-interest-rate-bank-rate",
     "note": "Extracted from official BoE explanation; checked on retrieval date"
@@ -659,13 +659,13 @@
     "bankRate": "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp",
     "ois": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip",
     "gilts": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip",
-    "listings": "Not configured: add GitHub secret PROPERTYDATA_API_KEY",
+    "listings": "https://untera.io/developers",
     "hpi": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-prices-2026-08.csv",
     "localSales": "https://www.gov.uk/government/statistical-data-sets/price-paid-data-yearly-file"
   },
   "errors": [],
-  "listingsAsOf": null,
-  "lastAttempt": "2026-11-11T23:55:27Z",
+  "listingsAsOf": "2026-11-12T00:38:10Z",
+  "lastAttempt": "2026-11-12T00:38:10Z",
   "hpi": {
     "date": "2026-08",
     "averagePrice": 366218,
@@ -680,14 +680,19 @@
       "averagePrice": 366218
     }
   ],
-  "listingCoverage": null,
+  "listingCoverage": {
+    "sampleSize": 0,
+    "note": "Search capped at 8 pages; results may be incomplete. Only Untera-indexed listings. Distance needs verified coordinates. Original GBP asking prices only; other currencies excluded.",
+    "pages": 8
+  },
   "runResults": [
     "Bank Rate",
     "SONIA",
     "Yield curves",
     "BoE guidance",
     "Basildon HPI",
-    "CM12 completed sales"
+    "CM12 completed sales",
+    "Untera house listings"
   ],
   "soniaRate": 3.9842,
   "soniaAsOf": "2026-11-09",
@@ -4169,7 +4174,7 @@
     }
   },
   "localSales": {
-    "asOf": "2026-11-11",
+    "asOf": "2026-11-12",
     "periodEnd": "2026-06",
     "previousPeriodEnd": "2025-06",
     "scope": "CM12 0 postcode sector",
@@ -4184,5 +4189,6 @@
     "sourceUrl": "https://www.gov.uk/government/statistical-data-sets/price-paid-data-yearly-file",
     "note": "Price Paid Data has no bedroom count, floor area, station distance or end-terrace flag; not a listing search. Latest months excluded for registration lag.",
     "attribution": "Contains HM Land Registry data © Crown copyright and database right 2021. This data is licensed under the Open Government Licence v3.0."
-  }
+  },
+  "listingProvider": "Untera"
 }
