@@ -7,12 +7,12 @@ import os
 import sys
 from pathlib import Path
 from statistics import median
-from update import feeds, local_sales, realty_listings, cpi_projections
+from update import feeds, local_sales, realty_listings, cpi_projections, ons_cpi
 
 STATE_PATH = Path(__file__).resolve().parents[1] / 'web' / 'data' / 'state.json'
 
 
-def refresh(state, *, now=None, adapters=feeds):
+def refresh(state, *, now=None, adapters=feeds, refresh_listings=True):
     now = now or dt.datetime.now(dt.timezone.utc)
     timestamp = now.replace(microsecond=0).isoformat().replace('+00:00', 'Z')
     state = json.loads(json.dumps(state))
@@ -53,6 +53,14 @@ def refresh(state, *, now=None, adapters=feeds):
         if cpi:
             state['cpiProjection'] = cpi
             state.setdefault('sources', {})['cpiProjection'] = cpi['sourceUrl']
+    # ONS actual inflation is separate from BoE projected CPI and gilt RPI.
+    # This importer runs on every automatic economic-data refresh, including
+    # 2027 and 2028, and preserves a dated older value if the endpoint fails.
+    if adapters is feeds:
+        ons = run('ONS observed CPI', lambda: ons_cpi.get_ons_cpi(feeds.fetch_bytes, today=now.date()))
+        if ons:
+            state['observedCpi'] = ons
+            state.setdefault('sources', {})['observedCpi'] = ons['sourceUrl']
     guidance = run('BoE guidance', adapters.get_guidance)
     if guidance:
         state['guidance'] = guidance
@@ -86,7 +94,11 @@ def refresh(state, *, now=None, adapters=feeds):
             'diagnostics': {'rawResults': 0, 'reasons': {}}, 'note': message}
         state['listingRefresh'] = {'status': status, 'attemptedAt': timestamp, 'message': message}
         state.setdefault('sources', {})['listings'] = 'https://www.realtyapi.io/api/rightmove/searchbycoordinates'
-    if key:
+    if not refresh_listings:
+        # Official feeds refresh more frequently; do not burn provider credits
+        # or destroy a recent successful RealtyAPI listing snapshot.
+        pass
+    elif key:
         feed = run('RealtyAPI listings', lambda: realty_listings.get_realty_listings(key))
         if feed is not None:
             state['listings'] = feed['listings']
@@ -145,7 +157,8 @@ def refresh(state, *, now=None, adapters=feeds):
 
 def main():
     before = json.loads(STATE_PATH.read_text(encoding='utf-8'))
-    after = refresh(before)
+    listing_refresh = os.environ.get('HOUSELENS_REFRESH_LISTINGS', 'true').lower() in ('true', '1', 'yes')
+    after = refresh(before, refresh_listings=listing_refresh)
     STATE_PATH.write_text(json.dumps(after, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print('Status:', after['status'], '; updated:', ', '.join(after['runResults']) or 'none')
     print('Listing refresh:', after.get('listingRefresh', {}).get('status', 'not-run'), '-', after.get('listingRefresh', {}).get('message', 'unknown'))

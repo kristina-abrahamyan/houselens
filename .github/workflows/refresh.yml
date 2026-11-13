@@ -1,7 +1,9 @@
 name: Refresh HouseLens market data and deploy
 on:
   schedule:
-    # Tuesdays and Fridays, 08:00 UTC (09:00 BST in summer).
+    # Official economic data + CPI: automatically every six hours.
+    - cron: '0 */6 * * *'
+    # RealtyAPI listings: Tuesdays and Fridays only, to protect free credits.
     - cron: '0 8 * * 2,5'
   workflow_dispatch:
 permissions:
@@ -35,6 +37,7 @@ jobs:
       - name: Update from authoritative sources
         env:
           REALTYAPI_KEY: ${{ secrets.REALTYAPI_KEY }}
+          HOUSELENS_REFRESH_LISTINGS: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == '0 8 * * 2,5' }}
         run: python -m update.main
       - name: Commit new dated snapshot
         run: |

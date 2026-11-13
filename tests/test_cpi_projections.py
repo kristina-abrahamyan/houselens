@@ -58,3 +58,14 @@ class CPIProjectionTests(unittest.TestCase):
             cpi_projections.get_cpi_projection(only_last_year,today=dt.date(2027,9,1))
 
 if __name__=='__main__':unittest.main()
+
+class CPIReportedPeakTests(unittest.TestCase):
+    def test_midyear_peak_comes_from_visible_narrative_not_q4(self):
+        narrative = ('<p>CPI inflation increased to 3.5% in September. '
+                     'It is now expected to rise to around 5% by the middle of next year.</p>')
+        doc = SAMPLE.replace('<h1>Monetary Policy Report - November 2026</h1>',
+                             '<h1>Monetary Policy Report - November 2026</h1>' + narrative)
+        projection = cpi_projections.parse_cpi_report(doc, 'https://www.bankofengland.co.uk/example')
+        self.assertEqual(projection['peakGuidance']['rate'], 5.0)
+        self.assertEqual(projection['peakGuidance']['period'], 'mid-2027')
+        self.assertEqual(projection['series'][1]['rate'], 4.0)

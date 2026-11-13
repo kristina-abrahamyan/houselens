@@ -91,6 +91,32 @@ def _publication_date(doc):
     raise ValueError('BoE report publication date was not found')
 
 
+def _reported_peak(doc, published):
+    """Optional BoE narrative peak; never infer a mid-year peak from Q4 data."""
+    visible = ' '.join(' '.join(doc.visible).split())
+    pattern = (r'(?:expected|projected)\s+to\s+(?:rise|reach|peak)(?:\s+to)?\s+'
+               r'(?:around|about|approximately)\s+(\d{1,2}(?:\.\d+)?)\s*%\s+'
+               r'(?:by|in|around)\s+(?:the\s+)?(middle|mid|end|start)\s+of\s+'
+               r'(next year|20\d{2})')
+    for match in re.finditer(pattern, visible, flags=re.I):
+        # Limit to explicit inflation context; exclude unrelated forecasts.
+        previous = visible[max(0, match.start()-240):match.start()].lower()
+        if 'inflation' not in previous:
+            continue
+        rate = float(match.group(1))
+        if not 0 <= rate <= 20:
+            continue
+        year = int(published[:4])+1 if match.group(3).casefold() == 'next year' else int(match.group(3))
+        if not int(published[:4]) <= year <= int(published[:4])+3:
+            continue
+        term = match.group(2).casefold()
+        label = 'mid' if term in ('middle', 'mid') else ('early' if term == 'start' else 'late')
+        return {'rate': rate, 'period': f'{label}-{year}',
+                'description': f'around {rate:g}% {label}-{year}',
+                'basis': 'BoE published narrative, approximate, not a quarterly data point'}
+    return None
+
+
 def parse_cpi_report(payload, source_url):
     """Extract year-end quarterly, four-quarter CPI rates from Table 3.B.
 
@@ -140,6 +166,7 @@ def parse_cpi_report(payload, source_url):
             if max(p['quarter'][:4] for p in points) < published[:4]:
                 raise ValueError('BoE CPI forecast dates predate the report')
             return {
+                'peakGuidance': _reported_peak(doc, published),
                 'asOf': published,
                 'sourceUrl': source_url,
                 'series': points,

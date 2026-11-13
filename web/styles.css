@@ -14,3 +14,8 @@
 .provider-credit{font-size:10px;color:#3c836c;text-decoration:underline;margin-top:6px;display:inline-block}.provider-credit[hidden]{display:none}
 
 .provider-controls a.action-button,.provider-controls a.outline-button{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;min-height:42px;font-size:12px}.provider-controls a.action-button{color:#fff}.provider-controls a.outline-button{border:1px solid #d1dfdc;padding:10px 15px;border-radius:9px;color:#325c4d;font-weight:700}
+
+/* v1.8: explicit settings commit and inflation data status */
+.settings-save-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:19px;padding:18px;background:#eaf4ee;border-radius:12px;border:1px solid #cfdfd5}
+.settings-save-row .field-note{margin:0}.settings-save-row .field-note.unsaved{color:#a36a24;font-weight:700}.settings-save-row .field-note.success{color:#286f52;font-weight:700}
+@media(max-width:730px){.settings-save-row{margin-bottom:15px}.settings-save-row button{width:100%}}

@@ -3,7 +3,7 @@ const GBP=new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP',maximum
 const pct=v=>Number.isFinite(v)?`${v.toFixed(1)}%`:'—';
 const money=v=>Number.isFinite(v)?GBP.format(v):'—';
 const el=id=>document.getElementById(id);
-let state=null,settings={...DEFAULTS},rateRange='5';
+let state=null,settings={...DEFAULTS},rateRange='5',settingsDirty=false;
 const listingLib=window.HouseListings;
 let propertyFilters={...listingLib.DEFAULT_FILTERS};
 try{localStorage.removeItem('houselens-untera-key');const f=JSON.parse(localStorage.getItem('houselens-property-filters')||'null');if(f)propertyFilters=listingLib.validateFilters(f);}catch{}
@@ -167,6 +167,9 @@ function renderOutlook(){const forecast=freshDate(state?.ois?.asOf,14)?(state?.o
  const cpiPoint=withinRange.length&&withinRange[0].gap<=275*86400000?withinRange[0].point:null;
  setText('cpiLabel',cpiPoint?`BoE CPI · ${cpiPoint.quarter}`:'BoE CPI central projection');
  setText('cpiValue',cpiPoint?pct(cpiPoint.rate):'Not available');
+ setText('observedCpiNote',state?.observedCpi&&freshDate(state.observedCpi.asOf,90)?`Latest ONS observed CPI inflation: ${pct(state.observedCpi.annualRate)} (for ${state.observedCpi.asOf.slice(0,7)}, released ${state.observedCpi.published||'date unconfirmed'}). This is measured inflation, not a forecast.`:'Latest ONS actual inflation is unavailable or stale; the app will retry automatically.');
+ const peak=usable?report?.peakGuidance:null;
+ setText('cpiPeakNote',peak?`BoE also expects CPI inflation to reach ${peak.description}; this peak is not represented by year-end projections.`:'Mid-year inflation peak: no validated numerical BoE guidance is currently available.');
  setText('cpiNote',usable?`Official central projection (${report.asOf}): ${future.map(p=>`${p.quarter}: ${pct(p.rate)}`).join(' · ')}. These are year-on-year inflation rates at quarter-end, not forecasts for every individual month.`:'No validated, recent official Bank of England CPI projection was imported. Real-money scenarios are withheld.');
  const comparison=el('realPaymentComparison');
  const {arr}=calculateScenarios();
@@ -203,6 +206,7 @@ function renderSourceHealth(){
    ['Bank Rate',state?.bankRateAsOf,14,'Bank of England IADB',Number.isFinite(state?.bankRate)],
    ['SONIA forwards',state?.ois?.asOf,14,'Bank of England yield curves',(state?.ois?.forecast||[]).length===3],
    ['Gilt-implied inflation',gilt?.asOf,14,'Bank of England yield curves',Number.isFinite(inf?.rate)],
+   ['ONS observed CPI',state?.observedCpi?.asOf,90,'Office for National Statistics (D7G7)',Number.isFinite(state?.observedCpi?.annualRate)],
    ['Official CPI projection',state?.cpiProjection?.asOf,160,'Bank of England Monetary Policy Report',(state?.cpiProjection?.series||[]).length>=2],
    ['CM12 completed sales',state?.localSales?.asOf,75,'HM Land Registry Price Paid Data',Number.isFinite(state?.localSales?.annualChange)],
    ['Broad-area house prices',state?.hpi?.date?state.hpi.date+'-01':null,125,'HM Land Registry (Basildon LA)',Number.isFinite(state?.hpi?.averagePrice)],
@@ -214,15 +218,47 @@ function renderSourceHealth(){
     return `<div class="source-item"><div><strong>${escapeHtml(name)}</strong><small>${escapeHtml(provider)}</small></div><div class="source-status ${ok?'healthy':'needs-attention'}">${ok?'Usable':'Missing / check data'}<small>${escapeHtml(note)}</small></div></div>`;
  }).join('');
 }
-function renderSettings(){for(const [k,v] of Object.entries(settings)){const field=document.querySelector(`[data-setting="${k}"]`);if(field)field.value=v;}const rate=state.bankRate+Number(settings.spread),loan=+settings.price*(1-+settings.deposit/100),p=repayment(+settings.price,+settings.deposit,rate,+settings.term);el('mortgageBreakdown').innerHTML=`House price <strong>${money(+settings.price)}</strong><br>Deposit <strong>${money(+settings.price*settings.deposit/100)}</strong><br>Mortgage balance <strong>${money(loan)}</strong><br>Estimated repayment <strong>${money(p)} / month</strong>`;}
-function render(){if(!state)return;const d=state.lastRun?new Date(state.lastRun).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'Not yet scheduled';setText('date-label',`SNAPSHOT · ${d.toUpperCase()}`);setText('freshness',state.lastRun?`Updated ${d}`:'Awaiting live setup');el('freshness').classList.toggle('warning',!state.lastRun);el('setupAlert').hidden=!!currentListingFeed().at&&!currentListingFeed().stale;setText('dataHealth',state.errors?.length?`${state.errors.length} source warning(s) · check data freshness in the outlook`:'');renderOverview();renderListings();renderSettings();}
+function renderSettings(){if(settingsDirty)return;for(const [k,v] of Object.entries(settings)){const field=document.querySelector(`[data-setting="${k}"]`);if(field)field.value=v;}const rate=state.bankRate+Number(settings.spread),loan=+settings.price*(1-+settings.deposit/100),p=repayment(+settings.price,+settings.deposit,rate,+settings.term);el('mortgageBreakdown').innerHTML=`House price <strong>${money(+settings.price)}</strong><br>Deposit <strong>${money(+settings.price*settings.deposit/100)}</strong><br>Mortgage balance <strong>${money(loan)}</strong><br>Estimated repayment <strong>${money(p)} / month</strong>`;}
+function render(){if(!state)return;const refreshDelayed=!freshDate(state?.lastAttempt,1);const d=state.lastRun?new Date(state.lastRun).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'Not yet scheduled';setText('date-label',`SNAPSHOT · ${d.toUpperCase()}`);setText('freshness',refreshDelayed?'Refresh delayed · check Actions':state.lastRun?`Updated ${d}`:'Awaiting live setup');el('freshness').classList.toggle('warning',refreshDelayed||!state.lastRun);el('setupAlert').hidden=!!currentListingFeed().at&&!currentListingFeed().stale;setText('dataHealth',[refreshDelayed?'Scheduled economic-data refresh is overdue; figures may be stale.':null,state.errors?.length?`${state.errors.length} source warning(s) · check data freshness in the outlook`:null].filter(Boolean).join(' '));renderOverview();renderListings();renderSettings();}
 async function load(){try{const res=await fetch(`./data/state.json?bust=${Date.now()}`,{cache:'no-store'});if(!res.ok)throw Error(`${res.status}`);state=await res.json();render();}catch(err){setText('freshness','Data unavailable');document.querySelectorAll('.chart').forEach(e=>e.innerHTML='<div class="chart-empty">Could not load the published snapshot. Check your connection.</div>');console.warn(err);}}
 function switchTab(name){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===name));document.querySelectorAll('[data-tab]').forEach(n=>n.classList.toggle('selected',n.dataset.tab===name));location.hash=name;window.scrollTo({top:0,behavior:'instant'});}
 document.querySelectorAll('[data-tab]').forEach(n=>n.addEventListener('click',()=>switchTab(n.dataset.tab)));document.querySelectorAll('[data-jump]').forEach(n=>n.addEventListener('click',()=>switchTab(n.dataset.jump)));el('reload').addEventListener('click',load);
 el('applyFilters').addEventListener('click',saveFilters);
 el('resetFilters').addEventListener('click',()=>{propertyFilters={...listingLib.DEFAULT_FILTERS};localStorage.setItem('houselens-property-filters',JSON.stringify(propertyFilters));el('filterMessage').className='field-note success';setText('filterMessage','Default filters restored.');renderListings();});
 
-el('reset').addEventListener('click',()=>{settings={...DEFAULTS};localStorage.setItem('houselens-settings',JSON.stringify(settings));render();});document.querySelectorAll('[data-setting]').forEach(input=>input.addEventListener('change',()=>{let val=input.value;if(input.type==='number')val=Number(val);settings[input.dataset.setting]=val;localStorage.setItem('houselens-settings',JSON.stringify(settings));render();el('saveToast').classList.add('show');setTimeout(()=>el('saveToast').classList.remove('show'),1600);}));
+function showSaveMessage(message,kind='success'){
+ const status=el('settingsSaveStatus');status.textContent=message;status.className=`field-note ${kind}`;
+}
+function saveSettings(){
+ const next={};
+ for(const [key,prior] of Object.entries(DEFAULTS)){
+  const input=document.querySelector(`[data-setting="${key}"]`);
+  if(!input)continue;
+  if(typeof prior==='number'){
+   if(input.value.trim()===''){showSaveMessage('Please fill in all numerical fields.','error');return;}
+   next[key]=Number(input.value);
+   if(!Number.isFinite(next[key])){showSaveMessage('Please enter valid numbers.','error');return;}
+  }else next[key]=input.value;
+ }
+ if(next.salary1<0||next.salary2<0||next.salary1>1000000||next.salary2>1000000||
+    next.sac1<0||next.sac2<0||next.share2<0||next.deposit<0||next.deposit>=100||
+    next.term<5||next.term>40||next.spread<0||next.spread>8||next.price<100000||next.price>5000000||
+    next.sac1*12>next.salary1||next.sac2*12>next.salary2){
+   showSaveMessage('Check your salary, sacrifice, mortgage and deposit values.','error');return;
+ }
+ try{localStorage.setItem('houselens-settings',JSON.stringify(next));settings={...next};settingsDirty=false;render();showSaveMessage('Saved successfully on this device. All calculations updated.');}
+ catch{showSaveMessage('Unable to save settings in this browser.','error');}
+}
+el('saveSettings').addEventListener('click',saveSettings);
+el('reset').addEventListener('click',()=>{settings={...DEFAULTS};settingsDirty=false;localStorage.setItem('houselens-settings',JSON.stringify(settings));render();showSaveMessage('Example settings restored and saved.');});
+document.querySelectorAll('[data-setting]').forEach(input=>input.addEventListener('input',()=>{settingsDirty=true;showSaveMessage('Unsaved changes — click Save changes to apply.','unsaved');}));
+
 document.querySelectorAll('[data-range]').forEach(button=>button.addEventListener('click',()=>{rateRange=button.dataset.range;document.querySelectorAll('[data-range]').forEach(b=>{b.classList.toggle('selected',b===button);b.setAttribute('aria-pressed',String(b===button));});renderBankChart();}));
 if(['overview','listings','outlook','settings'].includes(location.hash.slice(1)))switchTab(location.hash.slice(1));
-load();if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('./sw.js').catch(()=>{});
+load();
+// Refresh automatically on reopening, tab focus and while the site remains open.
+// This fetches the newest *published* data; GitHub Actions does the server-side ingestion.
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)load();});
+window.addEventListener('focus',()=>load());
+setInterval(()=>{if(!document.hidden)load();},15*60*1000);
+if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('./sw.js').catch(()=>{});
