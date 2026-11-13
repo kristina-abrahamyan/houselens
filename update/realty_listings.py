@@ -79,7 +79,9 @@ def normalize_detailed(raw):
     if currency not in ('GBP', '£'): return None,'currency'
     # The provider documents GBP numeric prices, but may include a displayPrice.
     # An explicit foreign currency is never interpreted as GBP.
-    price = _number(raw.get('priceAmount', raw.get('askingPrice', price_field)))
+    price = _number(raw.get('priceAmount', raw.get('askingPrice', raw.get('numericPrice', raw.get('priceValue', price_field)))))
+    if price is None:
+        price = _number(raw.get('displayPrice', raw.get('displayedPrice')))
     if price is None and isinstance(raw.get('displayPrices'), list) and raw['displayPrices']:
         price = _number(raw['displayPrices'][0].get('displayPrice') if isinstance(raw['displayPrices'][0], dict) else raw['displayPrices'][0])
     beds = _number(raw.get('bedrooms',raw.get('beds',raw.get('bedroomCount'))))
@@ -110,17 +112,120 @@ def normalize_detailed(raw):
 def normalize_item(raw): return normalize_detailed(raw)[0]
 
 
-def _items(payload):
-    if not isinstance(payload,dict): raise ValueError('Response is not a JSON object')
-    if payload.get('success') is False or payload.get('error'): raise ValueError('Provider returned an error')
-    inner=payload.get('data') if isinstance(payload.get('data'),dict) else payload
-    results=inner.get('properties')
-    if results is None: results=inner.get('results')
-    if results is None: results=inner.get('listings')
-    if results is None and isinstance(payload.get('data'), list): results=payload['data']
-    if not isinstance(results,list): raise ValueError('Missing properties/results array in response')
-    return results, inner
+# Only follow known response-envelope field names. Do NOT recursively search arbitrary
+# lists: that could silently turn error/audit records into supposed properties.
+RESULT_KEYS = ('properties', 'results', 'listings', 'items', 'propertyList', 'searchResults')
+WRAPPER_KEYS = ('data', 'result', 'results', 'response', 'body', 'payload', 'searchResults', 'searchResult', 'content', 'listings', 'propertyList')
 
+
+def _shape_keys(obj):
+    """Safe schema diagnostics: field *names*, never values or API credentials."""
+    if isinstance(obj, dict):
+        return ','.join(sorted(str(k)[:36] for k in obj.keys())[:16]) or '(none)'
+    return type(obj).__name__
+
+
+def _provider_error(payload):
+    """Detect provider errors even when a proxy responds with HTTP 200 JSON."""
+    if not isinstance(payload, dict):
+        return None
+    status = payload.get('statusCode', payload.get('status'))
+    code = payload.get('code')
+    if payload.get('success') is False or payload.get('ok') is False:
+        return 'provider indicated success=false'
+    if isinstance(status, int) and status >= 400:
+        return f'provider HTTP status {status}'
+    if isinstance(code, int) and code >= 400:
+        return f'provider error code {code}'
+    if payload.get('error') not in (None, False, '', {}):
+        return 'provider error field present'
+    # APIs sometimes respond 200 with {message: 'Invalid API key'} etc.
+    # Classify such messages but NEVER print the supplied message itself.
+    info = str(payload.get('message') or payload.get('detail') or '').lower()
+    if any(marker in info for marker in ('unauthoriz','invalid api key','invalid key','missing api key','forbidden')):
+        return 'provider rejected the API credential'
+    if any(marker in info for marker in ('insufficient credit','quota exceeded','rate limit','payment required','limit reached')):
+        return 'provider quota or credit limit reached'
+    return None
+
+
+def _items(payload):
+    """Accept published search-list envelopes; fail explicitly on unknown shapes.
+
+    RealtyAPI does not currently publish a machine-readable response schema for
+    this endpoint, so do not assert one undocumented JSON wrapper. All candidate
+    containers must hold a list, and lists are accepted only at known keys.
+    """
+    if isinstance(payload, list):
+        return payload, {}
+    if not isinstance(payload, dict):
+        raise ValueError(f'Unexpected RealtyAPI JSON root type: {type(payload).__name__}')
+    err = _provider_error(payload)
+    if err:
+        raise ValueError('RealtyAPI response error: ' + err)
+
+    seen = set()
+    queue = [(payload, 0)]
+    # Track metadata on the way down for response pagination (e.g. root nextPage
+    # while property array is nested under data.results).
+    collected_meta = {}
+    observed = []
+    while queue:
+        node, depth = queue.pop(0)
+        if not isinstance(node, dict) or id(node) in seen or depth > 5:
+            continue
+        seen.add(id(node))
+        observed.append(_shape_keys(node))
+        err = _provider_error(node)
+        if err:
+            raise ValueError('RealtyAPI response error: ' + err)
+        for key in ('nextPage', 'pagination', 'pageInfo', 'hasNextPage', 'totalPages', 'page'):
+            if key in node and key not in collected_meta:
+                collected_meta[key] = node[key]
+        for key in RESULT_KEYS:
+            candidate = node.get(key)
+            if isinstance(candidate, list):
+                return candidate, collected_meta
+        # Some APIs use data: [...] or result: [...], rather than
+        # data: {properties: [...]}. These keys are still explicit allow-lists.
+        for key in ('data', 'result', 'response', 'payload'):
+            if isinstance(node.get(key), list):
+                return node[key], collected_meta
+        for key in WRAPPER_KEYS:
+            candidate = node.get(key)
+            if isinstance(candidate, dict):
+                queue.append((candidate, depth + 1))
+    # This log is useful even for a 200 response with an undocumented envelope.
+    # No listing addresses, values, headers, passwords or keys are logged.
+    path_shapes = ' / '.join(observed[:4])
+    raise ValueError('Unrecognized RealtyAPI response format; JSON field names: ' + path_shapes[:350])
+
+
+def _has_next(meta, page, raw_count):
+    next_page = meta.get('nextPage')
+    if next_page is not None:
+        if isinstance(next_page, bool):
+            return next_page
+        if isinstance(next_page, (int, float)):
+            return next_page > page
+        if isinstance(next_page, str):
+            return next_page.lower() in ('true', 'yes') or (next_page.isdigit() and int(next_page)>page)
+    page_info = meta.get('pagination') or meta.get('pageInfo')
+    if isinstance(page_info, dict):
+        if page_info.get('hasNextPage') is not None:
+            return bool(page_info['hasNextPage'])
+        target = page_info.get('nextPage')
+        if isinstance(target, bool): return target
+        if isinstance(target, (int,float)): return target>page
+        total = page_info.get('totalPages') or page_info.get('pages')
+        if isinstance(total, (int,float)): return page < total
+    if meta.get('hasNextPage') is not None:
+        return bool(meta['hasNextPage'])
+    total = meta.get('totalPages')
+    if isinstance(total, (int,float)):
+        return page < total
+    # Missing pagination metadata means exactly one page, not an assumed next.
+    return False
 
 def build_search_params(page=1, *,min_price=300000,max_price=1000000,min_beds=2,radius=3):
     return {'latitude':STATION[0], 'longitude':STATION[1], 'radius':radius,
@@ -153,11 +258,7 @@ def get_realty_listings(api_key, *, get_json=None, max_pages=4):
             if item and item['id'] not in seen:
                 all_items.append(item);seen.add(item['id'])
         pages=page
-        next_page=meta.get('nextPage', payload.get('nextPage'))
-        if next_page is None and isinstance(meta.get('pagination'),dict):
-            next_page=meta['pagination'].get('nextPage')
-        has_next = next_page is True or (isinstance(next_page, int) and not isinstance(next_page,bool) and next_page>page)
-        if not raw or not has_next:
+        if not raw or not _has_next(meta, page, len(raw)):
             break
         if page==max_pages:truncated=True
     return {'listings':all_items,'sampleSize':len(all_items),'pages':pages,

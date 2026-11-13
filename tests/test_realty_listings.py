@@ -53,4 +53,46 @@ class RealtyTests(unittest.TestCase):
     def test_failed_provider_is_an_error(self):
         with self.assertRaises(ValueError):R.get_realty_listings('key',get_json=lambda *a:{'error':'invalid'})
 
-if __name__=='__main__':unittest.main()
+class RealtyResponseShapeTests(unittest.TestCase):
+    def test_nested_result_envelopes_and_paging(self):
+        seen=[]
+        def fake(url, key):
+            page=int(parse_qs(urlparse(url).query)['page'][0]);seen.append(page)
+            if page==1:
+                return {'data': {'results': {'properties': [house()], 'nextPage': True}}}
+            return {'response': {'data': {'listings': [house(id=111222333)]}}, 'nextPage': False}
+        result=R.get_realty_listings('secret',get_json=fake,max_pages=3)
+        self.assertEqual(seen,[1,2]);self.assertEqual(result['sampleSize'],2)
+
+    def test_data_array_and_empty_are_valid(self):
+        items,meta=R._items({'data': [house()], 'nextPage': False})
+        self.assertEqual(len(items),1)
+        items,meta=R._items({'data': {'result': {'properties': []}}, 'nextPage': False})
+        self.assertEqual(items,[])
+
+    def test_standard_nested_items_pageinfo(self):
+        seen=[]
+        def fake(url,key):
+            page=int(parse_qs(urlparse(url).query)['page'][0]);seen.append(page)
+            return {'result':{'searchResults':{'items':[house(id=page+900000)],'pageInfo':{'hasNextPage':page<2}}}}
+        result=R.get_realty_listings('key',get_json=fake,max_pages=4)
+        self.assertEqual(seen,[1,2]);self.assertEqual(result['sampleSize'],2)
+
+    def test_200_error_and_unknown_shape_never_fake_empty_search(self):
+        for body in ({'code':402,'message':'credits exhausted'}, {'success':False,'message':'no access'},
+                     {'message':'invalid api key'}, {'data': {'unrecognizedEnvelope': {'foo':'bar'}}}):
+            with self.subTest(body=body):
+                with self.assertRaises(ValueError):R._items(body)
+        try: R._items({'data': {'unexpected': {'address':'private address', 'key':'secret'}}})
+        except ValueError as error:
+            self.assertIn('data',str(error))
+            self.assertNotIn('private address',str(error));self.assertNotIn('secret',str(error))
+        else: self.fail('Should reject unknown shapes')
+
+    def test_public_payload_never_carries_key_or_raw_response(self):
+        result=R.get_realty_listings('test_key',get_json=lambda *x:{'results':[house()], 'nextPage':False})
+        self.assertNotIn('test_key',str(result))
+        self.assertNotIn('provider response',str(result).lower())
+
+if __name__=='__main__':
+    unittest.main()

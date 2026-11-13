@@ -84,11 +84,20 @@ function renderOverview(){if(!state)return;const net=householdNet(settings),rate
 }
 function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function currentListingFeed(){
- const age=state?.listingsAsOf?(Date.now()-Date.parse(state.listingsAsOf))/86400000:Infinity;
- return {listings:age>=0&&age<=7?(state?.listings||[]):[],at:state?.listingsAsOf,
-   origin:'Scheduled RealtyAPI snapshot',pages:state?.listingCoverage?.pages,
-   truncated:!!state?.listingCoverage?.truncated,stale:age>7,
-   diagnostics:state?.listingCoverage?.diagnostics};
+ const provider=String(state?.listingProvider||'');
+ const isRealty=/^RealtyAPI\b/i.test(provider);
+ const outcome=state?.listingRefresh?.status || (!isRealty?'legacy':'unknown');
+ const isSuccess=isRealty && !['failed','missing_key'].includes(outcome);
+ const at=isSuccess?state?.listingsAsOf:null;
+ const age=at?(Date.now()-Date.parse(at))/86400000:Infinity;
+ const recent=Number.isFinite(age)&&age>=0&&age<=7;
+ return {listings:recent?(state?.listings||[]):[],at,
+   origin:'Scheduled RealtyAPI snapshot',pages:isSuccess?state?.listingCoverage?.pages:null,
+   truncated:isSuccess&&!!state?.listingCoverage?.truncated,
+   stale:!!at&&!recent,
+   status:outcome,
+   detail:state?.listingRefresh?.message||'No RealtyAPI search recorded yet.',
+   diagnostics:isSuccess?state?.listingCoverage?.diagnostics:null};
 }
 function filterSummary(){const f=propertyFilters;return `${money(f.minPrice)}–${money(f.maxPrice)} · ${f.minBeds}+ beds · within ${f.maxMiles} miles`}
 function listingCard(p,unverified,net,rate){
@@ -101,7 +110,12 @@ function listingCard(p,unverified,net,rate){
 function renderListings(){
  const feed=currentListingFeed(),net=householdNet(settings),rate=state.bankRate+Number(settings.spread),results=listingLib.sortMatches(feed.listings,propertyFilters);
  const hasFeed=!!feed.at&&!feed.stale;el('listingsAlert').hidden=hasFeed;
- if(!hasFeed){const title=el('listingsAlert').querySelector('strong'),note=el('listingsAlert').querySelector('span');if(title)title.textContent=feed.stale?'Saved listings are out of date.':'No current listings connected yet.';if(note)note.textContent=feed.stale?'The last listing snapshot is over 7 days old. Run the GitHub workflow and reload; stale listings are hidden.':'Add the REALTYAPI_KEY GitHub Actions secret, then run the workflow. Bank of England and Land Registry updates continue without it.';}
+ if(!hasFeed){
+   const title=el('listingsAlert').querySelector('strong'),note=el('listingsAlert').querySelector('span');
+   const missing=feed.status==='missing_key', failed=feed.status==='failed', legacy=feed.status==='legacy';
+   if(title)title.textContent=feed.stale?'RealtyAPI listings expired.':missing?'RealtyAPI key not configured.':failed?'RealtyAPI request failed.':legacy?'Awaiting first RealtyAPI snapshot.':'No current RealtyAPI listings.';
+   if(note)note.textContent=feed.stale?'Last RealtyAPI snapshot is over seven days old. Check the latest GitHub workflow.':missing?'Add REALTYAPI_KEY to GitHub Actions secrets and rerun the workflow.':failed?'See the Update from authoritative sources step in GitHub Actions for the error.':legacy?'The published data still contains the old provider snapshot; rerun the new v1.7 workflow after updating main.':feed.detail;
+ }
  const searched=feed.listings.length;
  const diag=feed.diagnostics;
  const detail=el('listingDiagnostics');
@@ -111,7 +125,7 @@ function renderListings(){
    detail.textContent=`Provider returned ${diag.rawResults} raw records. HouseLens retained ${searched} potential listings for review. ${explanation}. Counts describe the downloaded sample, not all homes on the market. ${feed.truncated?`The ${feed.pages}-page limit was reached.`:''}`;
    detail.hidden=false;
  }else detail.hidden=true;
- const coverage=state?.listingCoverage?.note||'This is an incomplete third-party listing sample; some houses may be absent.';
+ const coverage=feed.status==='legacy'?'The downloaded snapshot is still from the previous Untera integration.':(state?.listingCoverage?.note||feed.detail||'This is an incomplete third-party listing sample; some houses may be absent.');
  setText('listingDate',feed.at?`${feed.origin.toUpperCase()} · ${feed.at.slice(0,10)}`:'PROPERTY FEED');
  setText('listingSummary',`${results.verified.length} confirmed within radius · ${results.unverified.length} possible needing verification · ${searched} potential listings in ${feed.origin.toLowerCase()}. ${filterSummary()}. ${feed.truncated?'Search limited to '+feed.pages+' pages. ':''}${feed.stale?'Scheduled results expired. ':''}${coverage}`);
  el('properties').innerHTML=results.verified.length?results.verified.map(p=>listingCard(p,false,net,rate)).join(''):'<div class="chart-empty property-empty">No verified matches in this feed for these filters. That does not mean there are no homes on the market.</div>';
@@ -192,7 +206,7 @@ function renderSourceHealth(){
    ['Official CPI projection',state?.cpiProjection?.asOf,160,'Bank of England Monetary Policy Report',(state?.cpiProjection?.series||[]).length>=2],
    ['CM12 completed sales',state?.localSales?.asOf,75,'HM Land Registry Price Paid Data',Number.isFinite(state?.localSales?.annualChange)],
    ['Broad-area house prices',state?.hpi?.date?state.hpi.date+'-01':null,125,'HM Land Registry (Basildon LA)',Number.isFinite(state?.hpi?.averagePrice)],
-   ['Qualifying property listings',state?.listingsAsOf,7, 'RealtyAPI · unofficial Rightmove sample',!!state?.listingsAsOf]
+   ['Qualifying property listings',currentListingFeed().at,7, 'RealtyAPI · unofficial Rightmove sample',!!currentListingFeed().at&&!currentListingFeed().stale]
  ];
  el('sourceHealth').innerHTML=items.map(([name,date,age,provider,usable])=>{
     const ok=usable&&freshDate(date,age);
@@ -201,7 +215,7 @@ function renderSourceHealth(){
  }).join('');
 }
 function renderSettings(){for(const [k,v] of Object.entries(settings)){const field=document.querySelector(`[data-setting="${k}"]`);if(field)field.value=v;}const rate=state.bankRate+Number(settings.spread),loan=+settings.price*(1-+settings.deposit/100),p=repayment(+settings.price,+settings.deposit,rate,+settings.term);el('mortgageBreakdown').innerHTML=`House price <strong>${money(+settings.price)}</strong><br>Deposit <strong>${money(+settings.price*settings.deposit/100)}</strong><br>Mortgage balance <strong>${money(loan)}</strong><br>Estimated repayment <strong>${money(p)} / month</strong>`;}
-function render(){if(!state)return;const d=state.lastRun?new Date(state.lastRun).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'Not yet scheduled';setText('date-label',`SNAPSHOT · ${d.toUpperCase()}`);setText('freshness',state.lastRun?`Updated ${d}`:'Awaiting live setup');el('freshness').classList.toggle('warning',!state.lastRun);el('setupAlert').hidden=!!(state.listingsAsOf&&freshDate(state.listingsAsOf,7));setText('dataHealth',state.errors?.length?`${state.errors.length} source warning(s) · check data freshness in the outlook`:'');renderOverview();renderListings();renderSettings();}
+function render(){if(!state)return;const d=state.lastRun?new Date(state.lastRun).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'Not yet scheduled';setText('date-label',`SNAPSHOT · ${d.toUpperCase()}`);setText('freshness',state.lastRun?`Updated ${d}`:'Awaiting live setup');el('freshness').classList.toggle('warning',!state.lastRun);el('setupAlert').hidden=!!currentListingFeed().at&&!currentListingFeed().stale;setText('dataHealth',state.errors?.length?`${state.errors.length} source warning(s) · check data freshness in the outlook`:'');renderOverview();renderListings();renderSettings();}
 async function load(){try{const res=await fetch(`./data/state.json?bust=${Date.now()}`,{cache:'no-store'});if(!res.ok)throw Error(`${res.status}`);state=await res.json();render();}catch(err){setText('freshness','Data unavailable');document.querySelectorAll('.chart').forEach(e=>e.innerHTML='<div class="chart-empty">Could not load the published snapshot. Check your connection.</div>');console.warn(err);}}
 function switchTab(name){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===name));document.querySelectorAll('[data-tab]').forEach(n=>n.classList.toggle('selected',n.dataset.tab===name));location.hash=name;window.scrollTo({top:0,behavior:'instant'});}
 document.querySelectorAll('[data-tab]').forEach(n=>n.addEventListener('click',()=>switchTab(n.dataset.tab)));document.querySelectorAll('[data-jump]').forEach(n=>n.addEventListener('click',()=>switchTab(n.dataset.jump)));el('reload').addEventListener('click',load);

@@ -76,6 +76,16 @@ def refresh(state, *, now=None, adapters=feeds):
     # RealtyAPI is optional. The server-side secret is NEVER committed to the public
     # snapshot. Keep official economics sources independent of this third party.
     key = os.environ.get('REALTYAPI_KEY', '').strip()
+    # Clear ALL legacy provider metadata before reporting the RealtyAPI result.
+    # In particular, a failed request must never be mistaken for 400 Untera records.
+    def no_current_realty_data(provider, status, message):
+        state['listings'] = []
+        state['listingsAsOf'] = None
+        state['listingProvider'] = provider
+        state['listingCoverage'] = {'sampleSize': 0, 'pages': 0, 'truncated': False,
+            'diagnostics': {'rawResults': 0, 'reasons': {}}, 'note': message}
+        state['listingRefresh'] = {'status': status, 'attemptedAt': timestamp, 'message': message}
+        state.setdefault('sources', {})['listings'] = 'https://www.realtyapi.io/api/rightmove/searchbycoordinates'
     if key:
         feed = run('RealtyAPI listings', lambda: realty_listings.get_realty_listings(key))
         if feed is not None:
@@ -88,6 +98,14 @@ def refresh(state, *, now=None, adapters=feeds):
                 'diagnostics': feed['diagnostics'],
             }
             state.setdefault('sources', {})['listings'] = feed['sourceUrl']
+            state['listingRefresh'] = {
+                'status': 'ok' if feed['listings'] else 'empty',
+                'attemptedAt': timestamp,
+                'message': ('RealtyAPI search completed.' if feed['listings'] else
+                            'RealtyAPI search completed but returned no supported listings.'),
+                'rawRecords': feed['diagnostics'].get('rawResults', 0),
+                'retainedRecords': feed['sampleSize'],
+            }
             matches = realty_listings.strict_default_matches(feed['listings'])
             if len(matches) >= 3:
                 snapshot = {'date': now.date().isoformat(), 'observedAt': timestamp,
@@ -96,21 +114,18 @@ def refresh(state, *, now=None, adapters=feeds):
                     'properties': [{'id': p['id'], 'price': p['price']} for p in matches]}
                 state['snapshots'] = ([entry for entry in state.get('snapshots', [])
                     if entry.get('date') != snapshot['date']] + [snapshot])[-350:]
-        elif state.get('listingProvider', '').lower().find('realtyapi') < 0:
-            # Never display previous Untera data under the RealtyAPI branding.
-            state['listings'] = []
-            state['listingsAsOf'] = None
-            state['listingProvider'] = 'RealtyAPI (connection failed)'
+        else:
+            problem = next((e for e in errs if e.startswith('RealtyAPI listings:')), '')
+            detail = ('RealtyAPI replied, but its JSON format was not recognised. '
+                      'The GitHub Actions log now shows safe response field names.'
+                      if 'response format' in problem else
+                      'RealtyAPI returned an error or the request failed. '
+                      'See the GitHub Actions log for the exact category.')
+            no_current_realty_data('RealtyAPI (request failed)', 'failed',
+                detail + ' No previous-provider listings are shown.')
     else:
-        # A missing secret does not mean prior Untera listings are verified.
-        if 'realtyapi' not in str(state.get('listingProvider', '')).lower():
-            state['listings'] = []
-            state['listingsAsOf'] = None
-            state['listingCoverage'] = {'sampleSize': 0, 'pages': 0,
-                'diagnostics': {'rawResults': 0, 'reasons': {}},
-                'note': 'RealtyAPI not connected. Add the REALTYAPI_KEY GitHub Actions secret.'}
-        state['listingProvider'] = 'RealtyAPI (not configured)'
-        state.setdefault('sources', {})['listings'] = 'Not configured: REALTYAPI_KEY secret'
+        no_current_realty_data('RealtyAPI (not configured)', 'missing_key',
+            'REALTYAPI_KEY is missing from GitHub Actions repository secrets. Existing official market updates still work.')
     # Never label old listings as currently for sale after a failed refresh.
     if state.get('listingsAsOf'):
         try:
@@ -133,6 +148,7 @@ def main():
     after = refresh(before)
     STATE_PATH.write_text(json.dumps(after, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print('Status:', after['status'], '; updated:', ', '.join(after['runResults']) or 'none')
+    print('Listing refresh:', after.get('listingRefresh', {}).get('status', 'not-run'), '-', after.get('listingRefresh', {}).get('message', 'unknown'))
     for err in after['errors']:
         print('WARNING:', err, file=sys.stderr)
     if not after['runResults']:
