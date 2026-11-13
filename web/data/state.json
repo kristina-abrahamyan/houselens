@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-13T19:05:19Z",
-  "lastRun": "2026-11-13T19:05:19Z",
+  "asOf": "2026-11-13T19:23:30Z",
+  "lastRun": "2026-11-13T19:23:30Z",
   "status": "UPDATED",
   "bankRate": 4.0,
   "bankRateAsOf": "2026-11-12",
@@ -1518,7 +1518,7 @@
   "snapshots": [
     {
       "date": "2026-11-13",
-      "observedAt": "2026-11-13T19:05:19Z",
+      "observedAt": "2026-11-13T19:23:30Z",
       "count": 3,
       "medianPrice": 500000,
       "scope": "confirmed station-radius matches from RealtyAPI; 0.75mi / 3 beds / £450k–£600k",
@@ -1545,11 +1545,12 @@
     "listings": "https://www.realtyapi.io/api/rightmove/searchbycoordinates",
     "hpi": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-prices-2026-08.csv",
     "localSales": "https://www.gov.uk/government/statistical-data-sets/price-paid-data-yearly-file",
-    "cpiProjection": "https://www.bankofengland.co.uk/monetary-policy-report/2026/november-2026"
+    "cpiProjection": "https://www.bankofengland.co.uk/monetary-policy-report/2026/november-2026",
+    "observedCpi": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g7/mm23"
   },
   "errors": [],
-  "listingsAsOf": "2026-11-13T19:05:19Z",
-  "lastAttempt": "2026-11-13T19:05:19Z",
+  "listingsAsOf": "2026-11-13T19:23:30Z",
+  "lastAttempt": "2026-11-13T19:23:30Z",
   "hpi": {
     "date": "2026-08",
     "averagePrice": 366218,
@@ -1582,6 +1583,7 @@
     "SONIA",
     "Yield curves",
     "BoE CPI projections",
+    "ONS observed CPI",
     "BoE guidance",
     "Basildon HPI",
     "CM12 completed sales",
@@ -5085,6 +5087,12 @@
   },
   "listingProvider": "RealtyAPI (unofficial Rightmove API)",
   "cpiProjection": {
+    "peakGuidance": {
+      "rate": 5.0,
+      "period": "mid-2027",
+      "description": "around 5% mid-2027",
+      "basis": "BoE published narrative, approximate, not a quarterly data point"
+    },
     "asOf": "2026-11-13",
     "sourceUrl": "https://www.bankofengland.co.uk/monetary-policy-report/2026/november-2026",
     "series": [
@@ -5110,9 +5118,162 @@
   },
   "listingRefresh": {
     "status": "ok",
-    "attemptedAt": "2026-11-13T19:05:19Z",
+    "attemptedAt": "2026-11-13T19:23:30Z",
     "message": "RealtyAPI search completed.",
     "rawRecords": 160,
     "retainedRecords": 68
+  },
+  "observedCpi": {
+    "asOf": "2026-09-01",
+    "annualRate": 3.5,
+    "published": "2026-10-21",
+    "series": [
+      {
+        "month": "2023-10-01",
+        "rate": 4.6
+      },
+      {
+        "month": "2023-11-01",
+        "rate": 3.9
+      },
+      {
+        "month": "2023-12-01",
+        "rate": 4.0
+      },
+      {
+        "month": "2024-01-01",
+        "rate": 4.0
+      },
+      {
+        "month": "2024-02-01",
+        "rate": 3.4
+      },
+      {
+        "month": "2024-03-01",
+        "rate": 3.2
+      },
+      {
+        "month": "2024-04-01",
+        "rate": 2.3
+      },
+      {
+        "month": "2024-05-01",
+        "rate": 2.0
+      },
+      {
+        "month": "2024-06-01",
+        "rate": 2.0
+      },
+      {
+        "month": "2024-07-01",
+        "rate": 2.2
+      },
+      {
+        "month": "2024-08-01",
+        "rate": 2.2
+      },
+      {
+        "month": "2024-09-01",
+        "rate": 1.7
+      },
+      {
+        "month": "2024-10-01",
+        "rate": 2.3
+      },
+      {
+        "month": "2024-11-01",
+        "rate": 2.6
+      },
+      {
+        "month": "2024-12-01",
+        "rate": 2.5
+      },
+      {
+        "month": "2025-01-01",
+        "rate": 3.0
+      },
+      {
+        "month": "2025-02-01",
+        "rate": 2.8
+      },
+      {
+        "month": "2025-03-01",
+        "rate": 2.6
+      },
+      {
+        "month": "2025-04-01",
+        "rate": 3.5
+      },
+      {
+        "month": "2025-05-01",
+        "rate": 3.4
+      },
+      {
+        "month": "2025-06-01",
+        "rate": 3.6
+      },
+      {
+        "month": "2025-07-01",
+        "rate": 3.8
+      },
+      {
+        "month": "2025-08-01",
+        "rate": 3.8
+      },
+      {
+        "month": "2025-09-01",
+        "rate": 3.8
+      },
+      {
+        "month": "2025-10-01",
+        "rate": 3.6
+      },
+      {
+        "month": "2025-11-01",
+        "rate": 3.2
+      },
+      {
+        "month": "2025-12-01",
+        "rate": 3.4
+      },
+      {
+        "month": "2026-01-01",
+        "rate": 3.0
+      },
+      {
+        "month": "2026-02-01",
+        "rate": 3.0
+      },
+      {
+        "month": "2026-03-01",
+        "rate": 3.3
+      },
+      {
+        "month": "2026-04-01",
+        "rate": 2.8
+      },
+      {
+        "month": "2026-05-01",
+        "rate": 2.8
+      },
+      {
+        "month": "2026-06-01",
+        "rate": 2.6
+      },
+      {
+        "month": "2026-07-01",
+        "rate": 2.9
+      },
+      {
+        "month": "2026-08-01",
+        "rate": 3.1
+      },
+      {
+        "month": "2026-09-01",
+        "rate": 3.5
+      }
+    ],
+    "sourceUrl": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g7/mm23",
+    "measure": "ONS actual monthly headline CPI annual inflation (D7G7)"
   }
 }
