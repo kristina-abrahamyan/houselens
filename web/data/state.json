@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-13T19:54:59Z",
-  "lastRun": "2026-11-13T19:54:59Z",
+  "asOf": "2026-11-13T20:17:18Z",
+  "lastRun": "2026-11-13T20:17:18Z",
   "status": "UPDATED",
   "bankRate": 4.0,
   "bankRateAsOf": "2026-11-12",
@@ -1550,7 +1550,7 @@
   },
   "errors": [],
   "listingsAsOf": "2026-11-13T19:23:30Z",
-  "lastAttempt": "2026-11-13T19:54:59Z",
+  "lastAttempt": "2026-11-13T20:17:18Z",
   "hpi": {
     "date": "2026-08",
     "averagePrice": 366218,
