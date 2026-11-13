@@ -19,3 +19,18 @@
 .settings-save-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:19px;padding:18px;background:#eaf4ee;border-radius:12px;border:1px solid #cfdfd5}
 .settings-save-row .field-note{margin:0}.settings-save-row .field-note.unsaved{color:#a36a24;font-weight:700}.settings-save-row .field-note.success{color:#286f52;font-weight:700}
 @media(max-width:730px){.settings-save-row{margin-bottom:15px}.settings-save-row button{width:100%}}
+
+/* Manual refresh controls (v1.9) */
+.top-refresh{padding:8px 12px;font-weight:700;white-space:nowrap;width:auto;min-width:0}
+.refresh-controls{display:grid;gap:13px;margin-top:15px}
+.refresh-credentials{background:var(--surface,#f6f8f7);border:1px solid #dbe6df;border-radius:10px;padding:14px}
+.refresh-credentials label{display:block;font-weight:700;margin-bottom:8px}
+.refresh-credential-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.refresh-credential-row input{flex:1;min-width:210px;padding:12px;border:1px solid #cbd5d1;border-radius:8px;background:#fff;color:#162538;font:inherit}
+.refresh-controls .provider-controls{display:flex;gap:9px;flex-wrap:wrap}
+.refresh-controls .provider-controls button{min-height:43px}
+#refreshStatus{margin:0;line-height:1.55}
+#refreshStatus.success{color:#11754f}
+#refreshStatus.error{color:#b33c37}
+#refreshStatus.working{color:#476680}
+@media (max-width:680px){.top-refresh{font-size:.79rem;padding:7px 9px}.refresh-controls .provider-controls button{width:100%}.refresh-credential-row input{min-width:100%}.topright{gap:4px}}

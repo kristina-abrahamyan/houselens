@@ -220,9 +220,10 @@ function renderSourceHealth(){
 }
 function renderSettings(){if(settingsDirty)return;for(const [k,v] of Object.entries(settings)){const field=document.querySelector(`[data-setting="${k}"]`);if(field)field.value=v;}const rate=state.bankRate+Number(settings.spread),loan=+settings.price*(1-+settings.deposit/100),p=repayment(+settings.price,+settings.deposit,rate,+settings.term);el('mortgageBreakdown').innerHTML=`House price <strong>${money(+settings.price)}</strong><br>Deposit <strong>${money(+settings.price*settings.deposit/100)}</strong><br>Mortgage balance <strong>${money(loan)}</strong><br>Estimated repayment <strong>${money(p)} / month</strong>`;}
 function render(){if(!state)return;const refreshDelayed=!freshDate(state?.lastAttempt,1);const d=state.lastRun?new Date(state.lastRun).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'Not yet scheduled';setText('date-label',`SNAPSHOT · ${d.toUpperCase()}`);setText('freshness',refreshDelayed?'Refresh delayed · check Actions':state.lastRun?`Updated ${d}`:'Awaiting live setup');el('freshness').classList.toggle('warning',refreshDelayed||!state.lastRun);el('setupAlert').hidden=!!currentListingFeed().at&&!currentListingFeed().stale;setText('dataHealth',[refreshDelayed?'Scheduled economic-data refresh is overdue; figures may be stale.':null,state.errors?.length?`${state.errors.length} source warning(s) · check data freshness in the outlook`:null].filter(Boolean).join(' '));renderOverview();renderListings();renderSettings();}
-async function load(){try{const res=await fetch(`./data/state.json?bust=${Date.now()}`,{cache:'no-store'});if(!res.ok)throw Error(`${res.status}`);state=await res.json();render();}catch(err){setText('freshness','Data unavailable');document.querySelectorAll('.chart').forEach(e=>e.innerHTML='<div class="chart-empty">Could not load the published snapshot. Check your connection.</div>');console.warn(err);}}
+async function load(){try{const res=await fetch(`./data/state.json?bust=${Date.now()}`,{cache:'no-store'});if(!res.ok)throw Error(`${res.status}`);state=await res.json();render();return true;}catch(err){setText('freshness','Data unavailable');document.querySelectorAll('.chart').forEach(e=>e.innerHTML='<div class="chart-empty">Could not load the published snapshot. Check your connection.</div>');console.warn(err);return false;}}
 function switchTab(name){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===name));document.querySelectorAll('[data-tab]').forEach(n=>n.classList.toggle('selected',n.dataset.tab===name));location.hash=name;window.scrollTo({top:0,behavior:'instant'});}
 document.querySelectorAll('[data-tab]').forEach(n=>n.addEventListener('click',()=>switchTab(n.dataset.tab)));document.querySelectorAll('[data-jump]').forEach(n=>n.addEventListener('click',()=>switchTab(n.dataset.jump)));el('reload').addEventListener('click',load);
+el('goToRefresh').addEventListener('click',()=>{switchTab('listings');el('refreshControls').scrollIntoView({behavior:'smooth',block:'start'});});
 el('applyFilters').addEventListener('click',saveFilters);
 el('resetFilters').addEventListener('click',()=>{propertyFilters={...listingLib.DEFAULT_FILTERS};localStorage.setItem('houselens-property-filters',JSON.stringify(propertyFilters));el('filterMessage').className='field-note success';setText('filterMessage','Default filters restored.');renderListings();});
 
@@ -254,6 +255,123 @@ el('reset').addEventListener('click',()=>{settings={...DEFAULTS};settingsDirty=f
 document.querySelectorAll('[data-setting]').forEach(input=>input.addEventListener('input',()=>{settingsDirty=true;showSaveMessage('Unsaved changes — click Save changes to apply.','unsaved');}));
 
 document.querySelectorAll('[data-range]').forEach(button=>button.addEventListener('click',()=>{rateRange=button.dataset.range;document.querySelectorAll('[data-range]').forEach(b=>{b.classList.toggle('selected',b===button);b.setAttribute('aria-pressed',String(b===button));});renderBankChart();}));
+
+// v1.9: The public static website never contains a GitHub token or API key.
+// The protected Worker can dispatch refreshes after the user enters a private code.
+const refreshEndpoint=(window.HOUSELENS_REFRESH_ENDPOINT||'').trim().replace(/\/+$/,'');
+const validRefreshEndpoint=(()=>{
+ try {const url=new URL(refreshEndpoint);return url.protocol==='https:'&&!url.username&&!url.password&&!url.search&&!url.hash&&!url.pathname.replace(/\//g,'');}catch{return false;}
+})();
+let refreshAccessCode=''; // Held in volatile page memory only; never localStorage.
+let refreshPoll=null;
+let refreshRequestedAt=0;
+let refreshLastRunId='';
+let refreshExpectedRunId='';
+let refreshChecks=0;
+const refreshButtons=[el('refreshEconomics'),el('refreshWithHomes')];
+function refreshMessage(message,kind=''){
+ const node=el('refreshStatus');node.textContent=message;node.className=`field-note ${kind}`;
+}
+function setRefreshBusy(busy){
+ for(const button of refreshButtons)button.disabled=busy||!validRefreshEndpoint;
+ el('refreshSignIn').disabled=busy;
+}
+function stopRefreshPoll(){if(refreshPoll!==null){clearInterval(refreshPoll);refreshPoll=null;}}
+async function refreshApi(path,options={}){
+ const reply=await fetch(`${refreshEndpoint}${path}`,{
+  method:options.method||'GET',
+  headers:{'X-HouseLens-Access':refreshAccessCode,...(options.body?{'Content-Type':'application/json'}:{})},
+  ...(options.body?{body:JSON.stringify(options.body)}:{}),
+  cache:'no-store',
+ });
+ let json;
+ try{json=await reply.json();}catch{throw Error(`Refresh service returned HTTP ${reply.status}, not JSON.`);}
+ if(!reply.ok)throw Error(json.error||`Refresh service returned HTTP ${reply.status}.`);
+ return json;
+}
+async function checkRefreshStatus(){
+ if(!validRefreshEndpoint||!refreshAccessCode)return;
+ if(refreshRequestedAt&&++refreshChecks>150){stopRefreshPoll();setRefreshBusy(false);refreshMessage('Still no confirmed completion after 30 minutes. Check the GitHub Actions run and reload the latest snapshot.','error');return;}
+ try{
+  const status=await refreshApi(refreshExpectedRunId?`/status?runId=${encodeURIComponent(refreshExpectedRunId)}`:'/status');
+  if(status.status==='none'){
+   refreshMessage(refreshRequestedAt?'Request accepted; waiting for GitHub to start the run.':'No previous manual update detected.');return;
+  }
+  // If the dispatch has not appeared in GitHub's list yet, do not report an older run as success.
+  if(refreshRequestedAt && !refreshExpectedRunId && (!Number.isFinite(Date.parse(status.createdAt||'')) || Date.parse(status.createdAt||'')<refreshRequestedAt-1000)){
+    refreshMessage('Refresh requested. GitHub is preparing a new run…','working');return;
+  }
+  refreshLastRunId=String(status.runId||'');
+  const link=el('refreshRunLink');
+  const safeRun=typeof status.runUrl==='string'&&/^https:\/\/github\.com\/kristina-abrahamyan\/houselens\/actions\/runs\/\d+(?:\?.*)?$/.test(status.runUrl);
+  link.hidden=!safeRun;if(safeRun)link.href=status.runUrl;
+  if(['queued','waiting','requested','pending','in_progress'].includes(status.status)){
+   refreshMessage(status.status==='in_progress'?'Collecting data and publishing the website…':'GitHub has queued your fresh data collection…','working');
+   return;
+  }
+  if(status.status==='completed'){
+   stopRefreshPoll();refreshRequestedAt=0;setRefreshBusy(false);
+   if(status.conclusion==='success'){
+    const updated=await load();refreshMessage(updated?'Update completed. The latest published data has been loaded. Individual sources may still report missing data.':'GitHub finished, but the new published snapshot could not be loaded. Try Check latest snapshot. ',updated?'success':'error');
+   }else{
+    refreshMessage(`GitHub update finished with status: ${status.conclusion||'unknown'}. Check the GitHub Actions log.`, 'error');
+   }
+  }else refreshMessage(`GitHub workflow status: ${status.status||'unknown'}`);
+ }catch(error){
+  // Transient polling errors should not claim a GitHub workflow failed.
+  refreshMessage(`Could not check the latest run: ${error.message}`,'error');
+ }
+}
+async function unlockRefresh(){
+ if(!validRefreshEndpoint)return;
+ const value=el('refreshAccessCode').value;
+ if(value.length<16){refreshMessage('Enter the private access code from your Cloudflare Worker setup (at least 16 characters).','error');return;}
+ refreshAccessCode=value;
+ el('refreshSignIn').disabled=true;
+ refreshMessage('Checking refresh access…','working');
+ try{
+  await refreshApi('/status');
+  el('refreshAccessCode').value='';el('refreshCredentials').hidden=true;
+  refreshMessage('Refresh controls unlocked for this browser tab. Choose economic data or include property listings.','success');
+ }catch(error){refreshAccessCode='';refreshMessage(`Cannot unlock refresh: ${error.message}`,'error');}
+ finally{el('refreshSignIn').disabled=false;}
+}
+async function requestDataRefresh(listings){
+ if(!validRefreshEndpoint)return;
+ if(!refreshAccessCode){el('refreshCredentials').hidden=false;refreshMessage('Unlock refresh using your private access code first.','working');el('refreshAccessCode').focus();return;}
+ if(listings&&!window.confirm('This will use RealtyAPI property-search credits. Refresh listings as well as economic data?'))return;
+ setRefreshBusy(true);stopRefreshPoll();refreshMessage('Requesting a fresh GitHub data collection…','working');
+ try{
+  const outcome=await refreshApi('/refresh',{method:'POST',body:{listings}});
+  refreshRequestedAt=Date.now();refreshChecks=0;
+  refreshExpectedRunId=Number.isSafeInteger(Number(outcome.runId))&&Number(outcome.runId)>0?String(outcome.runId):'';
+  refreshMessage(listings?'Property and economic data refresh requested. This consumes property API credits.':'Economic data refresh requested; no property API credits will be used.','working');
+  refreshPoll=setInterval(checkRefreshStatus,12000);
+  await checkRefreshStatus();
+ }catch(error){
+  refreshMessage(`Could not request the refresh: ${error.message}`,'error');
+  setRefreshBusy(false);
+  // After a 409 or 429 there may already be a run. Let the user check status on demand.
+ }
+}
+el('refreshSignIn').addEventListener('click',unlockRefresh);
+el('refreshAccessCode').addEventListener('keydown',event=>{if(event.key==='Enter')unlockRefresh();});
+el('refreshEconomics').addEventListener('click',()=>requestDataRefresh(false));
+el('refreshWithHomes').addEventListener('click',()=>requestDataRefresh(true));
+el('checkLatest').addEventListener('click',async()=>{
+ refreshMessage('Loading the newest published snapshot…','working');const ok=await load();
+ if(refreshAccessCode)await checkRefreshStatus();
+ else refreshMessage(ok?'Checked the latest published data. Source observation dates are listed under Future outlook → Source tracker.':'Could not load the published snapshot. Check your connection. ',ok?'success':'error');
+});
+if(!validRefreshEndpoint){
+ setRefreshBusy(false);el('refreshSetup').hidden=false;
+ refreshMessage('Check latest snapshot works now. Collecting fresh source data from this button needs the optional one-time Cloudflare Worker setup. Your scheduled updates continue automatically.');
+}else{
+ el('refreshCredentials').hidden=false;
+ setRefreshBusy(false);
+ refreshMessage('Enter your private refresh access code to enable on-demand data collection. Scheduled updates already run automatically.');
+}
+
 if(['overview','listings','outlook','settings'].includes(location.hash.slice(1)))switchTab(location.hash.slice(1));
 load();
 // Refresh automatically on reopening, tab focus and while the site remains open.
