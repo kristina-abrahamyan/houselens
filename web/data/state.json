@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-13T18:48:37Z",
-  "lastRun": "2026-11-13T18:48:37Z",
+  "asOf": "2026-11-13T19:01:21Z",
+  "lastRun": "2026-11-13T19:01:21Z",
   "status": "PARTIAL",
   "bankRate": 4.0,
   "bankRateAsOf": "2026-11-12",
@@ -712,7 +712,7 @@
     "RealtyAPI listings: ValueError: Missing properties/results array in response"
   ],
   "listingsAsOf": null,
-  "lastAttempt": "2026-11-13T18:48:37Z",
+  "lastAttempt": "2026-11-13T19:01:21Z",
   "hpi": {
     "date": "2026-08",
     "averagePrice": 366218,
