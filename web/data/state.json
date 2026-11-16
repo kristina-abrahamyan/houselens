@@ -1,9 +1,9 @@
 {
-  "asOf": "2026-11-15T22:15:45Z",
-  "lastRun": "2026-11-15T22:15:45Z",
+  "asOf": "2026-11-16T14:14:03Z",
+  "lastRun": "2026-11-16T14:14:03Z",
   "status": "UPDATED",
   "bankRate": 4.0,
-  "bankRateAsOf": "2026-11-12",
+  "bankRateAsOf": "2026-11-13",
   "history": [
     {
       "date": "1984-01-03",
@@ -595,104 +595,104 @@
     }
   ],
   "ois": {
-    "asOf": "2026-11-12",
+    "asOf": "2026-11-13",
     "forecast": [
       {
         "months": 3,
-        "rate": 4.3279,
-        "oisForward": 4.3124
+        "rate": 4.3302,
+        "oisForward": 4.3148
       },
       {
         "months": 6,
-        "rate": 4.6481,
-        "oisForward": 4.6326
+        "rate": 4.6362,
+        "oisForward": 4.6208
       },
       {
         "months": 12,
-        "rate": 4.9791,
-        "oisForward": 4.9636
+        "rate": 4.9596,
+        "oisForward": 4.9442
       }
     ],
-    "soniaBasis": 0.0155,
+    "soniaBasis": 0.0154,
     "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
   },
   "gilts": {
-    "asOf": "2026-11-12",
+    "asOf": "2026-11-13",
     "rpiBreakeven": null,
     "inflationReference": {
       "months": 36,
-      "rate": 3.7345
+      "rate": 3.7236
     },
     "curve": [
       {
         "months": 30,
-        "rate": 3.8392
+        "rate": 3.827
       },
       {
         "months": 36,
-        "rate": 3.7345
+        "rate": 3.7236
       },
       {
         "months": 42,
-        "rate": 3.6484
+        "rate": 3.6374
       },
       {
         "months": 48,
-        "rate": 3.5747
+        "rate": 3.5631
       },
       {
         "months": 54,
-        "rate": 3.5108
+        "rate": 3.4985
       },
       {
         "months": 60,
-        "rate": 3.4555
+        "rate": 3.4426
       },
       {
         "months": 66,
-        "rate": 3.408
+        "rate": 3.3946
       },
       {
         "months": 72,
-        "rate": 3.3677
+        "rate": 3.3539
       },
       {
         "months": 78,
-        "rate": 3.3339
+        "rate": 3.3196
       },
       {
         "months": 84,
-        "rate": 3.3058
+        "rate": 3.2912
       },
       {
         "months": 90,
-        "rate": 3.2829
+        "rate": 3.268
       },
       {
         "months": 96,
-        "rate": 3.2645
+        "rate": 3.2493
       },
       {
         "months": 102,
-        "rate": 3.25
+        "rate": 3.2346
       },
       {
         "months": 108,
-        "rate": 3.239
+        "rate": 3.2234
       },
       {
         "months": 114,
-        "rate": 3.2309
+        "rate": 3.215
       },
       {
         "months": 120,
-        "rate": 3.2252
+        "rate": 3.2091
       }
     ],
     "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
   },
   "guidance": {
-    "asOf": "2026-11-15",
+    "asOf": "2026-11-16",
     "headline": "Inflation is expected to reach about 5% by mid-2027 We’ve raised Bank Rate to reduce how much rising energy costs affect other prices",
     "url": "https://www.bankofengland.co.uk/monetary-policy/the-interest-rate-bank-rate",
     "note": "Extracted from official BoE explanation; checked on retrieval date"
@@ -1550,7 +1550,7 @@
   },
   "errors": [],
   "listingsAsOf": "2026-11-13T19:23:30Z",
-  "lastAttempt": "2026-11-15T22:15:45Z",
+  "lastAttempt": "2026-11-16T14:14:03Z",
   "hpi": {
     "date": "2026-08",
     "averagePrice": 366218,
@@ -1588,8 +1588,8 @@
     "Basildon HPI",
     "CM12 completed sales"
   ],
-  "soniaRate": 3.9845,
-  "soniaAsOf": "2026-11-11",
+  "soniaRate": 3.9846,
+  "soniaAsOf": "2026-11-12",
   "localSalesDataset": {
     "byYear": {
       "2025": [
@@ -5068,7 +5068,7 @@
     }
   },
   "localSales": {
-    "asOf": "2026-11-15",
+    "asOf": "2026-11-16",
     "periodEnd": "2026-06",
     "previousPeriodEnd": "2025-06",
     "scope": "CM12 0 postcode sector",
@@ -5092,7 +5092,7 @@
       "description": "around 5% mid-2027",
       "basis": "BoE published narrative, approximate, not a quarterly data point"
     },
-    "asOf": "2026-11-13",
+    "asOf": "2026-11-16",
     "sourceUrl": "https://www.bankofengland.co.uk/monetary-policy-report/2026/november-2026",
     "series": [
       {
