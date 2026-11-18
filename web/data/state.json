@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-17T17:24:03Z",
-  "lastRun": "2026-11-17T17:24:03Z",
+  "asOf": "2026-11-18T00:10:55Z",
+  "lastRun": "2026-11-18T00:10:55Z",
   "status": "UPDATED",
   "bankRate": 4.0,
   "bankRateAsOf": "2026-11-16",
@@ -692,7 +692,7 @@
     "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
   },
   "guidance": {
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-18",
     "headline": "Inflation is expected to reach about 5% by mid-2027 We’ve raised Bank Rate to reduce how much rising energy costs affect other prices",
     "url": "https://www.bankofengland.co.uk/monetary-policy/the-interest-rate-bank-rate",
     "note": "Extracted from official BoE explanation; checked on retrieval date"
@@ -1511,7 +1511,7 @@
   },
   "errors": [],
   "listingsAsOf": "2026-11-17T17:24:03Z",
-  "lastAttempt": "2026-11-17T17:24:03Z",
+  "lastAttempt": "2026-11-18T00:10:55Z",
   "hpi": {
     "date": "2026-08",
     "averagePrice": 366218,
@@ -1547,8 +1547,7 @@
     "ONS observed CPI",
     "BoE guidance",
     "Basildon HPI",
-    "CM12 completed sales",
-    "RealtyAPI listings"
+    "CM12 completed sales"
   ],
   "soniaRate": 3.9832,
   "soniaAsOf": "2026-11-13",
@@ -5030,7 +5029,7 @@
     }
   },
   "localSales": {
-    "asOf": "2026-11-17",
+    "asOf": "2026-11-18",
     "periodEnd": "2026-06",
     "previousPeriodEnd": "2025-06",
     "scope": "CM12 0 postcode sector",
