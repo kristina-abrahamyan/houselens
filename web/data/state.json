@@ -1,9 +1,9 @@
 {
-  "asOf": "2026-11-18T00:10:55Z",
-  "lastRun": "2026-11-18T00:10:55Z",
+  "asOf": "2026-11-18T14:46:13Z",
+  "lastRun": "2026-11-18T14:46:13Z",
   "status": "UPDATED",
   "bankRate": 4.0,
-  "bankRateAsOf": "2026-11-16",
+  "bankRateAsOf": "2026-11-17",
   "history": [
     {
       "date": "1984-01-03",
@@ -595,98 +595,98 @@
     }
   ],
   "ois": {
-    "asOf": "2026-11-16",
+    "asOf": "2026-11-17",
     "forecast": [
       {
         "months": 3,
-        "rate": 4.3605,
-        "oisForward": 4.3437
+        "rate": 4.3553,
+        "oisForward": 4.3386
       },
       {
         "months": 6,
-        "rate": 4.6717,
-        "oisForward": 4.6549
+        "rate": 4.669,
+        "oisForward": 4.6523
       },
       {
         "months": 12,
-        "rate": 4.9672,
-        "oisForward": 4.9504
+        "rate": 4.9739,
+        "oisForward": 4.9572
       }
     ],
-    "soniaBasis": 0.0168,
+    "soniaBasis": 0.0167,
     "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
   },
   "gilts": {
-    "asOf": "2026-11-16",
+    "asOf": "2026-11-17",
     "rpiBreakeven": null,
     "inflationReference": {
       "months": 36,
-      "rate": 3.6529
+      "rate": 3.6698
     },
     "curve": [
       {
         "months": 30,
-        "rate": 3.7479
+        "rate": 3.7705
       },
       {
         "months": 36,
-        "rate": 3.6529
+        "rate": 3.6698
       },
       {
         "months": 42,
-        "rate": 3.5732
+        "rate": 3.5851
       },
       {
         "months": 48,
-        "rate": 3.504
+        "rate": 3.5118
       },
       {
         "months": 54,
-        "rate": 3.4434
+        "rate": 3.4481
       },
       {
         "months": 60,
-        "rate": 3.3908
+        "rate": 3.3932
       },
       {
         "months": 66,
-        "rate": 3.3455
+        "rate": 3.3465
       },
       {
         "months": 72,
-        "rate": 3.307
+        "rate": 3.3071
       },
       {
         "months": 78,
-        "rate": 3.2748
+        "rate": 3.2743
       },
       {
         "months": 84,
-        "rate": 3.2481
+        "rate": 3.2475
       },
       {
         "months": 90,
-        "rate": 3.2265
+        "rate": 3.2258
       },
       {
         "months": 96,
-        "rate": 3.2092
+        "rate": 3.2087
       },
       {
         "months": 102,
-        "rate": 3.1959
+        "rate": 3.1956
       },
       {
         "months": 108,
-        "rate": 3.1859
+        "rate": 3.1858
       },
       {
         "months": 114,
-        "rate": 3.1787
+        "rate": 3.1789
       },
       {
         "months": 120,
-        "rate": 3.174
+        "rate": 3.1744
       }
     ],
     "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
@@ -1504,26 +1504,30 @@
     "ois": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip",
     "gilts": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip",
     "listings": "https://www.realtyapi.io/api/rightmove/searchbycoordinates",
-    "hpi": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-prices-2026-08.csv",
+    "hpi": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-prices-2026-09.csv",
     "localSales": "https://www.gov.uk/government/statistical-data-sets/price-paid-data-yearly-file",
     "cpiProjection": "https://www.bankofengland.co.uk/monetary-policy-report/2026/november-2026",
     "observedCpi": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g7/mm23"
   },
   "errors": [],
   "listingsAsOf": "2026-11-17T17:24:03Z",
-  "lastAttempt": "2026-11-18T00:10:55Z",
+  "lastAttempt": "2026-11-18T14:46:13Z",
   "hpi": {
-    "date": "2026-08",
-    "averagePrice": 366218,
-    "annualChange": 0.4,
+    "date": "2026-09",
+    "averagePrice": 367920,
+    "annualChange": 0.8,
     "monthlyChange": 0.1,
     "area": "Basildon local authority",
-    "sourceUrl": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-prices-2026-08.csv"
+    "sourceUrl": "https://publicdata.landregistry.gov.uk/market-trend-data/house-price-index-data/Average-prices-2026-09.csv"
   },
   "hpiHistory": [
     {
       "date": "2026-08",
       "averagePrice": 366218
+    },
+    {
+      "date": "2026-09",
+      "averagePrice": 367920
     }
   ],
   "listingCoverage": {
@@ -1549,8 +1553,8 @@
     "Basildon HPI",
     "CM12 completed sales"
   ],
-  "soniaRate": 3.9832,
-  "soniaAsOf": "2026-11-13",
+  "soniaRate": 3.9833,
+  "soniaAsOf": "2026-11-16",
   "localSalesDataset": {
     "byYear": {
       "2025": [
@@ -5084,14 +5088,10 @@
     "retainedRecords": 63
   },
   "observedCpi": {
-    "asOf": "2026-09-01",
-    "annualRate": 3.5,
-    "published": "2026-10-21",
+    "asOf": "2026-10-01",
+    "annualRate": 3.6,
+    "published": "2026-11-18",
     "series": [
-      {
-        "month": "2023-10-01",
-        "rate": 4.6
-      },
       {
         "month": "2023-11-01",
         "rate": 3.9
@@ -5231,6 +5231,10 @@
       {
         "month": "2026-09-01",
         "rate": 3.5
+      },
+      {
+        "month": "2026-10-01",
+        "rate": 3.6
       }
     ],
     "sourceUrl": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g7/mm23",
