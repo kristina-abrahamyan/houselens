@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-18T23:41:26Z",
-  "lastRun": "2026-11-18T23:41:26Z",
+  "asOf": "2026-11-19T04:57:04Z",
+  "lastRun": "2026-11-19T04:57:04Z",
   "status": "UPDATED",
   "bankRate": 4.0,
   "bankRateAsOf": "2026-11-17",
@@ -692,7 +692,7 @@
     "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
   },
   "guidance": {
-    "asOf": "2026-11-18",
+    "asOf": "2026-11-19",
     "headline": "Inflation is expected to reach about 5% by mid-2027 We’ve raised Bank Rate to reduce how much rising energy costs affect other prices",
     "url": "https://www.bankofengland.co.uk/monetary-policy/the-interest-rate-bank-rate",
     "note": "Extracted from official BoE explanation; checked on retrieval date"
@@ -1511,7 +1511,7 @@
   },
   "errors": [],
   "listingsAsOf": "2026-11-17T17:24:03Z",
-  "lastAttempt": "2026-11-18T23:41:26Z",
+  "lastAttempt": "2026-11-19T04:57:04Z",
   "hpi": {
     "date": "2026-09",
     "averagePrice": 367920,
@@ -5033,7 +5033,7 @@
     }
   },
   "localSales": {
-    "asOf": "2026-11-18",
+    "asOf": "2026-11-19",
     "periodEnd": "2026-06",
     "previousPeriodEnd": "2025-06",
     "scope": "CM12 0 postcode sector",
