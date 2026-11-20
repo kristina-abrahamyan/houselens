@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-19T23:59:56Z",
-  "lastRun": "2026-11-19T23:59:56Z",
+  "asOf": "2026-11-20T06:14:58Z",
+  "lastRun": "2026-11-20T06:14:58Z",
   "status": "UPDATED",
   "bankRate": 4.0,
   "bankRateAsOf": "2026-11-18",
@@ -1511,7 +1511,7 @@
   },
   "errors": [],
   "listingsAsOf": "2026-11-17T17:24:03Z",
-  "lastAttempt": "2026-11-19T23:59:56Z",
+  "lastAttempt": "2026-11-20T06:14:58Z",
   "hpi": {
     "date": "2026-09",
     "averagePrice": 367920,
@@ -5033,7 +5033,7 @@
     }
   },
   "localSales": {
-    "asOf": "2026-11-19",
+    "asOf": "2026-11-20",
     "periodEnd": "2026-06",
     "previousPeriodEnd": "2025-06",
     "scope": "CM12 0 postcode sector",
