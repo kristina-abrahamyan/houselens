@@ -1,9 +1,9 @@
 {
-  "asOf": "2026-11-20T06:14:58Z",
-  "lastRun": "2026-11-20T06:14:58Z",
+  "asOf": "2026-11-20T16:42:51Z",
+  "lastRun": "2026-11-20T16:42:51Z",
   "status": "UPDATED",
   "bankRate": 4.0,
-  "bankRateAsOf": "2026-11-18",
+  "bankRateAsOf": "2026-11-19",
   "history": [
     {
       "date": "1984-01-03",
@@ -595,98 +595,98 @@
     }
   ],
   "ois": {
-    "asOf": "2026-11-18",
+    "asOf": "2026-11-19",
     "forecast": [
       {
         "months": 3,
-        "rate": 4.3351,
-        "oisForward": 4.3191
+        "rate": 4.3493,
+        "oisForward": 4.3333
       },
       {
         "months": 6,
-        "rate": 4.6152,
-        "oisForward": 4.5992
+        "rate": 4.6475,
+        "oisForward": 4.6315
       },
       {
         "months": 12,
-        "rate": 4.8837,
-        "oisForward": 4.8677
+        "rate": 4.9442,
+        "oisForward": 4.9282
       }
     ],
     "soniaBasis": 0.016,
     "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
   },
   "gilts": {
-    "asOf": "2026-11-18",
+    "asOf": "2026-11-19",
     "rpiBreakeven": null,
     "inflationReference": {
       "months": 36,
-      "rate": 3.6818
+      "rate": 3.6972
     },
     "curve": [
       {
         "months": 30,
-        "rate": 3.7923
+        "rate": 3.8078
       },
       {
         "months": 36,
-        "rate": 3.6818
+        "rate": 3.6972
       },
       {
         "months": 42,
-        "rate": 3.5906
+        "rate": 3.606
       },
       {
         "months": 48,
-        "rate": 3.5131
+        "rate": 3.5285
       },
       {
         "months": 54,
-        "rate": 3.4466
+        "rate": 3.4618
       },
       {
         "months": 60,
-        "rate": 3.3897
+        "rate": 3.4049
       },
       {
         "months": 66,
-        "rate": 3.3415
+        "rate": 3.3566
       },
       {
         "months": 72,
-        "rate": 3.3011
+        "rate": 3.3161
       },
       {
         "months": 78,
-        "rate": 3.2676
+        "rate": 3.2825
       },
       {
         "months": 84,
-        "rate": 3.2402
+        "rate": 3.2551
       },
       {
         "months": 90,
-        "rate": 3.2181
+        "rate": 3.233
       },
       {
         "months": 96,
-        "rate": 3.2006
+        "rate": 3.2156
       },
       {
         "months": 102,
-        "rate": 3.1871
+        "rate": 3.2023
       },
       {
         "months": 108,
-        "rate": 3.1771
+        "rate": 3.1924
       },
       {
         "months": 114,
-        "rate": 3.17
+        "rate": 3.1855
       },
       {
         "months": 120,
-        "rate": 3.1652
+        "rate": 3.1811
       }
     ],
     "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
@@ -699,218 +699,98 @@
   },
   "listings": [
     {
-      "id": "rightmove:93471165",
-      "price": 375000,
-      "bedrooms": 2,
-      "type": "Type unverified",
-      "address": "Arundel Close, Billericay, CM12",
-      "distanceMiles": 1.252,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93471165",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:92788068",
-      "price": 625000,
-      "bedrooms": 4,
-      "type": "Semi-detached",
-      "address": "Perry Street, Billericay, Essex",
-      "distanceMiles": 1.001,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/92788068",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:93074214",
-      "price": 550000,
-      "bedrooms": 4,
-      "type": "Semi-detached",
-      "address": "Mercer Road, Billericay, Billericay, Essex",
-      "distanceMiles": 1.007,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93074214",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:88866978",
-      "price": 800000,
-      "bedrooms": 5,
-      "type": "Detached",
-      "address": "Coopers Drive, Billericay, CM11",
-      "distanceMiles": 1.362,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/88866978",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:94484283",
-      "price": 775000,
-      "bedrooms": 4,
-      "type": "Detached",
-      "address": "Pavilion Place, Billericay, Essex",
-      "distanceMiles": 0.682,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/94484283",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:88426311",
-      "price": 565000,
-      "bedrooms": 3,
-      "type": "Detached",
-      "address": "Hillway, Billericay, CM11",
-      "distanceMiles": 0.838,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/88426311",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:93636639",
-      "price": 700000,
-      "bedrooms": 4,
-      "type": "Detached",
-      "address": "Greens Farm Lane, Billericay, CM11",
-      "distanceMiles": 0.616,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93636639",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:93051927",
-      "price": 580000,
-      "bedrooms": 4,
-      "type": "Detached",
-      "address": "Dunton Road,\r\nBasildon,\r\nEssex,\r\nSS15 4DB",
-      "distanceMiles": 2.814,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93051927",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:95377728",
-      "price": 895000,
-      "bedrooms": 5,
-      "type": "Detached",
-      "address": "Passingham Avenue, Billericay, Essex",
-      "distanceMiles": 1.422,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/95377728",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:93405282",
+      "id": "rightmove:95580375",
       "price": 850000,
       "bedrooms": 4,
       "type": "Detached",
-      "address": "Mountnessing Road, Billericay",
-      "distanceMiles": 0.529,
+      "address": "Passingham Avenue, Billericay, CM11",
+      "distanceMiles": 1.424,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93405282",
+      "url": "https://www.rightmove.co.uk/properties/95580375",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:92838636",
-      "price": 620000,
+      "id": "rightmove:94683546",
+      "price": 789950,
       "bedrooms": 4,
       "type": "Type unverified",
-      "address": "Norton Place, Ramsden Heath, Billericay, Essex",
-      "distanceMiles": 2.3,
+      "address": "The Olive, Kingsley Park, Centurian Way, Basildon, Essex",
+      "distanceMiles": 1.069,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/92838636",
+      "url": "https://www.rightmove.co.uk/properties/94683546",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:171367346",
-      "price": 920000,
-      "bedrooms": 5,
-      "type": "Detached",
-      "address": "Cedar Road, Hutton, CM13",
-      "distanceMiles": 2.853,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/171367346",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:88011768",
-      "price": 525000,
-      "bedrooms": 2,
-      "type": "Semi-detached",
-      "address": "High Street, Stock, Ingatestone",
-      "distanceMiles": 2.709,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/88011768",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:95293791",
-      "price": 520000,
-      "bedrooms": 2,
-      "type": "Type unverified",
-      "address": "The Square, Stock, CM4",
-      "distanceMiles": 2.641,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/95293791",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:92742591",
-      "price": 450000,
+      "id": "rightmove:94683540",
+      "price": 599950,
       "bedrooms": 3,
       "type": "Type unverified",
-      "address": "Rosen Crescent, Brentwood, Essex",
-      "distanceMiles": 3.03,
+      "address": "The Ivy, Kingsley Park, Centurion Way, Billericay, Essex",
+      "distanceMiles": 1.069,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/92742591",
+      "url": "https://www.rightmove.co.uk/properties/94683540",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:94144506",
-      "price": 650000,
-      "bedrooms": 3,
-      "type": "Semi-detached",
-      "address": "Station Road, Billericay",
-      "distanceMiles": 0.404,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/94144506",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:93926079",
-      "price": 735000,
+      "id": "rightmove:93344598",
+      "price": 800000,
       "bedrooms": 4,
       "type": "Detached",
-      "address": "Hillhouse Close, Billericay",
-      "distanceMiles": 0.548,
+      "address": "Chestwood Close, Billericay",
+      "distanceMiles": 0.593,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93926079",
+      "url": "https://www.rightmove.co.uk/properties/93344598",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:93401559",
-      "price": 999950,
-      "bedrooms": 5,
-      "type": "Detached",
-      "address": "Kennel Lane,\r\nBillericay,\r\nEssex,\r\nCM129RR",
-      "distanceMiles": 1.079,
+      "id": "rightmove:94683537",
+      "price": 829950,
+      "bedrooms": 4,
+      "type": "Type unverified",
+      "address": "The Violet, Kingsley Park, Eagle Close, Billericay, Essex",
+      "distanceMiles": 1.069,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93401559",
+      "url": "https://www.rightmove.co.uk/properties/94683537",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94683534",
+      "price": 619950,
+      "bedrooms": 3,
+      "type": "Type unverified",
+      "address": "The Holly, Kingsley Park, Centurion Way, Billericay, Essex",
+      "distanceMiles": 1.069,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94683534",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94683531",
+      "price": 784950,
+      "bedrooms": 4,
+      "type": "Type unverified",
+      "address": "The Rose, Kingsley Park, Emperor Crescent, Billericay, Essex",
+      "distanceMiles": 1.069,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94683531",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94427946",
+      "price": 350000,
+      "bedrooms": 3,
+      "type": "Type unverified",
+      "address": "Greenway, Billericay",
+      "distanceMiles": 0.909,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94427946",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
@@ -927,182 +807,50 @@
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:95569578",
-      "price": 675000,
+      "id": "rightmove:170343233",
+      "price": 749950,
       "bedrooms": 4,
       "type": "Detached",
-      "address": "The Copse, Billericay, CM12",
-      "distanceMiles": 0.476,
+      "address": "Kennel Lane,\r\nBillericay,\r\nEssex,\r\nCM129RR",
+      "distanceMiles": 1.079,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/95569578",
+      "url": "https://www.rightmove.co.uk/properties/170343233",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:92007573",
-      "price": 575000,
-      "bedrooms": 4,
-      "type": "Detached",
-      "address": "Henham Close, Billericay",
-      "distanceMiles": 0.831,
+      "id": "rightmove:171537278",
+      "price": 600000,
+      "bedrooms": 3,
+      "type": "Type unverified",
+      "address": "Birch Lane, Stock",
+      "distanceMiles": 2.823,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/92007573",
+      "url": "https://www.rightmove.co.uk/properties/171537278",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:91768695",
+      "id": "rightmove:89881185",
+      "price": 900000,
+      "bedrooms": 4,
+      "type": "Detached",
+      "address": "Crown Road, Billericay, CM11",
+      "distanceMiles": 0.261,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/89881185",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:91913859",
       "price": 800000,
-      "bedrooms": 5,
-      "type": "Detached",
-      "address": "Thynne Road, Billericay, CM11",
-      "distanceMiles": 0.717,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/91768695",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:95097306",
-      "price": 399950,
-      "bedrooms": 2,
-      "type": "Semi-detached",
-      "address": "Portman Drive, Billericay, CM12",
-      "distanceMiles": 0.805,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/95097306",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:94237800",
-      "price": 525000,
-      "bedrooms": 3,
-      "type": "Semi-detached",
-      "address": "Norton Place, Ramsden Heath, CM11",
-      "distanceMiles": 2.325,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/94237800",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:174763313",
-      "price": 575000,
-      "bedrooms": 5,
-      "type": "Detached",
-      "address": "Henham Close, Billericay",
-      "distanceMiles": 0.852,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/174763313",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:94989471",
-      "price": 375000,
-      "bedrooms": 2,
-      "type": "Semi-detached",
-      "address": "Stonechat Road, Billericay",
-      "distanceMiles": 1.005,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/94989471",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:92847738",
-      "price": 675000,
       "bedrooms": 4,
       "type": "Detached",
-      "address": "Dunton Road,\r\nBasildon,\r\nEssex,\r\nSS15 4DB",
-      "distanceMiles": 2.814,
+      "address": "Robert Close, Billericay",
+      "distanceMiles": 0.462,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/92847738",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:88467942",
-      "price": 830000,
-      "bedrooms": 4,
-      "type": "Detached",
-      "address": "Martingale Road, Billericay",
-      "distanceMiles": 1.228,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/88467942",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:95489715",
-      "price": 475000,
-      "bedrooms": 3,
-      "type": "Semi-detached",
-      "address": "Dukes Farm Close, Billericay, CM12",
-      "distanceMiles": 0.727,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/95489715",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:167591186",
-      "price": 500000,
-      "bedrooms": 4,
-      "type": "Detached",
-      "address": "Stuart Way, Billericay",
-      "distanceMiles": 1.053,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/167591186",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:92936457",
-      "price": 475000,
-      "bedrooms": 3,
-      "type": "End of terrace",
-      "address": "Doublet Mews, Billericay",
-      "distanceMiles": 1.064,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/92936457",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:95303523",
-      "price": 850000,
-      "bedrooms": 4,
-      "type": "Detached",
-      "address": "Bluebell wood, Billericay",
-      "distanceMiles": 0.99,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/95303523",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:94974465",
-      "price": 500000,
-      "bedrooms": 3,
-      "type": "Semi-detached",
-      "address": "The Rising, Billericay, Essex, CM11",
-      "distanceMiles": 0.771,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/94974465",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:92921451",
-      "price": 525000,
-      "bedrooms": 3,
-      "type": "Semi-detached",
-      "address": "Tyelands, Billericay, CM12",
-      "distanceMiles": 0.809,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/92921451",
+      "url": "https://www.rightmove.co.uk/properties/91913859",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
@@ -1119,98 +867,314 @@
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:173729696",
-      "price": 700000,
+      "id": "rightmove:94311441",
+      "price": 985000,
       "bedrooms": 4,
-      "type": "Detached",
-      "address": "Frithwood Close, Billericay",
-      "distanceMiles": 1.156,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/173729696",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:95536539",
-      "price": 450000,
-      "bedrooms": 3,
-      "type": "Semi-detached",
-      "address": "Rayleigh Road, Hutton, CM13",
-      "distanceMiles": 3.05,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/95536539",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:173108093",
-      "price": 875000,
-      "bedrooms": 5,
-      "type": "Detached",
-      "address": "Cedar Road, Hutton, CM13",
-      "distanceMiles": 2.867,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/173108093",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:93773655",
-      "price": 375000,
-      "bedrooms": 2,
-      "type": "Semi-detached",
-      "address": "Brompton Close, Billericay",
-      "distanceMiles": 0.759,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93773655",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:170163887",
-      "price": 595000,
-      "bedrooms": 3,
       "type": "Type unverified",
-      "address": "Dakyn Drive, Stock, CM4",
-      "distanceMiles": 2.543,
+      "address": "Southend Road, Billericay",
+      "distanceMiles": 1.342,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/170163887",
+      "url": "https://www.rightmove.co.uk/properties/94311441",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:92052750",
+      "id": "rightmove:93867741",
       "price": 485000,
       "bedrooms": 3,
       "type": "Semi-detached",
-      "address": "Recreation Walk, Ramsden Heath, Billericay, CM11",
-      "distanceMiles": 2.33,
+      "address": "Dunton Road,\r\nBasildon,\r\nEssex,\r\nSS15 4DB",
+      "distanceMiles": 2.814,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/92052750",
+      "url": "https://www.rightmove.co.uk/properties/93867741",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:90255033",
+      "id": "rightmove:92118774",
       "price": 700000,
       "bedrooms": 4,
       "type": "Detached",
-      "address": "Mons Avenue, Billericay, CM11",
-      "distanceMiles": 0.756,
+      "address": "Reeds Close, Basildon, SS15",
+      "distanceMiles": 3.043,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/90255033",
+      "url": "https://www.rightmove.co.uk/properties/92118774",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:161630519",
-      "price": 985000,
+      "id": "rightmove:95242224",
+      "price": 525000,
+      "bedrooms": 3,
+      "type": "Semi-detached",
+      "address": "Eastfield Road, Noak Bridge, SS15",
+      "distanceMiles": 2.962,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/95242224",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:95110731",
+      "price": 475000,
+      "bedrooms": 3,
+      "type": "Type unverified",
+      "address": "Tomlyns Close, Hutton, Brentwood",
+      "distanceMiles": 2.622,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/95110731",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:91621905",
+      "price": 550000,
+      "bedrooms": 3,
+      "type": "Type unverified",
+      "address": "L C Strong Ltd, Chapel Street, Billericay, Essex, CM12 9LT",
+      "distanceMiles": 0.203,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/91621905",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94109400",
+      "price": 450000,
+      "bedrooms": 3,
+      "type": "Semi-detached",
+      "address": "Dunton Road, Steeple View",
+      "distanceMiles": 1.77,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94109400",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:95377728",
+      "price": 895000,
       "bedrooms": 5,
       "type": "Detached",
-      "address": "London Road, Billericay, Essex, CM12 9ES",
-      "distanceMiles": 0.666,
+      "address": "Passingham Avenue, Billericay, Essex",
+      "distanceMiles": 1.422,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/161630519",
+      "url": "https://www.rightmove.co.uk/properties/95377728",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:93696924",
+      "price": 820000,
+      "bedrooms": 4,
+      "type": "Detached",
+      "address": "Southend Road, Billericay",
+      "distanceMiles": 1.33,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/93696924",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:88446615",
+      "price": 550000,
+      "bedrooms": 3,
+      "type": "Detached",
+      "address": "Kings Road, Basildon",
+      "distanceMiles": 2.888,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/88446615",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94012827",
+      "price": 700000,
+      "bedrooms": 5,
+      "type": "Semi-detached",
+      "address": "Chelmer Drive, Hutton, Brentwood, CM13",
+      "distanceMiles": 2.64,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94012827",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94682901",
+      "price": 620000,
+      "bedrooms": 3,
+      "type": "Detached",
+      "address": "Southend Road,\r\nBillericay,\r\nEssex\r\nCM11",
+      "distanceMiles": 1.295,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94682901",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:92847738",
+      "price": 675000,
+      "bedrooms": 4,
+      "type": "Detached",
+      "address": "Dunton Road,\r\nBasildon,\r\nEssex,\r\nSS15 4DB",
+      "distanceMiles": 2.814,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/92847738",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94899141",
+      "price": 415000,
+      "bedrooms": 3,
+      "type": "Type unverified",
+      "address": "Kelvedon Close, Hutton, Brentwood",
+      "distanceMiles": 2.639,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94899141",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:95419257",
+      "price": 609950,
+      "bedrooms": 3,
+      "type": "Semi-detached",
+      "address": "Kennel Lane,\r\nBillericay,\r\nEssex,\r\nCM129RR",
+      "distanceMiles": 1.079,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/95419257",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:93574314",
+      "price": 795000,
+      "bedrooms": 6,
+      "type": "Detached",
+      "address": "Chestwood Close, Billericay, CM12",
+      "distanceMiles": 0.662,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/93574314",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:93051927",
+      "price": 595000,
+      "bedrooms": 4,
+      "type": "Detached",
+      "address": "Dunton Road,\r\nBasildon,\r\nEssex,\r\nSS15 4DB",
+      "distanceMiles": 2.814,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/93051927",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94155198",
+      "price": 830000,
+      "bedrooms": 4,
+      "type": "Detached",
+      "address": "Southend Road,\r\nBillericay,\r\nEssex\r\nCM11",
+      "distanceMiles": 1.295,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94155198",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:93520740",
+      "price": 425000,
+      "bedrooms": 3,
+      "type": "Detached",
+      "address": "Wash Road, Basildon, Essex, SS15",
+      "distanceMiles": 2.921,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/93520740",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:93427662",
+      "price": 595000,
+      "bedrooms": 3,
+      "type": "Semi-detached",
+      "address": "Southend Road,\r\nBillericay,\r\nEssex\r\nCM11",
+      "distanceMiles": 1.295,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/93427662",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:93948711",
+      "price": 800000,
+      "bedrooms": 5,
+      "type": "Detached",
+      "address": "High View Rise, Crays Hill, CM11",
+      "distanceMiles": 3.043,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/93948711",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:92983251",
+      "price": 390000,
+      "bedrooms": 2,
+      "type": "Semi-detached",
+      "address": "Wheatear Place, Billericay, Essex, CM11",
+      "distanceMiles": 0.549,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/92983251",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:171367346",
+      "price": 920000,
+      "bedrooms": 5,
+      "type": "Detached",
+      "address": "Cedar Road, Hutton, CM13",
+      "distanceMiles": 2.853,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/171367346",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:91904184",
+      "price": 900000,
+      "bedrooms": 4,
+      "type": "Type unverified",
+      "address": "Hutton Village, Hutton, Brentwood",
+      "distanceMiles": 2.462,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/91904184",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:92428737",
+      "price": 600000,
+      "bedrooms": 3,
+      "type": "Semi-detached",
+      "address": "Tensing Gardens, Billericay, CM12",
+      "distanceMiles": 0.508,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/92428737",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94667175",
+      "price": 300000,
+      "bedrooms": 2,
+      "type": "Type unverified",
+      "address": "Latimer Drive, Steeple View, Basildon, Essex",
+      "distanceMiles": 2.864,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94667175",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
@@ -1227,38 +1191,74 @@
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:93775290",
-      "price": 830000,
-      "bedrooms": 4,
-      "type": "Type unverified",
-      "address": "Southend Road, Billericay",
-      "distanceMiles": 1.33,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93775290",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:93755619",
-      "price": 335000,
+      "id": "rightmove:95096616",
+      "price": 435000,
       "bedrooms": 2,
       "type": "Type unverified",
-      "address": "Cornflower Gardens, Billericay, CM12",
-      "distanceMiles": 0.772,
+      "address": "High Street, Billericay, CM12",
+      "distanceMiles": 0.202,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93755619",
+      "url": "https://www.rightmove.co.uk/properties/95096616",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:91064400",
-      "price": 525000,
+      "id": "rightmove:93004236",
+      "price": 430000,
       "bedrooms": 3,
       "type": "Semi-detached",
-      "address": "Carpenter Close, Billericay",
-      "distanceMiles": 0.577,
+      "address": "Passingham Avenue, Billericay, CM11",
+      "distanceMiles": 1.361,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/91064400",
+      "url": "https://www.rightmove.co.uk/properties/93004236",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:93785652",
+      "price": 400000,
+      "bedrooms": 4,
+      "type": "Semi-detached",
+      "address": "Hollyford, Billericay, Essex, CM11",
+      "distanceMiles": 1.134,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/93785652",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94355622",
+      "price": 420000,
+      "bedrooms": 2,
+      "type": "Type unverified",
+      "address": "Wainwright Avenue, Hutton, CM13",
+      "distanceMiles": 2.886,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94355622",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94154547",
+      "price": 575000,
+      "bedrooms": 4,
+      "type": "Semi-detached",
+      "address": "Edwards Way, Hutton, CM13",
+      "distanceMiles": 2.747,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94154547",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:89060283",
+      "price": 1000000,
+      "bedrooms": 4,
+      "type": "Detached",
+      "address": "Herds Hill, Downham Road, Stock, Ingatestone, Essex",
+      "distanceMiles": 2.809,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/89060283",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
@@ -1275,14 +1275,98 @@
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:95469093",
-      "price": 600000,
-      "bedrooms": 3,
+      "id": "rightmove:92745189",
+      "price": 650000,
+      "bedrooms": 4,
       "type": "Detached",
-      "address": "Karside, Oak Road, Downham, Nr Billericay, Essex",
-      "distanceMiles": 2.811,
+      "address": "Dunton Road,\r\nBasildon,\r\nEssex,\r\nSS15 4DB",
+      "distanceMiles": 2.814,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/95469093",
+      "url": "https://www.rightmove.co.uk/properties/92745189",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94622790",
+      "price": 525000,
+      "bedrooms": 3,
+      "type": "Semi-detached",
+      "address": "St. Peters Walk, Billericay",
+      "distanceMiles": 0.691,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94622790",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94740789",
+      "price": 825000,
+      "bedrooms": 4,
+      "type": "Detached",
+      "address": "Byron Road, Hutton, Brentwood, CM13",
+      "distanceMiles": 3.019,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94740789",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:92936457",
+      "price": 475000,
+      "bedrooms": 3,
+      "type": "End of terrace",
+      "address": "Doublet Mews, Billericay",
+      "distanceMiles": 1.064,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/92936457",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:173108093",
+      "price": 875000,
+      "bedrooms": 5,
+      "type": "Detached",
+      "address": "Cedar Road, Hutton, CM13",
+      "distanceMiles": 2.867,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/173108093",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:93427653",
+      "price": 610000,
+      "bedrooms": 3,
+      "type": "Semi-detached",
+      "address": "Southend Road,\r\nBillericay,\r\nEssex\r\nCM11",
+      "distanceMiles": 1.295,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/93427653",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94606884",
+      "price": 490000,
+      "bedrooms": 3,
+      "type": "Semi-detached",
+      "address": "Dunton Road,\r\nBasildon,\r\nEssex,\r\nSS15 4DB",
+      "distanceMiles": 2.814,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94606884",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:168685364",
+      "price": 409995,
+      "bedrooms": 4,
+      "type": "Type unverified",
+      "address": "Meadow Rise, Billericay",
+      "distanceMiles": 0.478,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/168685364",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
@@ -1299,158 +1383,170 @@
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:174562259",
-      "price": 700000,
-      "bedrooms": 4,
-      "type": "Detached",
-      "address": "The Rising, Billericay",
-      "distanceMiles": 0.72,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/174562259",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:93900945",
-      "price": 375000,
-      "bedrooms": 3,
-      "type": "Type unverified",
-      "address": "Crouch Street, Noak Bridge, SS15",
-      "distanceMiles": 2.964,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93900945",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:92435346",
-      "price": 985000,
-      "bedrooms": 4,
-      "type": "Detached",
-      "address": "Southend Road,\r\nBillericay,\r\nEssex\r\nCM11",
-      "distanceMiles": 1.295,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/92435346",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:92299266",
-      "price": 825000,
-      "bedrooms": 4,
-      "type": "Detached",
-      "address": "The Rising, Billericay, CM11",
-      "distanceMiles": 0.705,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/92299266",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:93147867",
-      "price": 535000,
-      "bedrooms": 4,
-      "type": "Semi-detached",
-      "address": "Tyrone Close, Billericay, Essex",
-      "distanceMiles": 1.47,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93147867",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:88820205",
+      "id": "rightmove:95689629",
       "price": 550000,
-      "bedrooms": 4,
+      "bedrooms": 3,
       "type": "Semi-detached",
-      "address": "Ganels Mews, Ganels Road, Billericay, Essex, CM11",
-      "distanceMiles": 1.186,
+      "address": "Crawford Close, Billericay, CM12",
+      "distanceMiles": 0.848,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/88820205",
+      "url": "https://www.rightmove.co.uk/properties/95689629",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:174971039",
-      "price": 625000,
+      "id": "rightmove:94446426",
+      "price": 650000,
+      "bedrooms": 4,
+      "type": "Detached",
+      "address": "Bell Hill Close, Billericay, Essex",
+      "distanceMiles": 1.153,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94446426",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:91531650",
+      "price": 675000,
+      "bedrooms": 4,
+      "type": "Detached",
+      "address": "Froden Brook, Great Burstead, CM11",
+      "distanceMiles": 1.308,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/91531650",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:93471165",
+      "price": 365000,
+      "bedrooms": 2,
+      "type": "Type unverified",
+      "address": "Arundel Close, Billericay, CM12",
+      "distanceMiles": 1.252,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/93471165",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:94283397",
+      "price": 870000,
       "bedrooms": 5,
       "type": "Detached",
-      "address": "Calvinia Close, Noak Bridge, Laindon, Essex, SS15 4FG",
-      "distanceMiles": 2.946,
+      "address": "Park Lane, Ramsden Heath, CM11",
+      "distanceMiles": 2.294,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/174971039",
+      "url": "https://www.rightmove.co.uk/properties/94283397",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:93327333",
-      "price": 600000,
+      "id": "rightmove:171809804",
+      "price": 950000,
       "bedrooms": 4,
-      "type": "Semi-detached",
-      "address": "The Rising, Billericay",
-      "distanceMiles": 0.768,
+      "type": "Detached",
+      "address": "Thynne Road, Billericay, CM11",
+      "distanceMiles": 0.671,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93327333",
+      "url": "https://www.rightmove.co.uk/properties/171809804",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:92914299",
+      "id": "rightmove:94997934",
+      "price": 625000,
+      "bedrooms": 3,
+      "type": "Detached",
+      "address": "St James Mews, Billericay, CM12",
+      "distanceMiles": 0.188,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/94997934",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:91826694",
+      "price": 475000,
+      "bedrooms": 3,
+      "type": "Semi-detached",
+      "address": "Frithwood Lane, Billericay, CM12",
+      "distanceMiles": 1.173,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/91826694",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:90443538",
       "price": 425000,
       "bedrooms": 3,
       "type": "Semi-detached",
-      "address": "Recreation Walk, Ramsden Heath, CM11",
-      "distanceMiles": 2.354,
+      "address": "Stuart Way, Billericay",
+      "distanceMiles": 1.06,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/92914299",
+      "url": "https://www.rightmove.co.uk/properties/90443538",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:93499197",
-      "price": 525000,
-      "bedrooms": 3,
-      "type": "Semi-detached",
-      "address": "Hunts Mead, Billericay, Essex",
-      "distanceMiles": 0.523,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93499197",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:92115252",
+      "id": "rightmove:92871783",
       "price": 875000,
       "bedrooms": 4,
       "type": "Detached",
-      "address": "Ruskin Dene, Billericay, CM12",
-      "distanceMiles": 0.262,
+      "address": "Fitzroy Close, Billericay",
+      "distanceMiles": 0.566,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/92115252",
+      "url": "https://www.rightmove.co.uk/properties/92871783",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     },
     {
-      "id": "rightmove:93711912",
-      "price": 375000,
-      "bedrooms": 2,
-      "type": "Type unverified",
-      "address": "Coram Green, Hutton, Brentwood",
-      "distanceMiles": 2.976,
-      "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/93711912",
-      "portal": "Rightmove via RealtyAPI",
-      "sourceProvider": "RealtyAPI"
-    },
-    {
-      "id": "rightmove:92983251",
-      "price": 390000,
-      "bedrooms": 2,
+      "id": "rightmove:92921451",
+      "price": 525000,
+      "bedrooms": 3,
       "type": "Semi-detached",
-      "address": "Wheatear Place, Billericay, Essex, CM11",
-      "distanceMiles": 0.549,
+      "address": "Tyelands, Billericay, CM12",
+      "distanceMiles": 0.809,
       "distanceVerified": true,
-      "url": "https://www.rightmove.co.uk/properties/92983251",
+      "url": "https://www.rightmove.co.uk/properties/92921451",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:92212053",
+      "price": 530000,
+      "bedrooms": 3,
+      "type": "Detached",
+      "address": "Quilters Drive, Billericay, Essex, CM12",
+      "distanceMiles": 0.733,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/92212053",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:92961519",
+      "price": 450000,
+      "bedrooms": 3,
+      "type": "Detached",
+      "address": "High Road North, Basildon, SS15",
+      "distanceMiles": 2.991,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/92961519",
+      "portal": "Rightmove via RealtyAPI",
+      "sourceProvider": "RealtyAPI"
+    },
+    {
+      "id": "rightmove:95569578",
+      "price": 675000,
+      "bedrooms": 4,
+      "type": "Detached",
+      "address": "The Copse, Billericay, CM12",
+      "distanceMiles": 0.476,
+      "distanceVerified": true,
+      "url": "https://www.rightmove.co.uk/properties/95569578",
       "portal": "Rightmove via RealtyAPI",
       "sourceProvider": "RealtyAPI"
     }
@@ -1497,6 +1593,27 @@
           "price": 525000
         }
       ]
+    },
+    {
+      "date": "2026-11-20",
+      "observedAt": "2026-11-20T16:42:51Z",
+      "count": 3,
+      "medianPrice": 530000,
+      "scope": "confirmed station-radius matches from RealtyAPI; 0.75mi / 3 beds / £450k–£600k",
+      "properties": [
+        {
+          "id": "rightmove:92428737",
+          "price": 600000
+        },
+        {
+          "id": "rightmove:94622790",
+          "price": 525000
+        },
+        {
+          "id": "rightmove:92212053",
+          "price": 530000
+        }
+      ]
     }
   ],
   "sources": {
@@ -1510,8 +1627,8 @@
     "observedCpi": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7g7/mm23"
   },
   "errors": [],
-  "listingsAsOf": "2026-11-17T17:24:03Z",
-  "lastAttempt": "2026-11-20T06:14:58Z",
+  "listingsAsOf": "2026-11-20T16:42:51Z",
+  "lastAttempt": "2026-11-20T16:42:51Z",
   "hpi": {
     "date": "2026-09",
     "averagePrice": 367920,
@@ -1531,15 +1648,15 @@
     }
   ],
   "listingCoverage": {
-    "sampleSize": 63,
+    "sampleSize": 71,
     "note": "Search was capped at 4 pages. Unofficial third-party Rightmove feed; coverage and ongoing reuse permissions are unverified. Saved search scope: £300k–£1m, at least 2 bedrooms, within 3 miles of the station. Changing filters outside this scope requires a broader server refresh.",
     "pages": 4,
     "truncated": true,
     "diagnostics": {
       "rawResults": 160,
       "reasons": {
-        "outside": 97,
-        "unconfirmedType": 11
+        "outside": 89,
+        "unconfirmedType": 19
       }
     }
   },
@@ -1551,10 +1668,11 @@
     "ONS observed CPI",
     "BoE guidance",
     "Basildon HPI",
-    "CM12 completed sales"
+    "CM12 completed sales",
+    "RealtyAPI listings"
   ],
   "soniaRate": 3.984,
-  "soniaAsOf": "2026-11-17",
+  "soniaAsOf": "2026-11-18",
   "localSalesDataset": {
     "byYear": {
       "2025": [
@@ -5057,7 +5175,7 @@
       "description": "around 5% mid-2027",
       "basis": "BoE published narrative, approximate, not a quarterly data point"
     },
-    "asOf": "2026-11-19",
+    "asOf": "2026-11-20",
     "sourceUrl": "https://www.bankofengland.co.uk/monetary-policy-report/2026/november-2026",
     "series": [
       {
@@ -5082,10 +5200,10 @@
   },
   "listingRefresh": {
     "status": "ok",
-    "attemptedAt": "2026-11-17T17:24:03Z",
+    "attemptedAt": "2026-11-20T16:42:51Z",
     "message": "RealtyAPI search completed.",
     "rawRecords": 160,
-    "retainedRecords": 63
+    "retainedRecords": 71
   },
   "observedCpi": {
     "asOf": "2026-10-01",
