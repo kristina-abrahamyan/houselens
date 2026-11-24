@@ -1,9 +1,9 @@
 {
-  "asOf": "2026-11-24T03:36:05Z",
-  "lastRun": "2026-11-24T03:36:05Z",
+  "asOf": "2026-11-24T16:41:10Z",
+  "lastRun": "2026-11-24T16:41:10Z",
   "status": "UPDATED",
   "bankRate": 4.0,
-  "bankRateAsOf": "2026-11-20",
+  "bankRateAsOf": "2026-11-23",
   "history": [
     {
       "date": "1984-01-03",
@@ -595,98 +595,98 @@
     }
   ],
   "ois": {
-    "asOf": "2026-11-20",
+    "asOf": "2026-11-23",
     "forecast": [
       {
         "months": 3,
-        "rate": 4.3335,
-        "oisForward": 4.3176
+        "rate": 4.3636,
+        "oisForward": 4.3473
       },
       {
         "months": 6,
-        "rate": 4.5918,
-        "oisForward": 4.5759
+        "rate": 4.6424,
+        "oisForward": 4.6261
       },
       {
         "months": 12,
-        "rate": 4.8372,
-        "oisForward": 4.8213
+        "rate": 4.8751,
+        "oisForward": 4.8588
       }
     ],
-    "soniaBasis": 0.0159,
+    "soniaBasis": 0.0163,
     "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
   },
   "gilts": {
-    "asOf": "2026-11-20",
+    "asOf": "2026-11-23",
     "rpiBreakeven": null,
     "inflationReference": {
       "months": 36,
-      "rate": 3.6314
+      "rate": 3.5902
     },
     "curve": [
       {
         "months": 30,
-        "rate": 3.7394
+        "rate": 3.6964
       },
       {
         "months": 36,
-        "rate": 3.6314
+        "rate": 3.5902
       },
       {
         "months": 42,
-        "rate": 3.5427
+        "rate": 3.5035
       },
       {
         "months": 48,
-        "rate": 3.4675
+        "rate": 3.43
       },
       {
         "months": 54,
-        "rate": 3.4031
+        "rate": 3.3668
       },
       {
         "months": 60,
-        "rate": 3.3481
+        "rate": 3.3127
       },
       {
         "months": 66,
-        "rate": 3.3017
+        "rate": 3.2668
       },
       {
         "months": 72,
-        "rate": 3.263
+        "rate": 3.2282
       },
       {
         "months": 78,
-        "rate": 3.231
+        "rate": 3.1964
       },
       {
         "months": 84,
-        "rate": 3.2049
+        "rate": 3.1705
       },
       {
         "months": 90,
-        "rate": 3.1841
+        "rate": 3.1499
       },
       {
         "months": 96,
-        "rate": 3.1679
+        "rate": 3.1339
       },
       {
         "months": 102,
-        "rate": 3.1556
+        "rate": 3.122
       },
       {
         "months": 108,
-        "rate": 3.1468
+        "rate": 3.1135
       },
       {
         "months": 114,
-        "rate": 3.1407
+        "rate": 3.1081
       },
       {
         "months": 120,
-        "rate": 3.1371
+        "rate": 3.1051
       }
     ],
     "sourceUrl": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip"
@@ -1628,7 +1628,7 @@
   },
   "errors": [],
   "listingsAsOf": "2026-11-20T16:42:51Z",
-  "lastAttempt": "2026-11-24T03:36:05Z",
+  "lastAttempt": "2026-11-24T16:41:10Z",
   "hpi": {
     "date": "2026-09",
     "averagePrice": 367920,
@@ -1670,8 +1670,8 @@
     "Basildon HPI",
     "CM12 completed sales"
   ],
-  "soniaRate": 3.9841,
-  "soniaAsOf": "2026-11-19",
+  "soniaRate": 3.9837,
+  "soniaAsOf": "2026-11-20",
   "localSalesDataset": {
     "byYear": {
       "2025": [
